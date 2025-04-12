@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useVenues } from "../hooks/useVenues";
 import Filter from "../components/Filter";
 import VenueCard from "../components/VenueCard";
+import HeroVideo from "../components/HeroVideo";
 
 export default function Home() {
   const { venues, loading, error } = useVenues();
@@ -44,18 +45,21 @@ export default function Home() {
   if (error) return <p>Error loading venues.</p>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <h1 className="text-2xl font-bold mb-6">Available Venues</h1>
-      <Filter
-        filters={filters}
-        setFilters={setFilters}
-        options={filterOptions}
-      />
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filteredVenues.map((venue) => (
-          <VenueCard key={venue.id} venue={venue} />
-        ))}
-      </div>
+    <div className="w-full mx-auto">
+      <HeroVideo />
+      <section className="mx-auto px-20">
+        <h1 className="text-2xl font-bold mb-6 mt-6">Available Venues</h1>
+        <Filter
+          filters={filters}
+          setFilters={setFilters}
+          options={filterOptions}
+        />
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {filteredVenues.map((venue) => (
+            <VenueCard key={venue.id} venue={venue} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
