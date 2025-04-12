@@ -19,7 +19,7 @@ export default function VenueCard({ venue }) {
   const isBrokenImage = imageUrl === brokenImage;
 
   return (
-    <div className="p-4 rounded-lg flex flex-col bg-white">
+    <div className="p-4 rounded-lg flex flex-col ">
       <img
         src={imageUrl}
         alt="Venue"
@@ -33,7 +33,7 @@ export default function VenueCard({ venue }) {
       />
 
       <h2 className="text-lg font-bold truncate">{venue.name}</h2>
-      <p className="line-clamp-3 text-sm text-gray-600 mb-2 break-words">
+      <p className="line-clamp-3 text-sm mb-2 break-words">
         {venue.description}
       </p>
       <div className="flex justify-between items-center mb-2">

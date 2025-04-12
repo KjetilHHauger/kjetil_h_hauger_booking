@@ -43,6 +43,20 @@
   /* Font style */
   --font-heading: Quicksand, sans-serif;
   --font-body: Inter, sans-serif;
+
+  /* Font size */
+  --text-heading-1: 56px / 60px;
+  --text-heading-2: 48px / 52px;
+  --text-heading-3: 40px / 44px;
+  --text-heading-4: 32px / 34px;
+  --text-heading-5: 24px / 26px;
+  --text-heading-6: 20px / 22px;
+  --text-body-xl: 24px / 32px;
+  --text-body-lg: 20px / 28px;
+  --text-body-md: 18px / 26px;
+  --text-body-sm: 16px / 22px;
+  --text-body-xs: 14px / 20px;
+  --text-body-xxs: 8px / 18px;
 }
 
 h1,
