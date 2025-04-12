@@ -32,19 +32,11 @@ export default function VenueCard({ venue }) {
         } h-40 w-full`}
       />
 
-      <h2 className="text-lg font-bold truncate">{venue.name}</h2>
-      <p className="line-clamp-3 text-sm mb-2 break-words">
-        {venue.description}
+      <h2 className="text-heading-5 font-bold truncate">{venue.name}</h2>
+      <p className="line-clamp-3 text-body-xs mb-2 break-words">
+        Location: {venue.location.city}, {venue.location.country}
       </p>
-      <div className="flex justify-between items-center mb-2">
-        <p>
-          <strong>Price:</strong> {venue.price} per night
-        </p>
-        <p>
-          <strong>Bed rooms:</strong> {venue.maxGuests}
-        </p>
-      </div>
-      <section className="flex gap-2 mb-2 mt-2">
+      <section className="flex gap-2 mb-4">
         <div className="flex items-center gap-2">
           {/* Wifi */}
           <div className="relative w-5 h-5">
@@ -106,6 +98,14 @@ export default function VenueCard({ venue }) {
           </div>
         </div>
       </section>
+      <div className="flex justify-between items-center mb-2 text-body-xs">
+        <p>
+          <strong>Price:</strong> {venue.price} per night
+        </p>
+        <p>
+          <strong>Bed rooms:</strong> {venue.maxGuests}
+        </p>
+      </div>
     </div>
   );
 }
