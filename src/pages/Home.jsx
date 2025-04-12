@@ -1,48 +1,59 @@
-import { useVenues } from "..//hooks/useVenues";
+import { useState } from "react";
+import { useVenues } from "../hooks/useVenues";
+import Filter from "../components/Filter";
+import VenueCard from "../components/VenueCard";
 
 export default function Home() {
   const { venues, loading, error } = useVenues();
 
+  const [filters, setFilters] = useState({
+    wifi: false,
+    pets: false,
+    breakfast: false,
+    parking: false,
+    sortBy: "price",
+    sortOrder: "asc",
+  });
+
+  const filterOptions = [
+    { key: "wifi", label: "Has Wifi" },
+    { key: "pets", label: "Allows Pets" },
+    { key: "breakfast", label: "Includes Breakfast" },
+    { key: "parking", label: "Has Parking" },
+  ];
+
+  const filteredVenues = venues
+    .filter((venue) =>
+      filterOptions.every(({ key }) => !filters[key] || venue.meta?.[key])
+    )
+    .sort((a, b) => {
+      if (filters.sortBy === "price") {
+        return filters.sortOrder === "asc"
+          ? a.price - b.price
+          : b.price - a.price;
+      }
+      if (filters.sortBy === "rating") {
+        return filters.sortOrder === "asc"
+          ? a.rating - b.rating
+          : b.rating - a.rating;
+      }
+      return 0;
+    });
+
   if (loading) return <p>Loading venues...</p>;
-  if (error) {
-    return (
-      <div className="text-red-600 bg-red-100 border border-red-300 p-4 rounded">
-        <h2 className="font-semibold">Something went wrong</h2>
-        <p>{error.message || "Could not load venues."}</p>
-      </div>
-    );
-  }
+  if (error) return <p>Error loading venues.</p>;
 
   return (
     <div className="max-w-7xl mx-auto px-4">
       <h1 className="text-2xl font-bold mb-6">Available Venues</h1>
+      <Filter
+        filters={filters}
+        setFilters={setFilters}
+        options={filterOptions}
+      />
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {venues.map((venue) => (
-          <div
-            key={venue.id}
-            className="border p-4 rounded-lg shadow flex flex-col bg-white"
-          >
-            <h2 className="text-lg font-bold truncate">{venue.name}</h2>
-            <p className="line-clamp-3 text-sm text-gray-600 mb-2 break-words">
-              {venue.description}
-            </p>
-            <p>
-              <strong>Price:</strong> {venue.price} / night
-            </p>
-            <p>
-              <strong>Guests:</strong> {venue.maxGuests}
-            </p>
-            {venue.media?.[0]?.url && (
-              <img
-                src={
-                  venue.media?.[0]?.url ||
-                  "https://via.placeholder.com/300x200?text=No+Image"
-                }
-                alt={venue.media?.[0]?.alt || "Venue"}
-                className="mt-2 rounded-md object-cover h-40 w-full"
-              />
-            )}
-          </div>
+        {filteredVenues.map((venue) => (
+          <VenueCard key={venue.id} venue={venue} />
         ))}
       </div>
     </div>
