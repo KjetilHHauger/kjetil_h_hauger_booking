@@ -45,18 +45,34 @@
   --font-body: Inter, sans-serif;
 
   /* Font size */
-  --text-heading-1: 56px / 60px;
-  --text-heading-2: 48px / 52px;
-  --text-heading-3: 40px / 44px;
-  --text-heading-4: 32px / 34px;
-  --text-heading-5: 24px / 26px;
-  --text-heading-6: 20px / 22px;
-  --text-body-xl: 24px / 32px;
-  --text-body-lg: 20px / 28px;
-  --text-body-md: 18px / 26px;
-  --text-body-sm: 16px / 22px;
-  --text-body-xs: 14px / 20px;
-  --text-body-xxs: 8px / 18px;
+
+  /* Heading */
+  --text-heading-1: 56px;
+  --text-heading-1--line-height: 60px;
+  --text-heading-2: 48px;
+  --text-heading-2--line-height: 52px;
+  --text-heading-3: 40px;
+  --text-heading-3--line-height: 44px;
+  --text-heading-4: 32px;
+  --text-heading-4--line-height: 34px;
+  --text-heading-5: 24px;
+  --text-heading-5--line-height: 26px;
+  --text-heading-6: 20px;
+  --text-heading-6--line-height: 22px;
+
+  /* Body */
+  --text-body-xl: 24px;
+  --text-body-xl--line-height: 32px;
+  --text-body-lg: 20px;
+  --text-body-lg--line-height: 28px;
+  --text-body-md: 18px;
+  --text-body-md--line-height: 26px;
+  --text-body-sm: 16px;
+  --text-body-sm--line-height: 22px;
+  --text-body-xs: 14px;
+  --text-body-xs--line-height: 20px;
+  --text-body-xxs: 8px;
+  --text-body-xxs--line-height: 18px;
 }
 
 h1,
