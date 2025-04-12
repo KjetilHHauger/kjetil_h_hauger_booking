@@ -1,1 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
+
+@theme {
+  /* Color */
+
+  /* Brand - Primary */
+  --color-brand-primary: #3ec9a7;
+  --color-brand-primary-hover: #32b295;
+  --color-brand-primary-focus: #a1ead9;
+
+  /* Brand - Secondary */
+  --color-brand-secondary: #ff6978;
+  --color-brand-secondary-hover: #e95566;
+  --color-brand-secondary-focus: #ffd5db;
+
+  /* Font */
+  --color-font-primary: #2c2c54;
+  --color-font-secondary: #222222;
+
+  /* State */
+
+  /* Success */
+  --color-state-success: #4ecb71;
+  --color-state-success-hover: #3d8a5d;
+  --color-state-success-focus: #a9ebc1;
+
+  /* Warning */
+  --color-state-warning: #f2a541;
+  --color-state-warning-hover: #d99a00;
+  --color-state-warning-focus: #ffedb0;
+
+  /* Error */
+  --color-state-error: #ff4f64;
+  --color-state-error-hover: #d32f2f;
+  --color-state-error-focus: #ffc8d0;
+
+  /* Info */
+  --color-state-info: #58b2dc;
+  --color-state-info-hover: #429bcb;
+  --color-state-info-focus: #bde7fa;
+
+  /* Font style */
+  --font-heading: Quicksand, sans-serif;
+  --font-body: Inter, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Quicksand", sans-serif;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
