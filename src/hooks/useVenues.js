@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const API_URL = "https://v2.api.noroff.dev/holidaze/venues";
-const API_KEY = "2b4ad557-6e3f-4ba5-94e0-925a8d8ae99a";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 export function useVenues() {
   const [venues, setVenues] = useState([]);
