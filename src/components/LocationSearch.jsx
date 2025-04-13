@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import debounce from "lodash/debounce";
 import searchIcon from "../assets/icons/magnifying-glass.svg";
 
-export default function locationSearch({ onChange }) {
+export default function LocationSearch({ onChange }) {
   const [location, setLocation] = useState("");
+
+  const debouncedChange = useMemo(
+    () => debounce((value) => onChange?.(value), 300),
+    [onChange]
+  );
 
   const locationInput = (e) => {
     const value = e.target.value;
     setLocation(value);
-    onChange?.(value);
+    debouncedChange(value);
   };
 
   return (
