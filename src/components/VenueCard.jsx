@@ -19,7 +19,7 @@ export default function VenueCard({ venue }) {
   const isBrokenImage = imageUrl === brokenImage;
 
   return (
-    <div className="p-4 rounded-lg flex flex-col ">
+    <div className="py-4 rounded-lg flex flex-col ">
       <img
         src={imageUrl}
         alt="Venue"
@@ -29,7 +29,7 @@ export default function VenueCard({ venue }) {
         }}
         className={`mt-2 rounded-md ${
           isBrokenImage ? "object-contain" : "object-cover"
-        } h-40 w-full`}
+        } h-56 w-full`}
       />
 
       <h2 className="text-heading-5 font-bold truncate">{venue.name}</h2>
