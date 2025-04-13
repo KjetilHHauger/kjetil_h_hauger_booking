@@ -1,7 +1,7 @@
 import { useState } from "react";
 import searchIcon from "../assets/icons/magnifying-glass.svg";
 
-export default function LocationSearch({ onChange }) {
+export default function locationSearch({ onChange }) {
   const [location, setLocation] = useState("");
 
   const locationInput = (e) => {
