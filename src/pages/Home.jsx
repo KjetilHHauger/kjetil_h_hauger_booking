@@ -30,7 +30,6 @@ export default function Home() {
     { key: "parking", label: "Has Parking" },
   ];
 
-  // Fuse setup
   const fuse = new Fuse(venues, {
     keys: ["location.city", "location.country", "location.continent"],
     threshold: 0.3,
