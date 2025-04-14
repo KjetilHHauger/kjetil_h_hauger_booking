@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function BookingForm() {
+export default function SearchForm() {
   const [location, setLocation] = useState("");
   const [guests, setGuests] = useState(2);
   const navigate = useNavigate();
