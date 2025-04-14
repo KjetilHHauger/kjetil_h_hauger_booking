@@ -25,9 +25,9 @@ cd holidaze
 ```
 
 ### 2. Install dependencies
-
+```
 npm install
-
+```
 ### 3.Set up environment variables
 
 ```
