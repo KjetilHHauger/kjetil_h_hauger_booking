@@ -4,6 +4,7 @@ import Fuse from "fuse.js";
 import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
 import Filter from "../components/Filter";
+import SearchForm from "../components/SearchForm";
 
 export default function Results() {
   const { venues, loading, error } = useVenues();
@@ -86,13 +87,23 @@ export default function Results() {
         {filteredVenues.length !== 1 ? "s" : ""}
       </p>
 
+      <div className="mb-8">
+        <p className="mb-2 text-sm text-gray-600">Want to try another place?</p>
+        <SearchForm
+          defaultLocation={location}
+          defaultGuests={guests}
+          defaultCheckIn={checkIn}
+          defaultCheckOut={checkOut}
+        />
+      </div>
+
       <Filter
         filters={filters}
         setFilters={setFilters}
         options={filterOptions}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {filteredVenues.map((venue) => (
           <VenueCard key={venue.id} venue={venue} />
         ))}

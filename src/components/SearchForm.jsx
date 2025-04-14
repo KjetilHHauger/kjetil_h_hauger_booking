@@ -3,11 +3,20 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function SearchForm() {
-  const [location, setLocation] = useState("");
-  const [guests, setGuests] = useState(2);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+export default function SearchForm({
+  defaultLocation = "",
+  defaultGuests = 2,
+  defaultCheckIn = null,
+  defaultCheckOut = null,
+}) {
+  const [location, setLocation] = useState(defaultLocation);
+  const [guests, setGuests] = useState(defaultGuests);
+  const [startDate, setStartDate] = useState(
+    defaultCheckIn ? new Date(defaultCheckIn) : null
+  );
+  const [endDate, setEndDate] = useState(
+    defaultCheckOut ? new Date(defaultCheckOut) : null
+  );
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -37,7 +46,8 @@ export default function SearchForm() {
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        placeholderText="Check-in"
+        minDate={new Date()}
+        placeholderText="Pick your leave date"
         className="border p-2 rounded"
         dateFormat="yyyy-MM-dd"
       />
@@ -49,7 +59,7 @@ export default function SearchForm() {
         startDate={startDate}
         endDate={endDate}
         minDate={startDate}
-        placeholderText="Check-out"
+        placeholderText="Pick your return date"
         className="border p-2 rounded"
         dateFormat="yyyy-MM-dd"
       />
@@ -65,7 +75,7 @@ export default function SearchForm() {
 
       <button
         type="submit"
-        className="bg-brand-secondary hover:bg-brand-secondary-hover text-white py-2 px-4 rounded"
+        className="bg-brand-secondary hover:bg-brand-secondary-hover text-white py-2 px-4 rounded cursor-pointer"
       >
         Search
       </button>
