@@ -5,6 +5,7 @@ import Filter from "../components/Filter";
 import VenueCard from "../components/VenueCard";
 import HeroVideo from "../components/HeroVideo";
 import LocationSearch from "../components/LocationSearch";
+import BookingForm from "../components/BookingForm";
 
 export default function Home() {
   const { venues, loading, error } = useVenues();
@@ -71,7 +72,7 @@ export default function Home() {
           setFilters={setFilters}
           options={filterOptions}
         />
-
+        <BookingForm />
         <LocationSearch onChange={handleLocationChange} />
 
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
