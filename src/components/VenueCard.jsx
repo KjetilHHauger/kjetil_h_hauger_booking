@@ -38,7 +38,7 @@ export default function VenueCard({ venue }) {
         Location: {venue.location.city}, {venue.location.country}
       </p>
 
-      {/* Meta Icons */}
+      {/* Icons */}
       <section className="flex gap-2 mb-4">
         {[
           { icon: wifiIcon, value: venue.meta.wifi, label: "Wi-Fi" },
