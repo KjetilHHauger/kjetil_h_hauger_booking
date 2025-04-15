@@ -5,6 +5,8 @@ import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
 import Filter from "../components/Filter";
 import SearchForm from "../components/SearchForm";
+import CaretDown from "../assets/icons/caret-down.svg";
+import CaretUp from "../assets/icons/caret-up.svg";
 
 export default function Results() {
   const { venues, loading, error } = useVenues();
@@ -14,6 +16,8 @@ export default function Results() {
   const guests = parseInt(searchParams.get("guests"), 10) || 1;
   const checkIn = searchParams.get("checkIn");
   const checkOut = searchParams.get("checkOut");
+
+  const [showFilters, setShowFilters] = useState(false);
 
   const [filters, setFilters] = useState({
     wifi: false,
@@ -26,9 +30,9 @@ export default function Results() {
 
   const filterOptions = [
     { key: "wifi", label: "Has Wifi" },
-    { key: "pets", label: "Allows Pets" },
-    { key: "breakfast", label: "Includes Breakfast" },
-    { key: "parking", label: "Has Parking" },
+    { key: "pets", label: "Allows pets" },
+    { key: "breakfast", label: "Includes breakfast" },
+    { key: "parking", label: "Has parking" },
   ];
 
   const fuse = new Fuse(venues, {
@@ -82,23 +86,29 @@ export default function Results() {
   return (
     <section className="px-6 w-full mx-auto flex flex-col md:flex-row">
       <aside className="w-full md:w-72 mr-6">
-        <Filter
-          filters={filters}
-          setFilters={setFilters}
-          options={filterOptions}
-        />
+        <div className="md:hidden mt-6">
+          <button
+            onClick={() => setShowFilters((prev) => !prev)}
+            className="flex justify-between items-center gap-2 text-sm font-medium bg-brand-secondary text-white px-4 py-2 rounded w-full"
+          >
+            {showFilters ? "Hide Filters" : "Show Filters"}
+            <img
+              src={showFilters ? CaretUp : CaretDown}
+              alt="Toggle Filters"
+              className="w-4 h-4 text-white"
+            />
+          </button>
+        </div>
+        <div className={`${showFilters ? "block" : "hidden"} md:block`}>
+          <Filter
+            filters={filters}
+            setFilters={setFilters}
+            options={filterOptions}
+          />
+        </div>
       </aside>
       <section>
-        <h1 className="text-heading-2 mb-4">Search Results</h1>
-        <p className="text-body-sm mb-6">
-          Found {filteredVenues.length} result
-          {filteredVenues.length !== 1 ? "s" : ""}
-        </p>
-
         <div className="mb-8">
-          <p className="mb-2 text-sm text-gray-600">
-            Want to try another place?
-          </p>
           <SearchForm
             defaultLocation={location}
             defaultGuests={guests}
@@ -106,7 +116,11 @@ export default function Results() {
             defaultCheckOut={checkOut}
           />
         </div>
-
+        <h1 className="text-heading-3 mb-4">Search Results</h1>
+        <p className="text-body-sm mb-6">
+          Found {filteredVenues.length} result
+          {filteredVenues.length !== 1 ? "s" : ""}
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {filteredVenues.map((venue) => (
             <VenueCard key={venue.id} venue={venue} />
