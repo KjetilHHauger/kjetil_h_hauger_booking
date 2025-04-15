@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Fuse from "fuse.js";
 import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
@@ -11,13 +11,14 @@ import CaretUp from "../assets/icons/caret-up.svg";
 export default function Results() {
   const { venues, loading, error } = useVenues();
   const [searchParams] = useSearchParams();
+  const itemsPerPage = 24;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
 
   const location = searchParams.get("location")?.toLowerCase() || "";
   const guests = parseInt(searchParams.get("guests"), 10) || 1;
   const checkIn = searchParams.get("checkIn");
   const checkOut = searchParams.get("checkOut");
-
-  const [showFilters, setShowFilters] = useState(false);
 
   const [filters, setFilters] = useState({
     wifi: false,
@@ -34,6 +35,10 @@ export default function Results() {
     { key: "breakfast", label: "Includes breakfast" },
     { key: "parking", label: "Has parking" },
   ];
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, location, guests, checkIn, checkOut]);
 
   const fuse = new Fuse(venues, {
     keys: ["location.city", "location.country", "location.continent"],
@@ -56,7 +61,6 @@ export default function Results() {
   const filteredVenues = matchedVenues
     .filter((venue) => {
       const fitsGuests = venue.maxGuests >= guests;
-
       const availableDates =
         !checkIn || !checkOut ? true : !venue.bookings?.some(dateRangeOverlaps);
 
@@ -80,6 +84,12 @@ export default function Results() {
       return 0;
     });
 
+  const totalPages = Math.ceil(filteredVenues.length / itemsPerPage);
+  const paginatedVenues = filteredVenues.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading venues.</p>;
 
@@ -95,7 +105,7 @@ export default function Results() {
             <img
               src={showFilters ? CaretUp : CaretDown}
               alt="Toggle Filters"
-              className="w-4 h-4 text-white"
+              className="w-4 h-4"
             />
           </button>
         </div>
@@ -107,7 +117,8 @@ export default function Results() {
           />
         </div>
       </aside>
-      <section>
+
+      <section className="flex-1">
         <div className="mb-8">
           <SearchForm
             defaultLocation={location}
@@ -116,16 +127,42 @@ export default function Results() {
             defaultCheckOut={checkOut}
           />
         </div>
+
         <h1 className="text-heading-3 mb-4">Search Results</h1>
         <p className="text-body-sm mb-6">
           Found {filteredVenues.length} result
           {filteredVenues.length !== 1 ? "s" : ""}
         </p>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {filteredVenues.map((venue, index) => (
+          {paginatedVenues.map((venue, index) => (
             <VenueCard key={`${venue.id}-${index}`} venue={venue} />
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-8 mb-8">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Prev
+            </button>
+
+            <span className="text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </section>
     </section>
   );
