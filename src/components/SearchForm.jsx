@@ -38,7 +38,7 @@ export default function SearchForm({
       <div className="flex flex-col md:flex-1">
         <input
           type="text"
-          placeholder="So where do you want to relax?"
+          placeholder="f.eks. Oslo"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           className="border p-2 rounded w-full"
