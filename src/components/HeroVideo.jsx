@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import heroVideo from "../assets/video/heroLoopVideo.mp4";
 
-export default function HeroVideo() {
+export default function HeroVideo({ children }) {
   const videoRef = useRef(null);
   const playCountRef = useRef(0);
   const maxLoops = 3;
@@ -30,7 +30,7 @@ export default function HeroVideo() {
   };
 
   return (
-    <div className="relative w-full mx-auto h-[550px] overflow-hidden ">
+    <div className="relative w-full mx-auto h-[550px] overflow-hidden">
       <video
         ref={videoRef}
         src={heroVideo}
@@ -39,9 +39,14 @@ export default function HeroVideo() {
         muted
         playsInline
       />
+
+      <div className="absolute inset-0 flex items-center justify-center z-10 p-8">
+        {children}
+      </div>
+
       <button
         onClick={restartVideo}
-        className="absolute bottom-9 right-16 bg-brand-secondary/30 text-white px-3 py-1 rounded shadow hover:bg-brand-secondary-hover"
+        className="absolute bottom-9 right-16 bg-brand-secondary/30 text-white px-3 py-1 rounded shadow hover:bg-brand-secondary-hover z-20"
       >
         Restart
       </button>

@@ -10,6 +10,7 @@ import Profile from "./pages/Profile.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 import Layout from "./layout/Layout.jsx";
+import Results from "./pages/Results.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "Results",
+        element: <Results />,
       },
       {
         path: "*",
