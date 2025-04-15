@@ -122,8 +122,8 @@ export default function Results() {
           {filteredVenues.length !== 1 ? "s" : ""}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {filteredVenues.map((venue) => (
-            <VenueCard key={venue.id} venue={venue} />
+          {filteredVenues.map((venue, index) => (
+            <VenueCard key={`${venue.id}-${index}`} venue={venue} />
           ))}
         </div>
       </section>
