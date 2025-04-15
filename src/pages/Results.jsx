@@ -80,34 +80,39 @@ export default function Results() {
   if (error) return <p>Error loading venues.</p>;
 
   return (
-    <section className="px-6 max-w-6xl mx-auto">
-      <h1 className="text-heading-2 mb-4">Search Results</h1>
-      <p className="text-body-sm mb-6">
-        Found {filteredVenues.length} result
-        {filteredVenues.length !== 1 ? "s" : ""}
-      </p>
-
-      <div className="mb-8">
-        <p className="mb-2 text-sm text-gray-600">Want to try another place?</p>
-        <SearchForm
-          defaultLocation={location}
-          defaultGuests={guests}
-          defaultCheckIn={checkIn}
-          defaultCheckOut={checkOut}
+    <section className="px-6 max-w-6xl mx-auto flex flex-col md:flex-row">
+      <aside className="w-72 mr-6">
+        <Filter
+          filters={filters}
+          setFilters={setFilters}
+          options={filterOptions}
         />
-      </div>
+      </aside>
+      <section>
+        <h1 className="text-heading-2 mb-4">Search Results</h1>
+        <p className="text-body-sm mb-6">
+          Found {filteredVenues.length} result
+          {filteredVenues.length !== 1 ? "s" : ""}
+        </p>
 
-      <Filter
-        filters={filters}
-        setFilters={setFilters}
-        options={filterOptions}
-      />
+        <div className="mb-8">
+          <p className="mb-2 text-sm text-gray-600">
+            Want to try another place?
+          </p>
+          <SearchForm
+            defaultLocation={location}
+            defaultGuests={guests}
+            defaultCheckIn={checkIn}
+            defaultCheckOut={checkOut}
+          />
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {filteredVenues.map((venue) => (
-          <VenueCard key={venue.id} venue={venue} />
-        ))}
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          {filteredVenues.map((venue) => (
+            <VenueCard key={venue.id} venue={venue} />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

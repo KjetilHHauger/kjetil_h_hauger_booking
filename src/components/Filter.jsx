@@ -1,6 +1,6 @@
 export default function Filter({ filters, setFilters, options }) {
   return (
-    <div className="mb-6 flex gap-4 items-center flex-wrap">
+    <div className="mt-17 flex md:flex-col gap-4 item-center md:items-start flex-wrap">
       {options.map(({ key, label }) => (
         <label key={key} className="flex items-center gap-2">
           <input
