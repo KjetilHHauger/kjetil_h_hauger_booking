@@ -1,8 +1,5 @@
 import { useState } from "react";
-import wifiIcon from "../assets/icons/wifi-high.svg";
-import petsIcon from "../assets/icons/dog.svg";
-import breakfastIcon from "../assets/icons/fork-knife.svg";
-import parkingIcon from "../assets/icons/letter-circle-p.svg";
+import MetaIcons from "../components/MetaIcons";
 import brokenImage from "../assets/brokenImage.png";
 
 function getValidImage(media = []) {
@@ -38,30 +35,7 @@ export default function VenueCard({ venue }) {
         Location: {venue.location.city}, {venue.location.country}
       </p>
 
-      {/* Icons */}
-      <section className="flex gap-2 mb-4">
-        {[
-          { icon: wifiIcon, value: venue.meta.wifi, label: "Wi-Fi" },
-          { icon: parkingIcon, value: venue.meta.parking, label: "Parking" },
-          { icon: petsIcon, value: venue.meta.pets, label: "Pets" },
-          {
-            icon: breakfastIcon,
-            value: venue.meta.breakfast,
-            label: "Breakfast",
-          },
-        ].map(({ icon, value, label }) => (
-          <div key={label} className="relative w-5 h-5">
-            <img
-              src={icon}
-              alt={`${label} ${value ? "available" : "not available"}`}
-              className="w-full h-full"
-            />
-            {!value && (
-              <div className="absolute top-[6px] left-[-7px] w-full h-full border-t-2 border-red-500 rotate-45"></div>
-            )}
-          </div>
-        ))}
-      </section>
+      <MetaIcons meta={venue.meta} />
 
       <div className="flex justify-between items-center mb-2 text-body-xs">
         <p>
