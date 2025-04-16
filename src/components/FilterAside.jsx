@@ -51,8 +51,8 @@ export default function FilterAside({ filters, setFilters, options }) {
               }
               className="p-2 border rounded"
             >
-              <option value="price">Sort by Price</option>
-              <option value="rating">Sort by Rating</option>
+              <option value="price">Sort by price</option>
+              <option value="rating">Sort by rating</option>
             </select>
 
             <select
