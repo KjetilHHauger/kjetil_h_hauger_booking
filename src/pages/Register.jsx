@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../stores/userStore";
+import { loginUser } from "../utils/userLogin";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const { setUser } = useUserStore();
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -74,6 +78,13 @@ export default function RegisterForm() {
         throw new Error(errorMessage);
       }
 
+      const userData = await loginUser({
+        email: formData.email,
+        password: formData.password,
+        BASE_URL,
+      });
+
+      setUser(userData);
       toast.success("Registered successfully!");
       navigate("/");
     } catch (err) {
