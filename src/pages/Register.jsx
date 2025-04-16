@@ -65,7 +65,7 @@ export default function RegisterForm() {
         {/* Left */}
         <div className="flex flex-col gap-4">
           <label htmlFor="username" className="text-body-md text-font-primary">
-            Username
+            Name
           </label>
           <input
             name="username"
