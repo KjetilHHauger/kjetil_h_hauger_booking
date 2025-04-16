@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -73,6 +75,7 @@ export default function RegisterForm() {
       }
 
       toast.success("Registered successfully!");
+      navigate("/");
     } catch (err) {
       toast.error(err.message);
     }
