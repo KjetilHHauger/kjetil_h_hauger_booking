@@ -17,7 +17,7 @@ export function useVenues() {
         let isLastPage = false;
 
         while (!isLastPage) {
-          const res = await fetch(`${BASE_URL}?page=${page}&limit=100`);
+          const res = await fetch(`${BASE_URL}/venues/?page=${page}&limit=100`);
           const json = await res.json();
 
           allVenues = [...allVenues, ...json.data];
