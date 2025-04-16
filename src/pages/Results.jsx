@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Fuse from "fuse.js";
 import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
-import Filter from "../components/Filter";
+import Pagination from "../components/Pagination";
+import FilterAside from "../components/FilterAside";
 import SearchForm from "../components/SearchForm";
 import CaretDown from "../assets/icons/caret-down.svg";
 import CaretUp from "../assets/icons/caret-up.svg";
@@ -109,8 +110,10 @@ export default function Results() {
             />
           </button>
         </div>
-        <div className={`${showFilters ? "block" : "hidden"} md:block`}>
-          <Filter
+        <div
+          className={`${showFilters ? "block" : "hidden"} md:block md:mt-54`}
+        >
+          <FilterAside
             filters={filters}
             setFilters={setFilters}
             options={filterOptions}
@@ -140,29 +143,11 @@ export default function Results() {
           ))}
         </div>
 
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8 mb-8">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Prev
-            </button>
-
-            <span className="text-sm">
-              Page {currentPage} of {totalPages}
-            </span>
-
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </section>
     </section>
   );
