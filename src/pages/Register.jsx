@@ -57,14 +57,16 @@ export default function RegisterForm() {
 
   return (
     <section className="py-8 px-4 md:px-8 min-h-screen flex flex-col items-center gap-6">
-      <h1 className="text-heading-4 flex justify-center">Register</h1>
+      <h1 className="text-heading-4 flex justify-center font-bold">Register</h1>
       <form
         onSubmit={handleRegister}
         className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto p-6 w-full bg-white rounded"
       >
         {/* Left */}
         <div className="flex flex-col gap-4">
-          <p className="text-body-md text-font-primary">Username</p>
+          <label htmlFor="username" className="text-body-md text-font-primary">
+            Username
+          </label>
           <input
             name="username"
             type="text"
@@ -74,7 +76,9 @@ export default function RegisterForm() {
             required
             className="border p-2 rounded"
           />
-          <p className="text-body-md text-font-primary">E-mail</p>
+          <label htmlFor="email" className="text-body-md text-font-primary">
+            E-mail
+          </label>
           <input
             name="email"
             type="email"
@@ -84,7 +88,9 @@ export default function RegisterForm() {
             required
             className="border p-2 rounded"
           />
-          <p className="text-body-md text-font-primary">Password</p>
+          <label htmlFor="password" className="text-body-md text-font-primary">
+            Password
+          </label>
           <input
             name="password"
             type="password"
@@ -94,7 +100,12 @@ export default function RegisterForm() {
             required
             className="border p-2 rounded"
           />
-          <p className="text-body-md text-font-primary">Confirm Password</p>
+          <label
+            htmlFor="confirmPassword"
+            className="text-body-md text-font-primary"
+          >
+            Confirm Password
+          </label>
           <input
             name="confirmPassword"
             type="password"
@@ -108,7 +119,9 @@ export default function RegisterForm() {
 
         {/* Right */}
         <div className="flex flex-col gap-4">
-          <p className="text-body-md text-font-primary">Avatar url</p>
+          <label htmlFor="avatar" className="text-body-md text-font-primary">
+            Avatar url
+          </label>
           <input
             name="avatar"
             type="url"
@@ -118,7 +131,9 @@ export default function RegisterForm() {
             onChange={handleChange}
             className="border p-2 rounded"
           />
-          <p className="text-body-md text-font-primary">Banner url</p>
+          <label htmlFor="banner" className="text-body-md text-font-primary">
+            Banner url
+          </label>
           <input
             name="banner"
             type="url"
@@ -128,9 +143,9 @@ export default function RegisterForm() {
             onChange={handleChange}
             className="border p-2 rounded"
           />
-          <p className="text-body-md text-font-primary">
+          <label htmlFor="bio" className="text-body-md text-font-primary">
             Tell us about yourself
-          </p>
+          </label>
           <textarea
             name="bio"
             placeholder="Tell us about yourself"
