@@ -6,7 +6,7 @@ import VenueCard from "../components/VenueCard";
 import Pagination from "../components/Pagination";
 import FilterAside from "../components/FilterAside";
 import SearchForm from "../components/SearchForm";
-import { CaretDown, CaretUp } from "phosphor-react";
+import { CaretDown, CaretUp } from "@phosphor-icons/react";
 
 export default function Results() {
   const { venues, loading, error } = useVenues();
