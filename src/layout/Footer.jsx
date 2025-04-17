@@ -18,7 +18,6 @@ export default function Footer() {
         <section className="flex-1 flex flex-col py-10 gap-2">
           <h6 className="text-heading-6 font-bold underline">Information</h6>
           <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
           <Link to="/privacy">Privacy Policy</Link>
           <Link to="/terms">Terms of Service</Link>
           <Link to="/faq">FAQ</Link>
