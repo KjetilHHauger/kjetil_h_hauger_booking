@@ -6,8 +6,7 @@ import VenueCard from "../components/VenueCard";
 import Pagination from "../components/Pagination";
 import FilterAside from "../components/FilterAside";
 import SearchForm from "../components/SearchForm";
-import CaretDown from "../assets/icons/caret-down.svg";
-import CaretUp from "../assets/icons/caret-up.svg";
+import { CaretDown, CaretUp } from "phosphor-react";
 
 export default function Results() {
   const { venues, loading, error } = useVenues();
@@ -103,13 +102,14 @@ export default function Results() {
             className="flex justify-between items-center gap-2 text-sm font-medium bg-brand-secondary text-white px-4 py-2 rounded w-full"
           >
             {showFilters ? "Hide Filters" : "Show Filters"}
-            <img
-              src={showFilters ? CaretUp : CaretDown}
-              alt="Toggle Filters"
-              className="w-4 h-4"
-            />
+            {showFilters ? (
+              <CaretUp size={16} weight="bold" />
+            ) : (
+              <CaretDown size={16} weight="bold" />
+            )}
           </button>
         </div>
+
         <div
           className={`${showFilters ? "block" : "hidden"} md:block md:mt-54`}
         >
