@@ -33,11 +33,11 @@ export default function LoginPage() {
 
   return (
     <section className="py-16 px-4 min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-heading-3 font-bold mb-6">Login</h1>
+      <h1 className="text-heading-3 font-bold mb-6 text-">Login</h1>
 
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-sm flex flex-col gap-4 bg-white p-6 rounded"
+        className="w-full max-w-md flex flex-col gap-4 p-6 rounded bg-brand-primary text-font-primary"
       >
         <div>
           <label htmlFor="email" className="block mb-1 text-body-md">
@@ -71,7 +71,7 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="w-full bg-brand-secondary hover:bg-brand-secondary-hover text-white py-2 px-4 rounded"
+          className="w-full bg-brand-secondary hover:bg-brand-secondary-hover text-white py-2 px-4 rounded shadow-sm transition duration-200 ease-in-out"
         >
           Login
         </button>

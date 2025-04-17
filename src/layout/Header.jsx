@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Nav() {
   return (
-    <header className="bg-green-300">
+    <header className="bg-brand-primary">
       <h1>Holidaze</h1>
       <nav>
         <ul>
