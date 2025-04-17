@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Modal from "../components/modal";
+import Modal from "../components/Modal";
 import LoginModal from "../components/LoginModal";
 
 export default function Nav() {
