@@ -9,7 +9,7 @@ export default function Nav() {
     <header className="bg-brand-primary px-4 py-2 flex items-center justify-between">
       <h1 className="text-heading-5 font-bold text-white">Holidaze</h1>
       <nav>
-        <ul className="flex gap-4 text-font-primary text-body-md">
+        <ul className="flex gap-4 text-font-primary text-body-md items-center">
           <li>
             <Link to={"/"}>Home</Link>
           </li>
@@ -36,7 +36,7 @@ export default function Nav() {
       </nav>
       {showLogin && (
         <Modal onClose={() => setShowLogin(false)}>
-          <LoginModal close={() => setShowLogin(false)} />
+          <LoginModal onClose={() => setShowLogin(false)} />
         </Modal>
       )}
     </header>
