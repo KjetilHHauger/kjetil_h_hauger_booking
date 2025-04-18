@@ -10,13 +10,15 @@ export default function VenuePage() {
     const fetchVenue = async () => {
       try {
         const BASE_URL = import.meta.env.VITE_API_URL;
-        const res = await fetch(
-          `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`
-        );
+        const res = await fetch(`${BASE_URL}/holidaze/venues/${id}`);
+        if (!res.ok) {
+          throw new Error("Venue not found");
+        }
         const data = await res.json();
-        setVenue(data);
+        setVenue(data.data);
       } catch (err) {
         console.error("Error loading venue:", err);
+        setVenue(null);
       } finally {
         setLoading(false);
       }
