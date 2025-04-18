@@ -24,7 +24,15 @@ export default function MetaIcons({ meta, size = 24 }) {
             title={`${label} ${meta[key] ? "available" : "not available"}`}
           />
           {!meta[key] && (
-            <div className="absolute top-3 right-1 w-8 h-5 border-t-4 border-state-error rotate-45 pointer-events-none" />
+            <div
+              className="absolute pointer-events-none rotate-45 border-t-4 border-state-error"
+              style={{
+                top: size * 0.4,
+                right: size * 0.1,
+                width: size * 0.9,
+                height: size * 0.2,
+              }}
+            />
           )}
         </div>
       ))}
