@@ -40,7 +40,7 @@ export default function VenueCard({ venue }) {
           Location: {venue.location.city}, {venue.location.country}
         </p>
 
-        <MetaIcons meta={venue.meta} />
+        <MetaIcons meta={venue.meta} size={24} />
 
         <div className="flex justify-between items-center mb-2 text-body-xs">
           <p>

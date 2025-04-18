@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import MetaIcons from "../components/MetaIcons";
 
 export default function VenuePage() {
   const { id } = useParams();
@@ -70,6 +71,7 @@ export default function VenuePage() {
         alt={venue.media?.[0]?.alt || venue.name}
         className="w-full h-72 object-cover rounded mb-4"
       />
+      <MetaIcons meta={venue.meta} size={32} />
 
       <p className="mb-4">{venue.description}</p>
       <p className="mb-2 font-medium">Price: {venue.price} / night</p>
