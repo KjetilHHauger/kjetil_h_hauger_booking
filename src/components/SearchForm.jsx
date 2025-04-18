@@ -87,7 +87,7 @@ export default function SearchForm({
       <div className="flex flex-col md:flex-1">
         <button
           type="submit"
-          className="bg-brand-secondary hover:bg-brand-secondary-hover text-white py-2 px-4 rounded w-full"
+          className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full"
         >
           Search
         </button>

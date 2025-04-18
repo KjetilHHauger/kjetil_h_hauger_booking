@@ -64,7 +64,7 @@ export default function RegisterForm() {
       >
         {/* Left */}
         <div className="flex flex-col gap-4">
-          <label htmlFor="username" className="text-body-md text-font-primary">
+          <label htmlFor="username" className="text-body-md">
             Name
           </label>
           <input
@@ -76,7 +76,7 @@ export default function RegisterForm() {
             required
             className="border p-2 rounded"
           />
-          <label htmlFor="email" className="text-body-md text-font-primary">
+          <label htmlFor="email" className="text-body-md">
             E-mail
           </label>
           <input
@@ -88,7 +88,7 @@ export default function RegisterForm() {
             required
             className="border p-2 rounded"
           />
-          <label htmlFor="password" className="text-body-md text-font-primary">
+          <label htmlFor="password" className="text-body-md">
             Password
           </label>
           <input
@@ -100,10 +100,7 @@ export default function RegisterForm() {
             required
             className="border p-2 rounded"
           />
-          <label
-            htmlFor="confirmPassword"
-            className="text-body-md text-font-primary"
-          >
+          <label htmlFor="confirmPassword" className="text-body-md">
             Confirm Password
           </label>
           <input
@@ -119,7 +116,7 @@ export default function RegisterForm() {
 
         {/* Right */}
         <div className="flex flex-col gap-4">
-          <label htmlFor="avatar" className="text-body-md text-font-primary">
+          <label htmlFor="avatar" className="text-body-md">
             Avatar url
           </label>
           <input
@@ -131,7 +128,7 @@ export default function RegisterForm() {
             onChange={handleChange}
             className="border p-2 rounded"
           />
-          <label htmlFor="banner" className="text-body-md text-font-primary">
+          <label htmlFor="banner" className="text-body-md">
             Banner url
           </label>
           <input
@@ -143,7 +140,7 @@ export default function RegisterForm() {
             onChange={handleChange}
             className="border p-2 rounded"
           />
-          <label htmlFor="bio" className="text-body-md text-font-primary">
+          <label htmlFor="bio" className="text-body-md">
             Tell us about yourself
           </label>
           <textarea
@@ -156,10 +153,8 @@ export default function RegisterForm() {
           />
           <div className="flex justify-between">
             <div>
-              <h2 className="text-heading-6 mb-0 text-font-primary">
-                Venue manager?
-              </h2>
-              <p className="text-body-xs m-0 text-font-primary">
+              <h2 className="text-heading-6 mb-0">Venue manager?</h2>
+              <p className="text-body-xs m-0">
                 (Do you have a place to rent out?)
               </p>
             </div>
@@ -179,7 +174,7 @@ export default function RegisterForm() {
           <div className="md:col-span-2">
             <button
               type="submit"
-              className="w-full bg-brand-secondary hover:bg-brand-secondary-hover text-white py-2 px-4 rounded"
+              className="w-full bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded"
             >
               Register
             </button>

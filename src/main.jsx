@@ -8,6 +8,10 @@ import LoginModal from "./components/LoginModal.jsx";
 import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
+import Faq from "./pages/Faq.jsx";
+import About from "./pages/About.jsx";
 
 import Layout from "./layout/Layout.jsx";
 import Results from "./pages/Results.jsx";
@@ -32,6 +36,22 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
+      },
+      {
+        path: "terms",
+        element: <Terms />,
+      },
+      {
+        path: "faq",
+        element: <Faq />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
       {
         path: "Results",

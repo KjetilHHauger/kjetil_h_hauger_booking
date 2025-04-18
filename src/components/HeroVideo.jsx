@@ -46,7 +46,7 @@ export default function HeroVideo({ children }) {
 
       <button
         onClick={restartVideo}
-        className="absolute bottom-9 right-16 bg-brand-secondary/30 text-white px-3 py-1 rounded shadow hover:bg-brand-secondary-hover z-20"
+        className="absolute bottom-9 right-16 bg-cta/30 text-white px-3 py-1 rounded shadow hover:bg-cta-hover z-20"
       >
         Restart
       </button>
