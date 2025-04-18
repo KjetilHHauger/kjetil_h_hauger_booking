@@ -4,7 +4,7 @@ import heroVideo from "../assets/video/heroLoopVideo.mp4";
 export default function HeroVideo({ children }) {
   const videoRef = useRef(null);
   const playCountRef = useRef(0);
-  const maxLoops = 3;
+  const maxLoops = 1;
 
   useEffect(() => {
     const video = videoRef.current;
