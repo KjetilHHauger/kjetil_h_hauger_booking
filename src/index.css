@@ -95,3 +95,9 @@ h6 {
 body {
   font-family: "Inter", sans-serif;
 }
+
+.react-datepicker__day--highlighted-custom {
+  background-color: #fecaca;
+  color: #991b1b;
+  border-radius: 0.3rem;
+}
