@@ -12,6 +12,7 @@ import Privacy from "./pages/Privacy.jsx";
 import Terms from "./pages/Terms.jsx";
 import Faq from "./pages/Faq.jsx";
 import About from "./pages/About.jsx";
+import Credits from "./pages/Credits.jsx";
 
 import Layout from "./layout/Layout.jsx";
 import Results from "./pages/Results.jsx";
@@ -54,7 +55,11 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "Results",
+        path: "credits",
+        element: <Credits />,
+      },
+      {
+        path: "results",
         element: <Results />,
       },
       {
