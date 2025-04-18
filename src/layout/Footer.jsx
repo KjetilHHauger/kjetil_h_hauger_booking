@@ -3,7 +3,7 @@ import { TumblrLogo } from "@phosphor-icons/react";
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-primary text-font-primary">
+    <footer className="text-font-headline">
       <section className="flex flex-col px-10 md:flex-row mx-auto">
         <section className="flex-1/2 md:px-36 lg:px-64 py-10 gap-2 flex flex-col">
           <h6 className="text-heading-6 font-bold">

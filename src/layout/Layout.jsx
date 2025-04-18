@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Layout() {
   return (
-    <div className="text-font-primary">
+    <div className="text-font-body">
       <Nav />
       <main className="main">
         <Outlet />

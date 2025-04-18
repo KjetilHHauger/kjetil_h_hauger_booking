@@ -15,10 +15,10 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-brand-primary px-4 py-2 flex items-center justify-between">
-      <nav className="flex items-center justify-between w-full max-w-7xl mx-auto">
+    <header className=" px-4 py-2 flex items-center justify-between">
+      <nav className="flex items-center justify-between w-full max-w-7xl mx-auto text-cta">
         <Link to={"/"}>
-          <div className="text-heading-5 font-bold flex items-center gap-2 text-font-primary">
+          <div className="text-heading-5 font-bold flex items-center gap-2 text-font-headline">
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ export default function Nav() {
           <li>
             <button
               onClick={() => setShowLogin(true)}
-              className="underline cursor-pointer"
+              className="underline cursor-pointer  hover:text-cta-icon-hover"
               title="Login"
             >
               <SignIn size={32} weight="fill" />
@@ -58,7 +58,7 @@ export default function Nav() {
           </li>
           <li>
             <Link
-              className="flex items-center gap-2 text-font-primary text-body-md"
+              className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover"
               to={"/register"}
               title="Register"
             >
@@ -67,7 +67,7 @@ export default function Nav() {
           </li>
           <li>
             <Link
-              className="flex items-center gap-2 text-font-primary text-body-md"
+              className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover"
               to={"/profile"}
               title="Profile"
             >
@@ -88,7 +88,7 @@ export default function Nav() {
                 <li>
                   <button
                     onClick={() => setShowLogin(true)}
-                    className="no-underline cursor-pointer flex items-center gap-2 text-font-primary text-body-md"
+                    className="no-underline cursor-pointer flex items-center gap-2 text-body-md"
                   >
                     <SignIn size={32} weight="fill" />
                     Login
@@ -96,7 +96,7 @@ export default function Nav() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center gap-2 text-font-primary text-body-md"
+                    className="flex items-center gap-2 text-body-md"
                     to={"/register"}
                   >
                     <UserCirclePlus size={32} weight="fill" />
@@ -105,7 +105,7 @@ export default function Nav() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center gap-2 text-font-primary text-body-md"
+                    className="flex items-center gap-2 text-body-md"
                     to={"/profile"}
                   >
                     <UserCircle size={32} weight="fill" />

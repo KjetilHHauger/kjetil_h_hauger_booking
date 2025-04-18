@@ -5,17 +5,25 @@
   /* Color */
 
   /* Brand - Primary */
-  --color-brand-primary: #3ec9a7;
-  --color-brand-primary-hover: #32b295;
-  --color-brand-primary-focus: #a1ead9;
+  --color-brand-primary: #7c2a4d;
+  --color-brand-primary-hover: #691f41;
+  --color-brand-primary-focus: #f5c1d3;
 
   /* Brand - Secondary */
-  --color-brand-secondary: #472d7f;
-  --color-brand-secondary-hover: #6743b1;
-  --color-brand-secondary-focus: #b7a5e7;
+  --color-brand-secondary: #3c415c;
+  --color-brand-secondary-hover: #2f324a;
+  --color-brand-secondary-focus: #c4c7da;
+
+  /* Brand - CTA */
+  --color-cta: #7c2a4d;
+  --color-cta-hover: #691f41;
+  --color-cta-focus: #f5c1d3;
+  --color-cta-icon-hover: #e02b71;
+  --color-cta-icon-focus: #ffa8c7;
 
   /* Font */
-  --color-font-primary: #252548;
+  --color-font-headline: #7c2a4d;
+  --color-font-body: #1a1a1a;
   --color-font-secondary: #222222;
 
   /* State */

@@ -16,7 +16,7 @@ export default function MetaIcons({ meta }) {
   return (
     <div className="flex gap-2 mb-4">
       {metaConfig.map(({ icon: Icon, key, label }) => (
-        <div key={key} className="relative w-6 h-6 text-font-primary">
+        <div key={key} className="relative w-6 h-6 text-cta">
           <Icon
             size={24}
             weight="bold"
