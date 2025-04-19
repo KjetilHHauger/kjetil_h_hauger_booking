@@ -65,51 +65,57 @@ export default function VenuePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-heading-3 font-bold mb-4">{venue.name}</h1>
+      <h1 className="text-heading-3 font-bold mb-4 text-font-primary">
+        {venue.name}
+      </h1>
 
       <VenueGallery media={venue.media} />
-      <h2>Facilities</h2>
-      <MetaIcons meta={venue.meta} size={32} />
 
-      <p className="mb-4">{venue.description}</p>
-      <p className="mb-2 font-medium">Price: {venue.price} / night</p>
-      <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
-      <p className="mb-2 font-medium">
-        Location: {venue.location?.address}, {venue.location?.city},{" "}
-        {venue.location?.country}
-      </p>
-
-      <div className="mt-6">
-        <h2 className="text-heading-5 font-semibold mb-2">Select your dates</h2>
-        <DatePicker
-          selected={startDate}
-          onChange={handleDateChange}
-          minDate={new Date()}
-          startDate={startDate}
-          endDate={endDate}
-          selectsRange
-          inline
-          excludeDates={bookedDates}
-          highlightDates={[
-            {
-              "react-datepicker__day--highlighted-custom": bookedDates,
-            },
-          ]}
-        />
-        {hasValidSelection && (
-          <p className="mt-2 text-sm text-green-700">
-            You selected {startDate.toDateString()} to {endDate.toDateString()}
+      <section className=" flex md:flex-row flex-col gap-8 mt-8">
+        <div>
+          <p className="mb-4">{venue.description}</p>
+          <p className="mb-2 font-medium">Price: {venue.price} / night</p>
+          <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
+          <p className="mb-2 font-medium">
+            Location: {venue.location?.address}, {venue.location?.city},{" "}
+            {venue.location?.country}
           </p>
-        )}
-        <button
-          onClick={() => {
-            setStartDate(null);
-            setEndDate(null);
-          }}
-        >
-          Clear Dates
-        </button>
-      </div>
+          <h2>Facilities</h2>
+          <MetaIcons meta={venue.meta} size={32} />
+        </div>
+
+        <div className=" flex flex-col items-center gap-2">
+          <DatePicker
+            selected={startDate}
+            onChange={handleDateChange}
+            minDate={new Date()}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            inline
+            excludeDates={bookedDates}
+            highlightDates={[
+              {
+                "react-datepicker__day--highlighted-custom": bookedDates,
+              },
+            ]}
+          />
+          {hasValidSelection && (
+            <p className="mt-2 text-sm text-green-700">
+              You selected {startDate.toDateString()} to{" "}
+              {endDate.toDateString()}
+            </p>
+          )}
+          <button
+            onClick={() => {
+              setStartDate(null);
+              setEndDate(null);
+            }}
+          >
+            Clear Dates
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
