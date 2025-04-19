@@ -27,13 +27,13 @@ export default function VenueGallery({ media }) {
           <>
             <button
               onClick={prevImage}
-              className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/80 hover:bg-white text-brand-primary p-1 rounded-full shadow"
+              className="absolute cursor-pointer top-1/2 left-2 -translate-y-1/2 bg-white/80 hover:bg-white text-brand-primary p-1 rounded-full shadow"
             >
               <CaretLeft size={20} />
             </button>
             <button
               onClick={nextImage}
-              className="absolute top-1/2 right-2 -translate-y-1/2 bg-white/80 hover:bg-white text-brand-primary p-1 rounded-full shadow"
+              className="absolute cursor-pointer top-1/2 right-2 -translate-y-1/2 bg-white/80 hover:bg-white text-brand-primary p-1 rounded-full shadow"
             >
               <CaretRight size={20} />
             </button>
@@ -50,7 +50,7 @@ export default function VenueGallery({ media }) {
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-16 w-24 flex-shrink-0 rounded overflow-hidden border-2 ${
+            className={`h-16 w-24 cursor-pointer flex-shrink-0 rounded overflow-hidden border-2 ${
               i === index ? "border-brand-primary" : "border-transparent"
             }`}
           >

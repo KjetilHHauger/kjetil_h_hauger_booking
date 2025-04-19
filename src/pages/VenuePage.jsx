@@ -107,12 +107,14 @@ export default function VenuePage() {
             </p>
           )}
           <button
+            className="cursor-pointer"
+            title="Clear dates"
             onClick={() => {
               setStartDate(null);
               setEndDate(null);
             }}
           >
-            Clear Dates
+            Clear dates
           </button>
         </div>
       </section>
