@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import MetaIcons from "../components/MetaIcons";
+import VenueGallery from "../components/VenueGallery";
 
 export default function VenuePage() {
   const { id } = useParams();
@@ -66,11 +67,8 @@ export default function VenuePage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-heading-3 font-bold mb-4">{venue.name}</h1>
 
-      <img
-        src={venue.media?.[0]?.url}
-        alt={venue.media?.[0]?.alt || venue.name}
-        className="w-full h-72 object-cover rounded mb-4"
-      />
+      <VenueGallery media={venue.media} />
+      <h2>Facilities</h2>
       <MetaIcons meta={venue.meta} size={32} />
 
       <p className="mb-4">{venue.description}</p>
