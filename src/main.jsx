@@ -13,6 +13,7 @@ import Terms from "./pages/Terms.jsx";
 import Faq from "./pages/Faq.jsx";
 import About from "./pages/About.jsx";
 import Credits from "./pages/Credits.jsx";
+import VenuePage from "./pages/VenuePage.jsx";
 
 import Layout from "./layout/Layout.jsx";
 import Results from "./pages/Results.jsx";
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "results",
         element: <Results />,
+      },
+      {
+        path: "venue/:id",
+        element: <VenuePage />,
       },
       {
         path: "*",

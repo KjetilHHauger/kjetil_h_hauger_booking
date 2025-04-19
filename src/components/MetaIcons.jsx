@@ -12,19 +12,27 @@ const metaConfig = [
   { icon: ForkKnife, key: "breakfast", label: "Breakfast" },
 ];
 
-export default function MetaIcons({ meta }) {
+export default function MetaIcons({ meta, size = 24 }) {
   return (
-    <div className="flex gap-2 mb-4">
+    <div className="flex gap-4 mb-6">
       {metaConfig.map(({ icon: Icon, key, label }) => (
-        <div key={key} className="relative w-6 h-6 text-cta">
+        <div key={key} className="relative text-cta">
           <Icon
-            size={24}
+            size={size}
             weight="bold"
             className={`${!meta[key] ? "opacity-30" : ""}`}
             title={`${label} ${meta[key] ? "available" : "not available"}`}
           />
           {!meta[key] && (
-            <div className="absolute top-2 right-2 w-5 h-5 border-t-4 border-state-error rotate-45 pointer-events-none" />
+            <div
+              className="absolute pointer-events-none rotate-45 border-t-4 border-state-error"
+              style={{
+                top: size * 0.4,
+                right: size * 0.1,
+                width: size * 0.9,
+                height: size * 0.2,
+              }}
+            />
           )}
         </div>
       ))}
