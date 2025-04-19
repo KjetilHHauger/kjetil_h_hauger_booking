@@ -5,9 +5,9 @@
   /* Color */
 
   /* Brand - Primary */
-  --color-brand-primary: #7c2a4d;
-  --color-brand-primary-hover: #691f41;
-  --color-brand-primary-focus: #f5c1d3;
+  --color-brand-primary: #5b2a72;
+  --color-brand-primary-hover: #4a225d;
+  --color-brand-primary-focus: #e4c8ed;
 
   /* Brand - Secondary */
   --color-brand-secondary: #3c415c;
@@ -15,9 +15,9 @@
   --color-brand-secondary-focus: #c4c7da;
 
   /* Brand - CTA */
-  --color-cta: #7c2a4d;
-  --color-cta-hover: #691f41;
-  --color-cta-focus: #f5c1d3;
+  --color-cta: #5b2a72;
+  --color-cta-hover: #4a225d;
+  --color-cta-focus: #e4c8ed;
   --color-cta-icon-hover: #e02b71;
   --color-cta-icon-focus: #ffa8c7;
 
