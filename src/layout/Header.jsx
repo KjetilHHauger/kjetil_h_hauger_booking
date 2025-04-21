@@ -5,14 +5,24 @@ import {
   UserCircle,
   SignIn,
   List,
+  SignOut,
   X,
 } from "@phosphor-icons/react";
 import Modal from "../components/Modal";
 import LoginModal from "../components/LoginModal";
+import useUserStore from "../stores/userStore";
+import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { logout } = useUserStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header className=" px-4 py-2 flex items-center justify-between">
@@ -74,7 +84,15 @@ export default function Nav() {
               <UserCircle size={32} weight="fill" />
             </Link>
           </li>
-          {/* ... */}
+          <li>
+            <button
+              className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover cursor-pointer"
+              onClick={handleLogout}
+              title="Sign Out"
+            >
+              <SignOut size={32} weight="fill" />
+            </button>
+          </li>
         </ul>
 
         {/* Mobile menu links */}
@@ -111,6 +129,15 @@ export default function Nav() {
                     <UserCircle size={32} weight="fill" />
                     Profile
                   </Link>
+                </li>
+                <li>
+                  <button
+                    className="flex items-center gap-2 text-body-md"
+                    onClick={handleLogout}
+                  >
+                    <SignOut size={32} weight="fill" />
+                    Sign Out
+                  </button>
                 </li>
                 {/* ... */}
               </ul>
