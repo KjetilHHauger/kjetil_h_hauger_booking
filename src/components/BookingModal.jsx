@@ -53,7 +53,7 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+    <div className="bg-white rounded-lg p-6 max-w-md w-full">
       <h2 className="text-heading-4 font-bold mb-4">Confirm Booking</h2>
 
       <p className="mb-2">
