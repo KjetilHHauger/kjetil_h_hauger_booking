@@ -21,8 +21,20 @@ export default function VenuePage() {
     const fetchVenue = async () => {
       try {
         const BASE_URL = import.meta.env.VITE_API_URL;
-        const res = await fetch(`${BASE_URL}/holidaze/venues/${id}`);
+        const API_KEY = import.meta.env.VITE_API_KEY;
+
+        const res = await fetch(
+          `${BASE_URL}/holidaze/venues/${id}?_bookings=true`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.accessToken}`,
+              "X-Noroff-API-Key": API_KEY,
+            },
+          }
+        );
+
         if (!res.ok) throw new Error("Venue not found");
+
         const data = await res.json();
         setVenue(data.data);
       } catch (err) {
