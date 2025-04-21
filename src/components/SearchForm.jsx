@@ -33,7 +33,7 @@ export default function SearchForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto bg-white/80 py-2 rounded "
+      className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto bg-white/80 py-2 md:px-2 rounded "
     >
       <div className="flex flex-col md:flex-1">
         <input
