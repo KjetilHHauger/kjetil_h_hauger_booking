@@ -80,14 +80,14 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
       <div className="flex justify-end gap-2 mt-6">
         <button
           onClick={onClose}
-          className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+          className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 cursor-pointer"
         >
           Cancel
         </button>
         <button
           onClick={handleBooking}
           disabled={loading}
-          className="px-4 py-2 rounded bg-cta text-white hover:bg-cta-hover"
+          className="px-4 py-2 rounded bg-cta text-white hover:bg-cta-hover cursor-pointer"
         >
           {loading ? "Booking..." : "Confirm"}
         </button>
