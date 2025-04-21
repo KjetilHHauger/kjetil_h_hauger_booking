@@ -16,12 +16,14 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
       const BASE_URL = import.meta.env.VITE_API_URL;
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user?.accessToken;
+      const API_KEY = import.meta.env.VITE_API_KEY;
 
       const res = await fetch(`${BASE_URL}/holidaze/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Noroff-API-Key": API_KEY,
         },
         body: JSON.stringify({
           dateFrom: startDate.toISOString(),
@@ -33,8 +35,13 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
 
       const data = await res.json();
 
-      if (!res.ok)
-        throw new Error(data.errors?.[0]?.message || "Booking failed");
+      if (!res.ok) {
+        const rawMessage = data.errors?.[0]?.message || "";
+        const errorMessage = rawMessage.includes("date")
+          ? "Those dates are already booked. Try another range."
+          : rawMessage || "Booking failed.";
+        throw new Error(errorMessage);
+      }
 
       toast.success("Booking confirmed!");
       onClose();

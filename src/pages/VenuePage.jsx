@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import MetaIcons from "../components/MetaIcons";
 import VenueGallery from "../components/VenueGallery";
 import useUserStore from "../stores/userStore";
+import Modal from "../components/Modal";
+import BookingModal from "../components/BookingModal";
 
 export default function VenuePage() {
   const { id } = useParams();
@@ -14,8 +16,6 @@ export default function VenuePage() {
   const [endDate, setEndDate] = useState(null);
   const { user } = useUserStore();
   const [showBookingModal, setShowBookingModal] = useState(false);
-  const [guests, setGuests] = useState(1);
-  const [isBooking, setIsBooking] = useState(false);
 
   useEffect(() => {
     const fetchVenue = async () => {
@@ -46,7 +46,7 @@ export default function VenuePage() {
     };
 
     fetchVenue();
-  }, [id]);
+  }, [id, user?.accessToken]);
 
   const bookedDates =
     venue?.bookings?.flatMap((booking) => {
@@ -79,46 +79,6 @@ export default function VenuePage() {
 
   if (loading) return <p>Loading venue...</p>;
   if (!venue) return <p>Venue not found</p>;
-
-  const handleBooking = async () => {
-    if (!user) {
-      alert("You must be logged in to book.");
-      return;
-    }
-
-    setIsBooking(true);
-
-    try {
-      const BASE_URL = import.meta.env.VITE_API_URL;
-      const token = user.accessToken;
-      console.log("Booking venueId:", venue.id);
-      console.log("Token being sent:", token);
-
-      const res = await fetch(`${BASE_URL}/holidaze/bookings`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          dateFrom: startDate,
-          dateTo: endDate,
-          guests,
-          venueId: venue.id,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed to book venue");
-
-      alert("Booking successful!");
-      setShowBookingModal(false);
-    } catch (err) {
-      console.error(err);
-      alert("Booking failed");
-    } finally {
-      setIsBooking(false);
-    }
-  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -188,46 +148,14 @@ export default function VenuePage() {
 
         {/* Booking Modal */}
         {showBookingModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded p-6 w-full max-w-md shadow-lg">
-              <h2 className="text-xl font-bold mb-2">Confirm Your Booking</h2>
-              <p className="mb-2">
-                <strong>Venue:</strong> {venue.name}
-              </p>
-              <p className="mb-2">
-                <strong>From:</strong> {startDate.toDateString()}
-              </p>
-              <p className="mb-2">
-                <strong>To:</strong> {endDate.toDateString()}
-              </p>
-              <label className="block mb-2">
-                <span className="text-sm font-medium">Guests</span>
-                <input
-                  type="number"
-                  value={guests}
-                  min={1}
-                  max={venue.maxGuests}
-                  onChange={(e) => setGuests(Number(e.target.value))}
-                  className="border p-2 rounded w-full mt-1"
-                />
-              </label>
-              <div className="flex justify-end gap-2 mt-4">
-                <button
-                  className="px-4 py-2 border rounded"
-                  onClick={() => setShowBookingModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="bg-cta hover:bg-cta-hover text-white px-4 py-2 rounded"
-                  onClick={handleBooking}
-                  disabled={isBooking}
-                >
-                  {isBooking ? "Booking..." : "Confirm"}
-                </button>
-              </div>
-            </div>
-          </div>
+          <Modal onClose={() => setShowBookingModal(false)}>
+            <BookingModal
+              venue={venue}
+              startDate={startDate}
+              endDate={endDate}
+              onClose={() => setShowBookingModal(false)}
+            />
+          </Modal>
         )}
       </section>
     </div>
