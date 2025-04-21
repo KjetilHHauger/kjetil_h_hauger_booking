@@ -33,7 +33,7 @@ export default function SearchForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto bg-white/80 p-2 rounded "
+      className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto bg-white/80 py-2 rounded "
     >
       <div className="flex flex-col md:flex-1">
         <input
@@ -87,7 +87,7 @@ export default function SearchForm({
       <div className="flex flex-col md:flex-1">
         <button
           type="submit"
-          className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full"
+          className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full cursor-pointer"
         >
           Search
         </button>

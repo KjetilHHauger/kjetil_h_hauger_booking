@@ -4,6 +4,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import MetaIcons from "../components/MetaIcons";
 import VenueGallery from "../components/VenueGallery";
+import useUserStore from "../stores/userStore";
+import Modal from "../components/Modal";
+import BookingModal from "../components/BookingModal";
 
 export default function VenuePage() {
   const { id } = useParams();
@@ -11,13 +14,27 @@ export default function VenuePage() {
   const [loading, setLoading] = useState(true);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const { user } = useUserStore();
+  const [showBookingModal, setShowBookingModal] = useState(false);
 
   useEffect(() => {
     const fetchVenue = async () => {
       try {
         const BASE_URL = import.meta.env.VITE_API_URL;
-        const res = await fetch(`${BASE_URL}/holidaze/venues/${id}`);
+        const API_KEY = import.meta.env.VITE_API_KEY;
+
+        const res = await fetch(
+          `${BASE_URL}/holidaze/venues/${id}?_bookings=true`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.accessToken}`,
+              "X-Noroff-API-Key": API_KEY,
+            },
+          }
+        );
+
         if (!res.ok) throw new Error("Venue not found");
+
         const data = await res.json();
         setVenue(data.data);
       } catch (err) {
@@ -29,7 +46,7 @@ export default function VenuePage() {
     };
 
     fetchVenue();
-  }, [id]);
+  }, [id, user?.accessToken]);
 
   const bookedDates =
     venue?.bookings?.flatMap((booking) => {
@@ -116,7 +133,30 @@ export default function VenuePage() {
           >
             Clear dates
           </button>
+
+          {hasValidSelection && (
+            <div className="mt-4">
+              <button
+                className="bg-cta hover:bg-cta-hover text-white px-4 py-2 rounded cursor-pointer"
+                onClick={() => setShowBookingModal(true)}
+              >
+                Book Now
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* Booking Modal */}
+        {showBookingModal && (
+          <Modal onClose={() => setShowBookingModal(false)}>
+            <BookingModal
+              venue={venue}
+              startDate={startDate}
+              endDate={endDate}
+              onClose={() => setShowBookingModal(false)}
+            />
+          </Modal>
+        )}
       </section>
     </div>
   );

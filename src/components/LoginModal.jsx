@@ -48,7 +48,7 @@ export default function LoginModal({ onClose }) {
       />
       <button
         type="submit"
-        className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full"
+        className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full cursor-pointer"
       >
         Login
       </button>
