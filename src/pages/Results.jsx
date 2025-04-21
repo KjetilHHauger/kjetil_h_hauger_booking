@@ -96,7 +96,7 @@ export default function Results() {
   return (
     <section className="px-6 w-full mx-auto flex flex-col md:flex-row">
       <aside className="w-full md:w-72 mr-6">
-        <div className="md:hidden mt-6">
+        <div className="md:hidden mt-6 px-2">
           <button
             onClick={() => setShowFilters((prev) => !prev)}
             className="flex justify-between items-center gap-2 text-sm font-medium bg-brand-primary text-white px-4 py-2 rounded w-full cursor-pointer"
@@ -112,7 +112,9 @@ export default function Results() {
         </div>
 
         <div
-          className={`${showFilters ? "block" : "hidden"} md:block md:mt-54`}
+          className={`${
+            showFilters ? "block" : "hidden"
+          } px-2 mt-2 md:block md:mt-54`}
         >
           <FilterAside
             filters={filters}
