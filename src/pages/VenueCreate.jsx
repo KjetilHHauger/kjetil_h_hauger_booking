@@ -7,6 +7,9 @@ import {
   PawPrint,
   ForkKnife,
 } from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom";
+import useUserStore from "../stores/userStore";
+import { toast } from "react-toastify";
 
 const metaConfig = [
   { icon: WifiHigh, key: "wifi", label: "Wi-Fi" },
@@ -16,6 +19,11 @@ const metaConfig = [
 ];
 
 export default function VenueCreate() {
+  const { user } = useUserStore();
+  const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const API_KEY = import.meta.env.VITE_API_KEY;
+
   const [activeTab, setActiveTab] = useState("details");
   const [form, setForm] = useState({
     title: "",
@@ -44,6 +52,57 @@ export default function VenueCreate() {
     }));
   };
 
+  const buildHeaders = () => {
+    const headers = {
+      "Content-Type": "application/json",
+      "X-Noroff-API-Key": API_KEY,
+    };
+    if (user?.accessToken) headers.Authorization = `Bearer ${user.accessToken}`;
+    return headers;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user?.accessToken) {
+      toast.error("You must be logged in to create a venue");
+      return;
+    }
+
+    const payload = {
+      name: form.title,
+      description: form.description,
+      media: [{ url: form.imageUrl.trim(), alt: form.title }],
+      price: Number(form.price),
+      maxGuests: parseInt(form.maxGuests, 10),
+      location: {
+        address: form.address,
+        city: form.city,
+        country: form.country,
+      },
+      meta: form.meta,
+    };
+
+    if (form.rating) payload.rating = Number(form.rating);
+
+    try {
+      const res = await fetch(`${BASE_URL}/holidaze/venues`, {
+        method: "POST",
+        headers: buildHeaders(),
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed: ${res.status} ${errorText}`);
+      }
+      const json = await res.json();
+      toast.success("Venue created successfully!");
+      navigate(`/venue/${json.data.id}`);
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message);
+    }
+  };
+
   const tabs = [
     { id: "details", label: "Details" },
     { id: "location", label: "Location" },
@@ -59,7 +118,7 @@ export default function VenueCreate() {
       <h1 className="text-heading-4 font-bold mb-6">Create venue</h1>
       <div className="flex flex-col md:flex-row gap-8">
         <form
-          onSubmit={() => {}}
+          onSubmit={handleSubmit}
           className={`space-y-4 md:w-1/2 ${
             showPreview ? "hidden md:block" : ""
           }`}
@@ -212,12 +271,15 @@ export default function VenueCreate() {
               />
             </div>
           )}
-          <button
-            className="w-full md:hidden mb-4 px-4 py-2 bg-cta text-white rounded"
-            onClick={() => setShowPreview((p) => !p)}
-          >
-            {showPreview ? "Back to form" : "Preview"}
-          </button>
+          {!showPreview && (
+            <button
+              type="button"
+              className="w-full md:hidden mb-4 px-4 py-2 bg-cta text-white rounded cursor-pointer hover:opacity-90 active:opacity-75 transition"
+              onClick={() => setShowPreview(true)}
+            >
+              Preview
+            </button>
+          )}
           <button
             type="submit"
             className="w-full mt-4 bg-cta text-white py-2 rounded"
@@ -261,6 +323,20 @@ export default function VenueCreate() {
               <h2 className="mt-4 mb-2">amenities</h2>
               <MetaIcons meta={form.meta} size={32} />
             </div>
+            {showPreview && (
+              <button
+                type="button"
+                className="w-full md:hidden mb-4 px-4 py-2 bg-cta text-white rounded cursor-pointer hover:opacity-90 active:opacity-75 transition"
+                onClick={() => {
+                  setShowPreview(false);
+                  document
+                    .getElementById("venue-form")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Back to form
+              </button>
+            )}
           </section>
         </div>
       </div>
