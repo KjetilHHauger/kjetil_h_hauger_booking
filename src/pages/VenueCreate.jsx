@@ -1,4 +1,17 @@
 import React, { useState } from "react";
+import {
+  WifiHigh,
+  LetterCircleP,
+  PawPrint,
+  ForkKnife,
+} from "@phosphor-icons/react";
+
+const metaConfig = [
+  { icon: WifiHigh, key: "wifi", label: "Wi-Fi" },
+  { icon: LetterCircleP, key: "parking", label: "Parking" },
+  { icon: PawPrint, key: "pets", label: "Pets" },
+  { icon: ForkKnife, key: "breakfast", label: "Breakfast" },
+];
 
 export default function VenueCreate() {
   const [activeTab, setActiveTab] = useState("details");
@@ -18,6 +31,14 @@ export default function VenueCreate() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
+  };
+
+  const handleMetaChange = (e) => {
+    const { name, checked } = e.target;
+    setForm((f) => ({
+      ...f,
+      meta: { ...f.meta, [name]: checked },
+    }));
   };
 
   const tabs = [
@@ -129,6 +150,40 @@ export default function VenueCreate() {
                 required
                 className="border p-2 rounded w-full"
               />
+            </div>
+          </>
+        )}
+        {activeTab === "amenities" && (
+          <>
+            <div>
+              <label className="block mb-1">Rating (0-5)</label>
+              <input
+                name="rating"
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                value={form.rating}
+                onChange={handleChange}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Amenities</label>
+              <div className="flex gap-4">
+                {metaConfig.map(({ icon: Icon, key, label }) => (
+                  <label key={key} className="flex items-center gap-1">
+                    <input
+                      type="checkbox"
+                      name={key}
+                      checked={form.meta[key]}
+                      onChange={handleMetaChange}
+                      className="form-checkbox"
+                    />
+                    <Icon size={24} weight="bold" title={label} />
+                  </label>
+                ))}
+              </div>
             </div>
           </>
         )}
