@@ -69,7 +69,21 @@ export default function Profile() {
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8">
       <div className="flex-shrink-0 w-full md:w-1/3 text-center md:text-left">
-        <p>Profile info will go here.</p>
+        <div className="w-32 h-32 mx-auto md:mx-0 mb-4 border rounded overflow-hidden">
+          <img
+            src={user.avatar?.url || "/brokenImage.png"}
+            alt={user.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <h2 className="text-heading-4 font-bold">{user.name}</h2>
+        <p className="text-body-md text-gray-600 mb-4">{user.email}</p>
+        <div>
+          <h3 className="font-semibold mb-2">Information about me</h3>
+          <p className="text-body-sm text-gray-700 whitespace-pre-wrap">
+            {user.bio || "No bio available."}
+          </p>
+        </div>
       </div>
 
       <div className="flex-grow w-full md:w-2/3">
