@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 
 export default function Profile() {
   const { user } = useUserStore();
+  const [activeTab, setActiveTab] = useState("vacations");
   const [bookings, setBookings] = useState([]);
   const [rentals, setRentals] = useState([]);
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -68,6 +70,7 @@ export default function Profile() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8">
+      {/* Profile info */}
       <div className="flex-shrink-0 w-full md:w-1/3 text-center md:text-left">
         <div className="w-32 h-32 mx-auto md:mx-0 mb-4 border rounded overflow-hidden">
           <img
@@ -86,8 +89,66 @@ export default function Profile() {
         </div>
       </div>
 
+      {/* Tabs */}
       <div className="flex-grow w-full md:w-2/3">
-        <p>Tabs and content will go here.</p>
+        <div className="flex border-b mb-4">
+          <button
+            onClick={() => setActiveTab("vacations")}
+            className={`flex-1 py-2 text-center ${
+              activeTab === "vacations"
+                ? "border-b-2 border-cta font-bold"
+                : "text-gray-600"
+            }`}
+          >
+            Upcoming Vacations
+          </button>
+
+          {user.venueManager && (
+            <button
+              onClick={() => setActiveTab("rentals")}
+              className={`flex-1 py-2 text-center ${
+                activeTab === "rentals"
+                  ? "border-b-2 border-cta font-bold"
+                  : "text-gray-600"
+              }`}
+            >
+              Your Rentals
+            </button>
+          )}
+        </div>
+
+        {/* Information */}
+        <div className="space-y-4">
+          {activeTab === "vacations" && (
+            <div>
+              {bookings.length ? (
+                bookings.map((booking) => (
+                  <Link
+                    key={booking.id}
+                    to={`/venue/${booking.venue.id}`}
+                    className="block p-4 border rounded hover:bg-gray-50"
+                  >
+                    <div className="flex justify-between">
+                      <span className="font-medium">{booking.venue.name}</span>
+                      <span className="text-sm text-gray-500">
+                        {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
+                        {new Date(booking.dateTo).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <p className="text-gray-600">No upcoming vacations.</p>
+              )}
+            </div>
+          )}
+
+          {activeTab === "rentals" && (
+            <div>
+              <p className="text-gray-600">No rentals to manage.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
