@@ -89,14 +89,14 @@ export default function Profile() {
     if (!rentalBookingsMap[venueId]) {
       try {
         const res = await fetch(
-          `${BASE_URL}/holidaze/bookings?venueId=${venueId}&_customer=false`,
+          `${BASE_URL}/holidaze/venues/${venueId}?_bookings=true`,
           { headers: authHeaders }
         );
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
+
         setRentalBookingsMap((prev) => ({
           ...prev,
-          [venueId]: json.data || [],
+          [venueId]: json.data.bookings || [],
         }));
       } catch (err) {
         console.error("Failed to fetch rental bookings:", err);
@@ -113,7 +113,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-screen">
+    <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-full">
       {/* Profile info */}
       <div className="flex-shrink-0 w-full md:w-1/3 text-center md:text-left">
         <div className="w-40 h-40 mx-auto md:mx-0 mb-4 border rounded-full overflow-hidden">
