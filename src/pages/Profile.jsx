@@ -7,19 +7,21 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState("vacations");
   const [bookings, setBookings] = useState([]);
   const [rentals, setRentals] = useState([]);
+  const [expandedRental, setExpandedRental] = useState(null);
+  const [rentalBookingsMap, setRentalBookingsMap] = useState({});
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
 
-  const authHeaders = user?.accessToken
-    ? {
-        Authorization: `Bearer ${user.accessToken}`,
-        "X-Noroff-API-Key": API_KEY,
-        "Content-Type": "application/json",
-      }
-    : {};
-
   // Fetch user bookings
   useEffect(() => {
+    const authHeaders = user?.accessToken
+      ? {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+          "Content-Type": "application/json",
+        }
+      : {};
+
     if (user?.accessToken) {
       (async () => {
         try {
@@ -37,10 +39,18 @@ export default function Profile() {
         }
       })();
     }
-  }, [user, BASE_URL]);
+  }, [user, BASE_URL, API_KEY]);
 
   // Fetch user-managed venues
   useEffect(() => {
+    const authHeaders = user?.accessToken
+      ? {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+          "Content-Type": "application/json",
+        }
+      : {};
+
     if (user?.venueManager && user.accessToken) {
       (async () => {
         try {
@@ -58,7 +68,41 @@ export default function Profile() {
         }
       })();
     }
-  }, [user, BASE_URL]);
+  }, [user, BASE_URL, API_KEY]);
+
+  // Toggle rental
+  const toggleRental = async (venueId) => {
+    const authHeaders = user?.accessToken
+      ? {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+          "Content-Type": "application/json",
+        }
+      : {};
+
+    if (expandedRental === venueId) {
+      setExpandedRental(null);
+      return;
+    }
+    setExpandedRental(venueId);
+
+    if (!rentalBookingsMap[venueId]) {
+      try {
+        const res = await fetch(
+          `${BASE_URL}/holidaze/bookings?venueId=${venueId}&_customer=false`,
+          { headers: authHeaders }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        setRentalBookingsMap((prev) => ({
+          ...prev,
+          [venueId]: json.data || [],
+        }));
+      } catch (err) {
+        console.error("Failed to fetch rental bookings:", err);
+      }
+    }
+  };
 
   if (!user) {
     return (
@@ -145,7 +189,46 @@ export default function Profile() {
 
           {activeTab === "rentals" && (
             <div>
-              <p className="text-gray-600">No rentals to manage.</p>
+              {rentals.length ? (
+                rentals.map((venue) => (
+                  <div key={venue.id} className="border rounded">
+                    <button
+                      onClick={() => toggleRental(venue.id)}
+                      className="w-full text-left p-4 flex justify-between items-center"
+                    >
+                      <span className="font-medium truncate">{venue.name}</span>
+                      <span className="text-xl text-gray-500">
+                        {expandedRental === venue.id ? "-" : "+"}
+                      </span>
+                    </button>
+                    {expandedRental === venue.id && (
+                      <div className="p-4 bg-gray-50 space-y-2">
+                        {rentalBookingsMap[venue.id]?.length ? (
+                          rentalBookingsMap[venue.id].map((b) => (
+                            <div
+                              key={b.id}
+                              className="flex justify-between text-sm text-gray-700"
+                            >
+                              <span>
+                                {new Date(b.dateFrom).toLocaleDateString()}
+                              </span>
+                              <span>
+                                {new Date(b.dateTo).toLocaleDateString()}
+                              </span>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-gray-600">
+                            No bookings for this property.
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600">No rentals to manage.</p>
+              )}
             </div>
           )}
         </div>
