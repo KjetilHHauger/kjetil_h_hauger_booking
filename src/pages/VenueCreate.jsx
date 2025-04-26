@@ -187,6 +187,19 @@ export default function VenueCreate() {
             </div>
           </>
         )}
+        {activeTab === "media" && (
+          <div>
+            <label className="block mb-1">Image URL *</label>
+            <input
+              name="imageUrl"
+              type="url"
+              value={form.imageUrl}
+              onChange={handleChange}
+              required
+              className="border p-2 rounded w-full"
+            />
+          </div>
+        )}
       </form>
     </div>
   );
