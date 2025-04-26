@@ -15,7 +15,6 @@ export default function RegisterForm() {
     password: "",
     confirmPassword: "",
     avatar: "",
-    banner: "",
     bio: "",
     venueManager: "No",
   });
@@ -125,18 +124,6 @@ export default function RegisterForm() {
             placeholder="Avatar url"
             value={formData.avatar}
             alt={`Avatar of ${formData.username}`}
-            onChange={handleChange}
-            className="border p-2 rounded"
-          />
-          <label htmlFor="banner" className="text-body-md">
-            Banner url
-          </label>
-          <input
-            name="banner"
-            type="url"
-            placeholder="Banner url"
-            value={formData.banner}
-            alt="Profile banner"
             onChange={handleChange}
             className="border p-2 rounded"
           />
