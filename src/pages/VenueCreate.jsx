@@ -43,6 +43,32 @@ export default function VenueCreate() {
             className="border p-2 rounded w-full h-32"
           />
         </div>
+        <div>
+          <label className="block mb-1">Price (max 10000) *</label>
+          <input
+            name="price"
+            type="number"
+            min="0"
+            max="10000"
+            value={form.price}
+            onChange={handleChange}
+            required
+            className="border p-2 rounded w-full"
+          />
+        </div>
+        <div>
+          <label className="block mb-1">Max guests (max 100) *</label>
+          <input
+            name="maxGuests"
+            type="number"
+            min="1"
+            max="100"
+            value={form.maxGuests}
+            onChange={handleChange}
+            required
+            className="border p-2 rounded w-full"
+          />
+        </div>
       </form>
     </div>
   );
