@@ -14,13 +14,6 @@ export async function userRegister(formData, BASE_URL) {
     };
   }
 
-  if (formData.banner.trim()) {
-    payload.banner = {
-      url: formData.banner.trim(),
-      alt: `${formData.username}'s banner`,
-    };
-  }
-
   const response = await fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
     headers: {
