@@ -17,9 +17,6 @@ export default function Profile() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
 
-  const defaultAvatarUrl =
-    "https://raw.githubusercontent.com/KjetilHHauger/khh-image-bank/main/Booking/avatars/neutral_avatar.png";
-
   // Fetch user bookings
   useEffect(() => {
     const authHeaders = user?.accessToken
@@ -160,7 +157,7 @@ export default function Profile() {
       <div className="flex-shrink-0 w-full md:w-1/3 text-center md:text-left">
         <div className="relative w-40 h-40 mx-auto md:mx-0 mb-4 border rounded-full overflow-hidden">
           <img
-            src={user.avatar?.url || defaultAvatarUrl}
+            src={user.avatar?.url}
             alt={user.name}
             className="w-full h-full object-cover"
             style={{ objectPosition: "50% 15%" }}
