@@ -17,6 +17,7 @@ import VenuePage from "./pages/VenuePage.jsx";
 
 import Layout from "./layout/Layout.jsx";
 import Results from "./pages/Results.jsx";
+import VenueCreate from "./pages/VenueCreate.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "venue/:id",
         element: <VenuePage />,
+      },
+      {
+        path: "create",
+        element: <VenueCreate />,
       },
       {
         path: "*",
