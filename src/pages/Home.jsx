@@ -1,3 +1,4 @@
+import Blog from "../components/blog";
 import HeroVideo from "../components/HeroVideo";
 import SearchForm from "../components/SearchForm";
 import { Link } from "react-router-dom";
@@ -18,7 +19,9 @@ export default function Home() {
         </Link>
       </p>
 
-      <section className="mx-auto px-4 sm:px-10 md:px-20"></section>
+      <section className="mx-auto px-4 sm:px-10 md:px-20">
+        <Blog username="pensjonistenblog" limit={5} />
+      </section>
     </div>
   );
 }
