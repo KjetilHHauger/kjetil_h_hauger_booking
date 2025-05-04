@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 import { Pencil } from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Profile() {
   const { user, setUser } = useUserStore();
@@ -16,6 +18,7 @@ export default function Profile() {
   const [savingAvatar, setSavingAvatar] = useState(false);
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
+  const navigate = useNavigate();
 
   // Fetch user bookings
   useEffect(() => {
@@ -151,6 +154,26 @@ export default function Profile() {
     );
   }
 
+  // Delete handler
+  const handleDelete = async (venueId) => {
+    if (!confirm("Are you sure you want to delete this venue?")) return;
+    try {
+      const res = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+        },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // remove from local UI
+      setRentals((rs) => rs.filter((v) => v.id !== venueId));
+      toast.success("Venue deleted");
+    } catch (err) {
+      toast.error("Failed to delete");
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-full">
       {/* Profile info */}
@@ -273,16 +296,24 @@ export default function Profile() {
             <div>
               {rentals.length ? (
                 rentals.map((venue) => (
-                  <div key={venue.id} className="border rounded">
-                    <button
-                      onClick={() => toggleRental(venue.id)}
-                      className="w-full text-left p-4 flex justify-between items-center"
-                    >
-                      <span className="font-medium truncate">{venue.name}</span>
-                      <span className="text-xl text-gray-500">
-                        {expandedRental === venue.id ? "-" : "+"}
-                      </span>
-                    </button>
+                  <div key={venue.id} className="border rounded p-4 space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">{venue.name}</span>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => navigate(`/venues/${venue.id}/edit`)}
+                          className="text-blue-600 hover:underline"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(venue.id)}
+                          className="text-red-600 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
                     {expandedRental === venue.id && (
                       <div className="p-4 bg-gray-50 space-y-2">
                         {rentalBookingsMap[venue.id]?.length ? (
