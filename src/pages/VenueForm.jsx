@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import useUserStore from "../stores/userStore";
 import VenueGallery from "../components/VenueGallery";
 import MetaIcons from "../components/MetaIcons";
 import {
@@ -7,9 +10,6 @@ import {
   PawPrint,
   ForkKnife,
 } from "@phosphor-icons/react";
-import { useNavigate } from "react-router-dom";
-import useUserStore from "../stores/userStore";
-import { toast } from "react-toastify";
 
 const metaConfig = [
   { icon: WifiHigh, key: "wifi", label: "Wi-Fi" },
@@ -18,13 +18,14 @@ const metaConfig = [
   { icon: ForkKnife, key: "breakfast", label: "Breakfast" },
 ];
 
-export default function VenueCreate() {
-  const { user } = useUserStore();
+export default function VenueForm() {
+  const { id } = useParams();
+  const isEdit = Boolean(id);
   const navigate = useNavigate();
+  const { user } = useUserStore();
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
 
-  const [activeTab, setActiveTab] = useState("details");
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -37,41 +38,58 @@ export default function VenueCreate() {
     rating: "",
     meta: { wifi: false, parking: false, pets: false, breakfast: false },
   });
+  const [activeTab, setActiveTab] = useState("details");
   const [showPreview, setShowPreview] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
-  };
-
-  const handleMetaChange = (e) => {
-    const { name, checked } = e.target;
-    setForm((f) => ({
-      ...f,
-      meta: { ...f.meta, [name]: checked },
-    }));
-  };
+  // load existing data
+  useEffect(() => {
+    if (!isEdit) return;
+    (async () => {
+      try {
+        const res = await fetch(
+          `${BASE_URL}/holidaze/venues/${id}?_owner=true`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+              "X-Noroff-API-Key": API_KEY,
+            },
+          }
+        );
+        if (!res.ok) throw new Error();
+        const { data } = await res.json();
+        setForm({
+          title: data.name,
+          description: data.description,
+          imageUrl: data.media?.[0]?.url || "",
+          price: data.price,
+          maxGuests: data.maxGuests,
+          address: data.location.address,
+          city: data.location.city,
+          country: data.location.country,
+          rating: data.rating || "",
+          meta: data.meta || form.meta,
+        });
+      } catch {
+        toast.error("Failed to load venue");
+      }
+    })();
+  }, [id]);
 
   const buildHeaders = () => {
-    const headers = {
+    const h = {
       "Content-Type": "application/json",
       "X-Noroff-API-Key": API_KEY,
     };
-    if (user?.accessToken) headers.Authorization = `Bearer ${user.accessToken}`;
-    return headers;
+    if (user?.accessToken) h.Authorization = `Bearer ${user.accessToken}`;
+    return h;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user?.accessToken) {
-      toast.error("You must be logged in to create a venue");
-      return;
-    }
-
     const payload = {
       name: form.title,
       description: form.description,
-      media: [{ url: form.imageUrl.trim(), alt: form.title }],
+      media: [{ url: form.imageUrl, alt: form.title }],
       price: Number(form.price),
       maxGuests: parseInt(form.maxGuests, 10),
       location: {
@@ -81,24 +99,39 @@ export default function VenueCreate() {
       },
       meta: form.meta,
     };
-
     if (form.rating) payload.rating = Number(form.rating);
 
     try {
-      const res = await fetch(`${BASE_URL}/holidaze/venues`, {
-        method: "POST",
+      const url = isEdit
+        ? `${BASE_URL}/holidaze/venues/${id}`
+        : `${BASE_URL}/holidaze/venues`;
+      const method = isEdit ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: buildHeaders(),
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`Failed: ${res.status} ${errorText}`);
-      }
-      const json = await res.json();
-      toast.success("Venue created successfully!");
-      navigate(`/venue/${json.data.id}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const { data } = await res.json();
+      toast.success(isEdit ? "Venue updated!" : "Venue created!");
+      navigate(`/venue/${data.id}`);
     } catch (err) {
-      console.error(err);
+      toast.error(err.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this venue?")) return;
+    try {
+      const res = await fetch(`${BASE_URL}/holidaze/venues/${id}`, {
+        method: "DELETE",
+        headers: buildHeaders(),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      toast.success("Venue deleted");
+      navigate("/");
+    } catch (err) {
       toast.error(err.message);
     }
   };
@@ -110,19 +143,25 @@ export default function VenueCreate() {
     { id: "media", label: "Media" },
   ];
 
-  const placeholderText =
-    "Tell us about your venue! What makes it special? What can guests expect? ";
+  const placeholder =
+    "Tell us about your venue! What makes it special? What can guests expect?";
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      <h1 className="text-heading-4 font-bold mb-6">Create venue</h1>
+      <h1 className="text-heading-4 font-bold mb-6">
+        {isEdit ? "Edit Venue" : "Create Venue"}
+      </h1>
+
       <div className="flex flex-col md:flex-row gap-8">
+        {/* FORM */}
         <form
+          id="venue-form"
           onSubmit={handleSubmit}
-          className={`space-y-4 md:w-1/2 ${
+          className={`space-y-6 md:w-1/2 ${
             showPreview ? "hidden md:block" : ""
           }`}
         >
+          {/* Tabs */}
           <div className="flex border-b mb-4">
             {tabs.map(({ id, label }) => (
               <button
@@ -140,6 +179,7 @@ export default function VenueCreate() {
             ))}
           </div>
 
+          {/* Details Tab */}
           {activeTab === "details" && (
             <>
               <div>
@@ -147,7 +187,7 @@ export default function VenueCreate() {
                 <input
                   name="title"
                   value={form.title}
-                  onChange={handleChange}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
                   required
                   className="border p-2 rounded w-full"
                 />
@@ -157,7 +197,9 @@ export default function VenueCreate() {
                 <textarea
                   name="description"
                   value={form.description}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    setForm({ ...form, description: e.target.value })
+                  }
                   required
                   className="border p-2 rounded w-full h-32"
                 />
@@ -170,7 +212,7 @@ export default function VenueCreate() {
                   min="0"
                   max="10000"
                   value={form.price}
-                  onChange={handleChange}
+                  onChange={(e) => setForm({ ...form, price: e.target.value })}
                   required
                   className="border p-2 rounded w-full"
                 />
@@ -183,13 +225,17 @@ export default function VenueCreate() {
                   min="1"
                   max="100"
                   value={form.maxGuests}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    setForm({ ...form, maxGuests: e.target.value })
+                  }
                   required
                   className="border p-2 rounded w-full"
                 />
               </div>
             </>
           )}
+
+          {/* Location Tab */}
           {activeTab === "location" && (
             <>
               <div>
@@ -197,7 +243,9 @@ export default function VenueCreate() {
                 <input
                   name="address"
                   value={form.address}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    setForm({ ...form, address: e.target.value })
+                  }
                   required
                   className="border p-2 rounded w-full"
                 />
@@ -207,7 +255,7 @@ export default function VenueCreate() {
                 <input
                   name="city"
                   value={form.city}
-                  onChange={handleChange}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })}
                   required
                   className="border p-2 rounded w-full"
                 />
@@ -217,17 +265,21 @@ export default function VenueCreate() {
                 <input
                   name="country"
                   value={form.country}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    setForm({ ...form, country: e.target.value })
+                  }
                   required
                   className="border p-2 rounded w-full"
                 />
               </div>
             </>
           )}
+
+          {/* Amenities Tab */}
           {activeTab === "amenities" && (
             <>
               <div>
-                <label className="block mb-1">Rating (0-5)</label>
+                <label className="block mb-1">Rating (0–5)</label>
                 <input
                   name="rating"
                   type="number"
@@ -235,7 +287,7 @@ export default function VenueCreate() {
                   max="5"
                   step="0.1"
                   value={form.rating}
-                  onChange={handleChange}
+                  onChange={(e) => setForm({ ...form, rating: e.target.value })}
                   className="border p-2 rounded w-full"
                 />
               </div>
@@ -246,9 +298,13 @@ export default function VenueCreate() {
                     <label key={key} className="flex items-center gap-1">
                       <input
                         type="checkbox"
-                        name={key}
                         checked={form.meta[key]}
-                        onChange={handleMetaChange}
+                        onChange={(e) =>
+                          setForm({
+                            ...form,
+                            meta: { ...form.meta, [key]: e.target.checked },
+                          })
+                        }
                         className="form-checkbox"
                       />
                       <Icon size={24} weight="bold" title={label} />
@@ -258,6 +314,8 @@ export default function VenueCreate() {
               </div>
             </>
           )}
+
+          {/* Media Tab */}
           {activeTab === "media" && (
             <div>
               <label className="block mb-1">Image URL *</label>
@@ -265,79 +323,86 @@ export default function VenueCreate() {
                 name="imageUrl"
                 type="url"
                 value={form.imageUrl}
-                onChange={handleChange}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
                 required
                 className="border p-2 rounded w-full"
               />
             </div>
           )}
+
+          {/* Mobile Preview Toggle */}
           {!showPreview && (
             <button
               type="button"
-              className="w-full md:hidden mb-4 px-4 py-2 bg-cta text-white rounded cursor-pointer hover:opacity-90 active:opacity-75 transition"
               onClick={() => setShowPreview(true)}
+              className="w-full md:hidden px-4 py-2 bg-cta text-white rounded"
             >
               Preview
             </button>
           )}
-          <button
-            type="submit"
-            className="w-full mt-4 bg-cta text-white py-2 rounded"
-          >
-            Create venue
-          </button>
+
+          {/* Submit & Delete Actions */}
+          <div className="flex gap-4">
+            <button
+              type="submit"
+              className="flex-1 bg-cta text-white py-2 rounded"
+            >
+              {isEdit ? "Save Changes" : "Create Venue"}
+            </button>
+            {isEdit && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="flex-1 bg-red-600 text-white py-2 rounded"
+              >
+                Delete
+              </button>
+            )}
+          </div>
         </form>
+
+        {/* PREVIEW */}
         <div
-          className={`${showPreview ? "block" : "hidden"} md:block md:w-1/2`}
+          className={`${
+            showPreview ? "block" : "hidden"
+          } md:block md:w-1/2 p-4 border rounded`}
           aria-label="Preview"
         >
-          <h1 className="text-heading-3 font-bold mb-4 text-font-primary">
+          <h2 className="text-heading-3 font-bold mb-4">
             {form.title || "Venue Title"}
-          </h1>
-
+          </h2>
           <VenueGallery
             media={
               form.imageUrl
                 ? [{ url: form.imageUrl, alt: form.title }]
-                : [
-                    {
-                      url: "https://placehold.co/600x400",
-                      alt: "Placeholder Image",
-                    },
-                  ]
+                : [{ url: "https://placehold.co/600x400", alt: "Placeholder" }]
             }
           />
+          <div className="mt-4 space-y-2">
+            <p>{form.description || placeholder}</p>
+            <p>
+              <strong>Price:</strong> {form.price || "0"} / night
+            </p>
+            <p>
+              <strong>Max Guests:</strong> {form.maxGuests || "0"}
+            </p>
+            <p>
+              <strong>Location:</strong> {form.address}, {form.city},{" "}
+              {form.country}
+            </p>
+            <h3 className="mt-4 mb-2">Amenities</h3>
+            <MetaIcons meta={form.meta} size={32} />
+          </div>
 
-          <section className="flex md:flex-row flex-col gap-6 mt-6">
-            <div>
-              <p className="mb-4">{form.description || placeholderText}</p>
-              <p className="mb-2 font-medium">
-                Price: {form.price || "0"} / night
-              </p>
-              <p className="mb-2 font-medium">
-                Max guests: {form.maxGuests || "0"}
-              </p>
-              <p className="mb-2 font-medium">
-                Location: {form.address}, {form.city}, {form.country}
-              </p>
-              <h2 className="mt-4 mb-2">amenities</h2>
-              <MetaIcons meta={form.meta} size={32} />
-            </div>
-            {showPreview && (
-              <button
-                type="button"
-                className="w-full md:hidden mb-4 px-4 py-2 bg-cta text-white rounded cursor-pointer hover:opacity-90 active:opacity-75 transition"
-                onClick={() => {
-                  setShowPreview(false);
-                  document
-                    .getElementById("venue-form")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Back to form
-              </button>
-            )}
-          </section>
+          {showPreview && (
+            <button
+              type="button"
+              onClick={() => setShowPreview(false)}
+              className="mt-4 w-full md:hidden px-4 py-2 bg-cta text-white rounded"
+            >
+              Back to Form
+            </button>
+          )}
         </div>
       </div>
     </div>
