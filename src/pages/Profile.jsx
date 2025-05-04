@@ -2,20 +2,21 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 import { Pencil } from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Profile() {
   const { user, setUser } = useUserStore();
   const [activeTab, setActiveTab] = useState("vacations");
   const [bookings, setBookings] = useState([]);
   const [rentals, setRentals] = useState([]);
-  const [expandedRental, setExpandedRental] = useState(null);
-  const [rentalBookingsMap, setRentalBookingsMap] = useState({});
   const [isEditingAvatar, setIsEditingAvatar] = useState(false);
   const [newAvatarUrl, setNewAvatarUrl] = useState(user?.avatar?.url || "");
   const [newAvatarAlt, setNewAvatarAlt] = useState(user?.avatar?.alt || "");
   const [savingAvatar, setSavingAvatar] = useState(false);
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
+  const navigate = useNavigate();
 
   // Fetch user bookings
   useEffect(() => {
@@ -75,40 +76,6 @@ export default function Profile() {
     }
   }, [user, BASE_URL, API_KEY]);
 
-  // Toggle rental
-  const toggleRental = async (venueId) => {
-    const authHeaders = user?.accessToken
-      ? {
-          Authorization: `Bearer ${user.accessToken}`,
-          "X-Noroff-API-Key": API_KEY,
-          "Content-Type": "application/json",
-        }
-      : {};
-
-    if (expandedRental === venueId) {
-      setExpandedRental(null);
-      return;
-    }
-    setExpandedRental(venueId);
-
-    if (!rentalBookingsMap[venueId]) {
-      try {
-        const res = await fetch(
-          `${BASE_URL}/holidaze/venues/${venueId}?_bookings=true`,
-          { headers: authHeaders }
-        );
-        const json = await res.json();
-
-        setRentalBookingsMap((prev) => ({
-          ...prev,
-          [venueId]: json.data.bookings || [],
-        }));
-      } catch (err) {
-        console.error("Failed to fetch rental bookings:", err);
-      }
-    }
-  };
-
   const handleSaveAvatar = async () => {
     const authHeaders = user?.accessToken
       ? {
@@ -150,6 +117,25 @@ export default function Profile() {
       </div>
     );
   }
+
+  // Delete
+  const handleDelete = async (venueId) => {
+    if (!confirm("Are you sure you want to delete this venue?")) return;
+    try {
+      const res = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+        },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setRentals((rs) => rs.filter((v) => v.id !== venueId));
+      toast.success("Venue deleted");
+    } catch (err) {
+      toast.error("Failed to delete");
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-full">
@@ -243,10 +229,10 @@ export default function Profile() {
           )}
         </div>
 
-        {/* Information */}
+        {/* Upcoming */}
         <div className="space-y-4">
           {activeTab === "vacations" && (
-            <div>
+            <div className="flex flex-col gap-4">
               {bookings.length ? (
                 bookings.map((booking) => (
                   <Link
@@ -269,43 +255,39 @@ export default function Profile() {
             </div>
           )}
 
+          {/* Rentals */}
           {activeTab === "rentals" && (
-            <div>
+            <div className="space-y-4">
               {rentals.length ? (
                 rentals.map((venue) => (
-                  <div key={venue.id} className="border rounded">
-                    <button
-                      onClick={() => toggleRental(venue.id)}
-                      className="w-full text-left p-4 flex justify-between items-center"
+                  <div
+                    key={venue.id}
+                    className="flex justify-between items-center border rounded p-4"
+                  >
+                    <Link
+                      to={`/venue/${venue.id}`}
+                      className="font-medium hover:underline"
                     >
-                      <span className="font-medium truncate">{venue.name}</span>
-                      <span className="text-xl text-gray-500">
-                        {expandedRental === venue.id ? "-" : "+"}
-                      </span>
-                    </button>
-                    {expandedRental === venue.id && (
-                      <div className="p-4 bg-gray-50 space-y-2">
-                        {rentalBookingsMap[venue.id]?.length ? (
-                          rentalBookingsMap[venue.id].map((b) => (
-                            <div
-                              key={b.id}
-                              className="flex justify-between text-sm text-gray-700"
-                            >
-                              <span>
-                                {new Date(b.dateFrom).toLocaleDateString()}
-                              </span>
-                              <span>
-                                {new Date(b.dateTo).toLocaleDateString()}
-                              </span>
-                            </div>
-                          ))
-                        ) : (
-                          <p className="text-gray-600">
-                            No bookings for this property.
-                          </p>
-                        )}
-                      </div>
-                    )}
+                      {venue.name}
+                    </Link>
+
+                    <div className="flex gap-4">
+                      {/* Edit */}
+                      <button
+                        onClick={() => navigate(`/venue/${venue.id}/edit`)}
+                        className="text-blue-600 hover:underline"
+                      >
+                        Edit
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={() => handleDelete(venue.id)}
+                        className="text-red-600 hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 ))
               ) : (
