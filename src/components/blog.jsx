@@ -5,7 +5,6 @@ export default function Blog({ username, limit = 5 }) {
   const API = import.meta.env.VITE_API_URL;
 
   const [posts, setPosts] = useState([]);
-  const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,9 +13,8 @@ export default function Blog({ username, limit = 5 }) {
       try {
         const res = await fetch(`${API}/blog/posts/pensjonistenblog/`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const { data, meta } = await res.json();
+        const { data } = await res.json();
         setPosts(data);
-        setMeta(meta);
       } catch (e) {
         setError(e.message);
       } finally {
@@ -34,19 +32,34 @@ export default function Blog({ username, limit = 5 }) {
     <section className="space-y-6">
       <h2 className="text-heading-5 font-bold">Latest posts by {username}</h2>
       <ul className="space-y-4">
-        {posts.map((p) => (
-          <li key={p.id} className="border rounded p-4 hover:shadow">
-            <h3 className="text-heading-6 font-semibold mb-1">
-              <Link to={`/blog/${p.id}`} className="hover:underline">
-                {p.title}
-              </Link>
-            </h3>
-            <p className="text-body-sm line-clamp-2">{p.body}</p>
-            <div className="mt-2 text-body-xs text-gray-500 flex gap-4">
-              <span>{new Date(p.created).toLocaleDateString()}</span>
-            </div>
-          </li>
-        ))}
+        {posts.map((p) => {
+          const { id, title, media, created } = p;
+          return (
+            <li key={id} className="border rounded p-4 hover:shadow">
+              <h3 className="text-heading-6 font-semibold mb-1">
+                <Link
+                  to={`/blog/${id}`}
+                  state={{ post: p }}
+                  className="hover:underline"
+                >
+                  {title}{" "}
+                  <span className="text-body-xs text-gray-500">
+                    {" "}
+                    published {new Date(created).toLocaleDateString()}
+                  </span>
+                </Link>
+              </h3>
+
+              {media?.url && (
+                <img
+                  src={media.url}
+                  alt={media.alt || title}
+                  className="max-w-2xl rounded mb-4"
+                />
+              )}
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
