@@ -1,19 +1,18 @@
-// Blog.jsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Blog({ username, limit = 5 }) {
+  const API = import.meta.env.VITE_API_URL;
+
   const [posts, setPosts] = useState([]);
   const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    (async () => {
+    async function loadPosts() {
       try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/blog/posts/pensjonistenblog/`
-        );
+        const res = await fetch(`${API}/blog/posts/pensjonistenblog/`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const { data, meta } = await res.json();
         setPosts(data);
@@ -23,8 +22,9 @@ export default function Blog({ username, limit = 5 }) {
       } finally {
         setLoading(false);
       }
-    })();
-  }, [username, limit]);
+    }
+    loadPosts();
+  }, [username, API]);
 
   if (loading) return <p>Loading posts…</p>;
   if (error) return <p className="text-red-500">{error}</p>;
