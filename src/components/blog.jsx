@@ -1,3 +1,4 @@
+// Blog.jsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,9 +12,7 @@ export default function Blog({ username, limit = 5 }) {
     (async () => {
       try {
         const res = await fetch(
-          `https://v2.api.noroff.dev/social/profiles/${encodeURIComponent(
-            username
-          )}/posts?page=1&limit=${limit}`
+          `${import.meta.env.VITE_API_URL}/blog/posts/pensjonistenblog/`
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const { data, meta } = await res.json();
@@ -43,17 +42,12 @@ export default function Blog({ username, limit = 5 }) {
               </Link>
             </h3>
             <p className="text-body-sm line-clamp-2">{p.body}</p>
-            <div className="mt-2 text-body-xs text-gray-500 flex items-center gap-4">
+            <div className="mt-2 text-body-xs text-gray-500 flex gap-4">
               <span>{new Date(p.created).toLocaleDateString()}</span>
-              <span>{p._count.comments} comments</span>
-              <span>{p._count.reactions} reactions</span>
             </div>
           </li>
         ))}
       </ul>
-      {meta && meta.pageCount > 1 && (
-        <nav className="flex justify-center gap-2"></nav>
-      )}
     </section>
   );
 }
