@@ -9,7 +9,7 @@ export default function Home() {
       <HeroVideo>
         <SearchForm />
       </HeroVideo>
-      <p className="ml-10">
+      <p className="ml-20">
         <Link
           className="flex items-center gap-2 hover:text-cta-icon-hover text-body-xs"
           to={"/credits"}

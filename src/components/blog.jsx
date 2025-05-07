@@ -36,16 +36,16 @@ export default function Blog({ username }) {
           return (
             <li
               key={id}
-              className="bg-amber-500 h-90 w-90 flex flex-col relative"
+              className=" h-[600px] w-[400px] flex flex-col relative rounded-[20px] overflow-hidden "
             >
               {media?.url && (
                 <img
                   src={media.url}
                   alt={media.alt || title}
-                  className="rounded object-fill"
+                  className="rounded object-cover h-full w-full hover:brightness-80 duration-300"
                 />
               )}
-              <section className="mt-4 w-90 absolute bottom-0 left-0 text-white bg-black/20">
+              <section className="mt-4 min-w-full absolute bottom-0 left-0 text-white bg-black/20 ">
                 <h3 className="text-heading-6 font-semibold h-13 ml-5">
                   <Link
                     to={`/blog/${id}`}
