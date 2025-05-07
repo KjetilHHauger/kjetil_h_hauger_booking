@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 export default function Nav() {
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { logout } = useUserStore();
   const navigate = useNavigate();
+  const { user, logout } = useUserStore();
 
   const handleLogout = () => {
     logout();
@@ -58,93 +58,106 @@ export default function Nav() {
 
         {/* Desktop menu links */}
         <ul className="hidden md:flex gap-4">
-          <li>
-            <button
-              onClick={() => setShowLogin(true)}
-              className="no-underline cursor-pointer text-body-md flex flex-col items-center hover:text-cta-icon-hover"
-              title="Login"
-            >
-              <Fingerprint size={32} />
-              Login
-            </button>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col items-center text-body-md hover:text-cta-icon-hover"
-              to={"/register"}
-              title="Register"
-            >
-              <UserCirclePlus size={32} />
-              Register
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col items-center text-body-md hover:text-cta-icon-hover"
-              to={"/profile"}
-              title="Profile"
-            >
-              <UserCircle size={32} />
-              Profile
-            </Link>
-          </li>
-          <li>
-            <button
-              className="flex items-center flex-col text-body-md hover:text-cta-icon-hover cursor-pointer"
-              onClick={handleLogout}
-              title="Sign Out"
-            >
-              <Power size={32} />
-              Sign Out
-            </button>
-          </li>
+          {!user ? (
+            <>
+              <li>
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="no-underline cursor-pointer text-body-md flex flex-col items-center hover:text-cta-icon-hover"
+                  title="Login"
+                >
+                  <Fingerprint size={32} />
+                  Login
+                </button>
+              </li>
+              <li>
+                <Link
+                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
+                  to="/register"
+                  title="Register"
+                >
+                  <UserCirclePlus size={32} />
+                  Register
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link
+                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
+                  to="/profile"
+                  title="Profile"
+                >
+                  <UserCircle size={32} />
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover cursor-pointer no-underline"
+                  title="Sign Out"
+                >
+                  <Power size={32} />
+                  Sign Out
+                </button>
+              </li>
+            </>
+          )}
         </ul>
 
         {/* Mobile menu links */}
         {menuOpen && (
           <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
-            <div className=" flex-col bg-white w-64 p-4">
+            <div className="bg-white w-64 p-4 flex-col">
               <button onClick={() => setMenuOpen(false)} className="mb-4">
                 <X size={24} />
               </button>
               <ul className="flex flex-col gap-4">
-                <li>
-                  <button
-                    onClick={() => setShowLogin(true)}
-                    className="no-underline cursor-pointer flex items-center gap-2 text-body-md"
-                  >
-                    <SignIn size={32} />
-                    Login
-                  </button>
-                </li>
-                <li>
-                  <Link
-                    className="flex items-center gap-2 text-body-md"
-                    to={"/register"}
-                  >
-                    <UserCirclePlus size={32} />
-                    Register
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="flex items-center gap-2 text-body-md"
-                    to={"/profile"}
-                  >
-                    <UserCircle size={32} />
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    className="flex items-center gap-2 text-body-md"
-                    onClick={handleLogout}
-                  >
-                    <Power size={32} />
-                    Sign Out
-                  </button>
-                </li>
-                {/* ... */}
+                {!user ? (
+                  <>
+                    <li>
+                      <button
+                        onClick={() => setShowLogin(true)}
+                        className="no-underline cursor-pointer flex items-center gap-2 text-body-md"
+                      >
+                        <Fingerprint size={32} />
+                        Login
+                      </button>
+                    </li>
+                    <li>
+                      <Link
+                        className="flex items-center gap-2 text-body-md"
+                        to={"/register"}
+                      >
+                        <UserCirclePlus size={32} />
+                        Register
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link
+                        className="flex items-center gap-2 text-body-md"
+                        to={"/profile"}
+                      >
+                        <UserCircle size={32} />
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        className="flex items-center gap-2 text-body-md"
+                        onClick={handleLogout}
+                      >
+                        <Power size={32} />
+                        Sign Out
+                      </button>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
