@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import useUserStore from "../stores/userStore";
 import { loginUser } from "../utils/userLogin";
+import { Link } from "react-router-dom";
 
 export default function LoginModal({ onClose }) {
   const { setUser } = useUserStore();
@@ -52,6 +53,12 @@ export default function LoginModal({ onClose }) {
       >
         Login
       </button>
+      <span>
+        Need to register?{" "}
+        <Link onClick={onClose} to="/register" className="text-cta">
+          Click here
+        </Link>
+      </span>
     </form>
   );
 }
