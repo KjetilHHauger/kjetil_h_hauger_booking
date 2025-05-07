@@ -14,10 +14,10 @@ import Faq from "./pages/Faq.jsx";
 import About from "./pages/About.jsx";
 import Credits from "./pages/Credits.jsx";
 import VenuePage from "./pages/VenuePage.jsx";
-
 import Layout from "./layout/Layout.jsx";
 import Results from "./pages/Results.jsx";
 import VenueForm from "./pages/VenueForm.jsx";
+import BlogPost from "./components/BlogPost.jsx";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "venue/:id/edit",
         element: <VenueForm />,
+      },
+      {
+        path: "blog/:id",
+        element: <BlogPost />,
       },
       {
         path: "*",
