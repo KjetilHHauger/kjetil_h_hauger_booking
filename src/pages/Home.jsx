@@ -9,7 +9,7 @@ export default function Home() {
       <HeroVideo>
         <SearchForm />
       </HeroVideo>
-      <p className="ml-24">
+      <p className="flex items-center justify-between w-full max-w-7xl mx-auto text-brand-primary">
         <Link
           className="flex items-center gap-2 hover:text-cta-icon-hover text-body-xs"
           to={"/credits"}
@@ -19,7 +19,7 @@ export default function Home() {
         </Link>
       </p>
 
-      <section className="mx-auto px-4 sm:px-10 md:px-20">
+      <section className=" mx-auto px-4 sm:px-10 md:px-20">
         <Blog username="pensjonistenblog" limit={5} />
       </section>
     </div>

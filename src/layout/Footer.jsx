@@ -3,31 +3,31 @@ import { TumblrLogo } from "@phosphor-icons/react";
 
 export default function Footer() {
   return (
-    <footer className="text-brand-primary">
-      <section className="flex flex-col px-10 md:flex-row mx-auto">
-        <section className="flex-1/2 md:px-36 lg:px-64 py-10 gap-2 flex flex-col">
-          <h6 className="text-heading-6 font-bold">
-            Stay curious, stay cozy, stay Holidaze
-          </h6>
-          <p className="text-body-xs">
-            From mountain cabins to city lofts, we're here to make your next
-            escape a little more magical.
-          </p>
-          <p>© {new Date().getFullYear()} Holidaze - all rights reserved.</p>
-        </section>
-        <section className="flex-1 flex flex-col py-10 gap-2">
-          <h6 className="text-heading-6 font-bold underline">Information</h6>
-          <Link to="/about">About</Link>
-          <Link to="/privacy">Privacy Policy</Link>
-          <Link to="/terms">Terms of Service</Link>
-          <Link to="/faq">FAQ</Link>
-        </section>
-        <section className="flex-1 flex flex-col py-10 gap-2">
-          <h6 className="text-heading-6 font-bold underline">Social</h6>
+    <footer className="flex justify-between w-full max-w-7xl mx-auto text-brand-primary">
+      <section className="flex-3 py-4 md:py-10 gap-2 flex flex-col">
+        <h6 className="text-heading-6 font-bold">
+          Stay curious, stay cozy, stay Holidaze
+        </h6>
+        <p className="text-body-xs">
+          From mountain cabins to city lofts, we're here to make your next
+          escape a little more magical.
+        </p>
+        <p>© {new Date().getFullYear()} Holidaze - all rights reserved.</p>
+      </section>
+      <section className="flex-1 flex flex-col py-4 md:py-10 gap-2">
+        <h6 className="text-heading-6 font-bold underline">Information</h6>
+        <Link to="/about">About</Link>
+        <Link to="/privacy">Privacy Policy</Link>
+        <Link to="/terms">Terms of Service</Link>
+        <Link to="/faq">FAQ</Link>
+      </section>
+      <section className="flex-1 flex flex-col py-4 md:py-10 gap-2 ">
+        <h6 className="text-heading-6 font-bold underline">Social</h6>
+        <section className="flex gap-2">
           <a href="https://hudd.no" aria-label="Hudd" title="Hudd">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-8 h-8 hover:text-[#121b22]"
+              className="w-5 h-5 hover:text-cta-icon-hover"
               viewBox="7 10 38 52"
               fill="currentColor"
             >
@@ -41,7 +41,7 @@ export default function Footer() {
             <svg
               fill="none"
               viewBox="0 0 64 57"
-              className="w-8 h-8 ml-1 hover:text-[#1185FE]"
+              className="w-5 h-5 ml-1 hover:text-cta-icon-hover"
             >
               <path
                 fill="currentColor"
@@ -51,9 +51,9 @@ export default function Footer() {
           </a>
           <a href="https://www.tumblr.com" aria-label="Tumblr" title="Tumblr">
             <TumblrLogo
-              size={32}
+              size={20}
               weight="fill"
-              className="hover:text-[#2c4762]"
+              className="hover:text-cta-icon-hover"
             />
           </a>
         </section>
