@@ -5,8 +5,9 @@ import {
   UserCircle,
   SignIn,
   List,
-  SignOut,
+  Power,
   X,
+  Fingerprint,
 } from "@phosphor-icons/react";
 import Modal from "../components/Modal";
 import LoginModal from "../components/LoginModal";
@@ -60,37 +61,41 @@ export default function Nav() {
           <li>
             <button
               onClick={() => setShowLogin(true)}
-              className="underline cursor-pointer  hover:text-cta-icon-hover"
+              className="no-underline cursor-pointer text-body-md flex flex-col items-center hover:text-cta-icon-hover"
               title="Login"
             >
-              <SignIn size={32} weight="fill" />
+              <Fingerprint size={32} />
+              Login
             </button>
           </li>
           <li>
             <Link
-              className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover"
+              className="flex flex-col items-center text-body-md hover:text-cta-icon-hover"
               to={"/register"}
               title="Register"
             >
-              <UserCirclePlus size={32} weight="fill" />
+              <UserCirclePlus size={32} />
+              Register
             </Link>
           </li>
           <li>
             <Link
-              className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover"
+              className="flex flex-col items-center text-body-md hover:text-cta-icon-hover"
               to={"/profile"}
               title="Profile"
             >
-              <UserCircle size={32} weight="fill" />
+              <UserCircle size={32} />
+              Profile
             </Link>
           </li>
           <li>
             <button
-              className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover cursor-pointer"
+              className="flex items-center flex-col text-body-md hover:text-cta-icon-hover cursor-pointer"
               onClick={handleLogout}
               title="Sign Out"
             >
-              <SignOut size={32} weight="fill" />
+              <Power size={32} />
+              Sign Out
             </button>
           </li>
         </ul>
@@ -108,7 +113,7 @@ export default function Nav() {
                     onClick={() => setShowLogin(true)}
                     className="no-underline cursor-pointer flex items-center gap-2 text-body-md"
                   >
-                    <SignIn size={32} weight="fill" />
+                    <SignIn size={32} />
                     Login
                   </button>
                 </li>
@@ -117,7 +122,7 @@ export default function Nav() {
                     className="flex items-center gap-2 text-body-md"
                     to={"/register"}
                   >
-                    <UserCirclePlus size={32} weight="fill" />
+                    <UserCirclePlus size={32} />
                     Register
                   </Link>
                 </li>
@@ -126,7 +131,7 @@ export default function Nav() {
                     className="flex items-center gap-2 text-body-md"
                     to={"/profile"}
                   >
-                    <UserCircle size={32} weight="fill" />
+                    <UserCircle size={32} />
                     Profile
                   </Link>
                 </li>
@@ -135,7 +140,7 @@ export default function Nav() {
                     className="flex items-center gap-2 text-body-md"
                     onClick={handleLogout}
                   >
-                    <SignOut size={32} weight="fill" />
+                    <Power size={32} />
                     Sign Out
                   </button>
                 </li>
