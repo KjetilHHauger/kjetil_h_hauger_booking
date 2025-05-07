@@ -4,7 +4,6 @@ export function useVenues() {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -18,18 +17,17 @@ export function useVenues() {
 
         while (!isLastPage) {
           const res = await fetch(
-            `${BASE_URL}/holidaze/venues/?page=${page}&limit=100`
+            `${BASE_URL}/holidaze/venues?page=${page}&limit=100&_bookings=true`
           );
-          const json = await res.json();
+          if (!res.ok) throw new Error(`Page ${page} failed: ${res.status}`);
+          const { data, meta } = await res.json();
 
-          allVenues = [...allVenues, ...json.data];
-          isLastPage = json.meta.isLastPage;
+          allVenues = [...allVenues, ...data];
+          isLastPage = meta.isLastPage;
           page++;
         }
 
-        if (isMounted) {
-          setVenues(allVenues);
-        }
+        if (isMounted) setVenues(allVenues);
       } catch (err) {
         if (isMounted) setError(err);
       } finally {
@@ -38,7 +36,6 @@ export function useVenues() {
     };
 
     fetchAllVenues();
-
     return () => {
       isMounted = false;
     };
