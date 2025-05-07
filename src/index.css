@@ -91,6 +91,10 @@ h5,
 h6 {
   font-family: "Quicksand", sans-serif;
 }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #5b2a72 #e4c8ed;
+}
 
 body {
   font-family: "Inter", sans-serif;

@@ -30,37 +30,37 @@ export default function Blog({ username }) {
 
   return (
     <section className="space-y-6 mt-6">
-      <ul className="space-y-4 gap-4 flex">
+      <ul className="space-y-4 gap-4 flex overflow-x-scroll overflow-y-hidden">
         {posts.map((p) => {
           const { id, title, media, created } = p;
           return (
-            <li
-              key={id}
-              className=" h-[600px] w-[400px] flex flex-col relative rounded-[20px] overflow-hidden "
+            <Link
+              to={`/blog/${id}`}
+              state={{ post: p }}
+              className="hover:underline"
             >
-              {media?.url && (
-                <img
-                  src={media.url}
-                  alt={media.alt || title}
-                  className="rounded object-cover h-full w-full hover:brightness-80 duration-300"
-                />
-              )}
-              <section className="mt-4 min-w-full absolute bottom-0 left-0 text-white bg-black/20 ">
-                <h3 className="text-heading-6 font-semibold h-13 ml-5">
-                  <Link
-                    to={`/blog/${id}`}
-                    state={{ post: p }}
-                    className="hover:underline"
-                  >
+              <li
+                key={id}
+                className=" h-[600px] min-w-[400px] flex flex-col relative rounded-[20px] overflow-hidden "
+              >
+                {media?.url && (
+                  <img
+                    src={media.url}
+                    alt={media.alt || title}
+                    className="rounded object-cover h-full w-full hover:brightness-80 duration-300"
+                  />
+                )}
+                <section className="min-w-full absolute bottom-0 left-0 text-white bg-black/20 py-4">
+                  <h3 className="text-heading-6 font-semibold h-13 ml-5">
                     {title}{" "}
-                  </Link>
-                </h3>
-                <span className="text-body-xs ml-5">
-                  {" "}
-                  published {new Date(created).toLocaleDateString()}
-                </span>
-              </section>
-            </li>
+                  </h3>
+                  <span className="text-body-xs ml-5">
+                    {" "}
+                    published {new Date(created).toLocaleDateString()}
+                  </span>
+                </section>
+              </li>
+            </Link>
           );
         })}
       </ul>
