@@ -22,6 +22,7 @@ export default function Nav() {
 
   const handleLogout = () => {
     logout();
+    setMenuOpen(false);
     navigate("/");
   };
 
@@ -119,7 +120,10 @@ export default function Nav() {
                   <>
                     <li>
                       <button
-                        onClick={() => setShowLogin(true)}
+                        onClick={() => {
+                          setShowLogin(true);
+                          setMenuOpen(false);
+                        }}
                         className="no-underline cursor-pointer flex items-center gap-2 text-body-md"
                       >
                         <Fingerprint size={32} />
@@ -130,6 +134,7 @@ export default function Nav() {
                       <Link
                         className="flex items-center gap-2 text-body-md"
                         to={"/register"}
+                        onClick={() => setMenuOpen(false)}
                       >
                         <UserCirclePlus size={32} />
                         Register
@@ -142,6 +147,7 @@ export default function Nav() {
                       <Link
                         className="flex items-center gap-2 text-body-md"
                         to={"/profile"}
+                        onClick={() => setMenuOpen(false)}
                       >
                         <UserCircle size={32} />
                         Profile
