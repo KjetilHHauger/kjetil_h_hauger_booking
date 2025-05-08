@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   UserCirclePlus,
   UserCircle,
-  SignIn,
+  PencilCircle,
   List,
   Power,
   X,
@@ -84,6 +84,18 @@ export default function Nav() {
             </>
           ) : (
             <>
+              {user?.venueManager && (
+                <li>
+                  <Link
+                    to="venue/create"
+                    className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
+                    title="Create"
+                  >
+                    <PencilCircle size={32} />
+                    Create
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link
                   className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
@@ -143,6 +155,18 @@ export default function Nav() {
                   </>
                 ) : (
                   <>
+                    {user?.venueManager && (
+                      <li>
+                        <Link
+                          to="venue/create"
+                          className="flex items-center gap-2 text-body-md"
+                          title="Create"
+                        >
+                          <PencilCircle size={32} />
+                          Create
+                        </Link>
+                      </li>
+                    )}
                     <li>
                       <Link
                         className="flex items-center gap-2 text-body-md"
