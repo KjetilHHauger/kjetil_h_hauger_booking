@@ -82,7 +82,7 @@ export default function VenuePage() {
   if (!venue) return <p>Venue not found</p>;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mt-10 mx-auto px-8 sm:px-10 md:px-20">
       <Link to={"/results"}>Back to all listings</Link>
 
       <h1 className="text-heading-3 font-bold mb-4 text-font-primary truncate">
