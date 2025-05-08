@@ -34,18 +34,13 @@ export default function BlogPost() {
   if (!post) return <p>Post not found.</p>;
 
   return (
-    <article className="prose mx-auto">
-      <h1>{post.title}</h1>
-      {post.media?.url && (
-        <img
-          src={post.media.url}
-          alt={post.media.alt}
-          className="w-full rounded mb-4"
-        />
-      )}
+    <article className="flex flex-col items-center mx-auto max-w-3xl text-font-body mb-6">
+      <h1 className="text-2xl text-font-headline font-bold mb-6">
+        {post.title}
+      </h1>
 
       <div
-        className="blog-body"
+        className="blog-body prose prose-slate max-w-2xl flex flex-col gap-2"
         dangerouslySetInnerHTML={{ __html: post.body }}
       />
     </article>
