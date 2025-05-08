@@ -2,6 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  MapPinLine,
+  CalendarDot,
+  CalendarDots,
+  UsersThree,
+  User,
+} from "@phosphor-icons/react";
 
 export default function SearchForm({
   defaultLocation = "",
@@ -33,19 +40,28 @@ export default function SearchForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto bg-white/80 p-2 rounded "
+      className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto bg-white/92 p-2 rounded "
     >
-      <div className="flex flex-col md:flex-1">
+      <div className="relative flex flex-col md:flex-1">
+        <MapPinLine
+          size={20}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
+        />
+
         <input
           type="text"
           placeholder="f.eks. Oslo"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="border p-2 rounded w-full"
+          className="border p-2 rounded w-full pl-10 placeholder-gray-600"
         />
       </div>
 
-      <div className="flex flex-col md:flex-1">
+      <div className="relative flex flex-col md:flex-1">
+        <CalendarDot
+          size={20}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
+        />
         <DatePicker
           selected={startDate}
           onChange={(date) => setStartDate(date)}
@@ -54,12 +70,16 @@ export default function SearchForm({
           endDate={endDate}
           minDate={new Date()}
           placeholderText="Pick your leave date"
-          className="border p-2 rounded w-full"
+          className="border p-2 rounded w-full pl-10 placeholder-gray-600"
           dateFormat="yyyy-MM-dd"
         />
       </div>
 
-      <div className="flex flex-col md:flex-1">
+      <div className="relative flex flex-col md:flex-1">
+        <CalendarDot
+          size={20}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
+        />
         <DatePicker
           selected={endDate}
           onChange={(date) => setEndDate(date)}
@@ -68,19 +88,24 @@ export default function SearchForm({
           endDate={endDate}
           minDate={startDate}
           placeholderText="Pick your return date"
-          className="border p-2 rounded w-full"
+          className="border p-2 rounded w-full pl-10 placeholder-gray-600"
           dateFormat="yyyy-MM-dd"
         />
       </div>
 
-      <div className="flex flex-col md:flex-1">
+      <div className="relative flex flex-col md:flex-1">
+        <UsersThree
+          size={20}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
+        />
         <input
           type="number"
           placeholder="How many guests"
           min="1"
+          max="100"
           value={guests}
           onChange={(e) => setGuests(e.target.value)}
-          className="border p-2 rounded w-full"
+          className="border p-2 rounded w-full pl-10 placeholder-gray-600"
         />
       </div>
 
