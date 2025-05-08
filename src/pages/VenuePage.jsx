@@ -7,6 +7,7 @@ import VenueGallery from "../components/VenueGallery";
 import useUserStore from "../stores/userStore";
 import Modal from "../components/Modal";
 import BookingModal from "../components/BookingModal";
+import { Link } from "react-router-dom";
 
 export default function VenuePage() {
   const { id } = useParams();
@@ -82,15 +83,19 @@ export default function VenuePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-heading-3 font-bold mb-4 text-font-primary">
+      <Link to={"/results"}>Back to all listings</Link>
+
+      <h1 className="text-heading-3 font-bold mb-4 text-font-primary truncate">
         {venue.name}
       </h1>
 
       <VenueGallery media={venue.media} />
 
-      <section className=" flex md:flex-row flex-col gap-8 mt-8">
+      <section className=" flex justify-between md:flex-row flex-col gap-8 mt-8">
         <div>
-          <p className="mb-4">{venue.description}</p>
+          <p className="mb-4 break-words line-clamp-6 max-w-xl">
+            {venue.description}
+          </p>
           <p className="mb-2 font-medium">Price: {venue.price} / night</p>
           <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
           <p className="mb-2 font-medium">
