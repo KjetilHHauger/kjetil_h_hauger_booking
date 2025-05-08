@@ -78,7 +78,7 @@ export default function Blog({ username }) {
         </button>
       )}
 
-      <ul ref={listRef} className="flex gap-4 overflow-hidden  px-4">
+      <ul ref={listRef} className="flex gap-4 overflow-hidden">
         {posts.map((p) => {
           const { id, title, media, created } = p;
           return (

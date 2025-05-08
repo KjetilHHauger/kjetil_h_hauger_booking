@@ -1,6 +1,6 @@
 export default function Credits() {
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 py-8">
+    <div className="mx-auto w-full max-w-2xl px-8 py-8">
       <h1 className="text-heading-4 font-bold mb-2">Video credits</h1>
       <p className="mb-4 text-body-sm text-font-secondary">
         Video in order of appearance
