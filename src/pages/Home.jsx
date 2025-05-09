@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="w-full px-8 sm:px-10 md:px-20">
+    <div className="w-full">
       <HeroVideo>
         <SearchForm />
       </HeroVideo>
