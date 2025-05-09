@@ -34,13 +34,13 @@ export default function BlogPost() {
   if (!post) return <p>Post not found.</p>;
 
   return (
-    <article className="flex flex-col items-center mx-auto max-w-3xl text-font-body mb-6">
-      <h1 className="text-2xl text-font-headline font-bold mb-6">
+    <article className="flex flex-col items-center justify-between w-full max-w-7xl mx-auto text-brand-primary px-8 sm:px-10 md:px-20">
+      <h1 className="text-2xl text-font-headline font-bold mb-6 max-w-3xl">
         {post.title}
       </h1>
 
       <div
-        className="blog-body prose prose-slate max-w-2xl flex flex-col gap-2"
+        className="blog-body prose prose-slate max-w-3xl flex flex-col gap-2"
         dangerouslySetInnerHTML={{ __html: post.body }}
       />
     </article>
