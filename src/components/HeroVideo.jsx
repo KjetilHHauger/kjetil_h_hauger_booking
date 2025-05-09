@@ -36,7 +36,7 @@ export default function HeroVideo({ children }) {
   };
 
   return (
-    <div className="relative w-full mx-auto h-[550px] overflow-hidden bg-black">
+    <div className="relative max-w-[1920px] h-[550px] overflow-hidden bg-black">
       {!videoReady && (
         <img
           src={heroImage}

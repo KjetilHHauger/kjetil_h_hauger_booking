@@ -94,7 +94,7 @@ export default function Results() {
   if (error) return <p>Error loading venues.</p>;
 
   return (
-    <section className="px-6 w-full mx-auto flex flex-col md:flex-row">
+    <section className="w-full mx-auto flex flex-col md:flex-row px-8 sm:px-10 md:px-20">
       <aside className="w-full md:w-72 mr-6">
         <div className="md:hidden mt-6 px-2">
           <button

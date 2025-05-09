@@ -6,9 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Layout() {
   return (
-    <div className="text-font-body flex flex-col min-h-screen">
+    <div className="text-font-body flex flex-col min-h-screen max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
       <Nav />
-      <main className="flex-grow mb-10">
+      <main className="flex-grow mb-10 ">
         <Outlet />
         <ToastContainer
           position="top-center"
