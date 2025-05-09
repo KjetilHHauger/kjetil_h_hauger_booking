@@ -174,7 +174,7 @@ export default function Profile() {
             style={{ objectPosition: "50% 15%" }}
           />
           <button
-            className="absolute bottom-1 right-16 bg-white p-1 rounded-full"
+            className="absolute bottom-1 right-16 bg-white p-1 rounded-full cursor-pointer"
             onClick={() => setIsEditingAvatar((prev) => !prev)}
             aria-label="Edit avatar"
           >
@@ -201,14 +201,14 @@ export default function Profile() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setIsEditingAvatar(false)}
-                className="px-4 py-2 border rounded"
+                className="px-4 py-2 border rounded cursor-pointer hover:bg-gray-200"
                 disabled={savingAvatar}
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveAvatar}
-                className="px-4 py-2 bg-cta text-white rounded"
+                className="px-4 py-2 bg-cta hover:bg-cta-icon-hover text-white rounded cursor-pointer"
                 disabled={savingAvatar}
               >
                 {savingAvatar ? "Saving..." : "Save"}
@@ -231,10 +231,10 @@ export default function Profile() {
         <div className="flex border-b mb-4">
           <button
             onClick={() => setActiveTab("vacations")}
-            className={`flex-1 py-2 text-center ${
+            className={`flex-1 py-2 text-center  ${
               activeTab === "vacations"
                 ? "border-b-2 border-cta font-bold"
-                : "text-gray-600"
+                : "text-gray-600 cursor-pointer"
             }`}
           >
             Upcoming Vacations
@@ -246,7 +246,7 @@ export default function Profile() {
               className={`flex-1 py-2 text-center ${
                 activeTab === "rentals"
                   ? "border-b-2 border-cta font-bold"
-                  : "text-gray-600"
+                  : "text-gray-600 cursor-pointer"
               }`}
             >
               Your Rentals
@@ -284,7 +284,7 @@ export default function Profile() {
                         setBookingToCancel(booking.id);
                         setShowCancelModal(true);
                       }}
-                      className="ml-4 text-red-600 hover:underline"
+                      className="ml-4 text-state-error hover:text-state-error-hover hover:underline cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -310,13 +310,13 @@ export default function Profile() {
                       setShowCancelModal(false);
                       setBookingToCancel(null);
                     }}
-                    className="px-4 py-2 border rounded hover:bg-gray-200"
+                    className="px-4 py-2 border rounded hover:bg-gray-200 cursor-pointer"
                   >
                     No, keep it
                   </button>
                   <button
                     onClick={confirmCancelBooking}
-                    className="px-4 py-2 bg-state-error hover:bg-state-error-hover text-white rounded"
+                    className="px-4 py-2 bg-state-error hover:bg-state-error-hover text-white rounded cursor-pointer"
                   >
                     Yes, cancel
                   </button>
@@ -341,18 +341,15 @@ export default function Profile() {
                     </Link>
 
                     <div className="flex gap-4">
-                      {/* Edit */}
                       <button
                         onClick={() => navigate(`/venue/${venue.id}/edit`)}
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 hover:underline cursor-pointer"
                       >
                         Edit
                       </button>
-
-                      {/* Delete */}
                       <button
                         onClick={() => handleDelete(venue.id)}
-                        className="text-red-600 hover:underline"
+                        className="text-red-600 hover:underline cursor-pointer"
                       >
                         Delete
                       </button>
