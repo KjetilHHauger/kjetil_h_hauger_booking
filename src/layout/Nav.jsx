@@ -8,6 +8,7 @@ import {
   Power,
   X,
   Fingerprint,
+  MagnifyingGlass,
 } from "@phosphor-icons/react";
 import Modal from "../components/Modal";
 import LoginModal from "../components/LoginModal";
@@ -27,7 +28,7 @@ export default function Nav() {
   };
 
   return (
-    <header className="py-2 flex items-center justify-between">
+    <header className="py-2 flex items-center justify-between sticky top-0 z-50 bg-white">
       <nav className="flex items-center justify-between w-full text-brand-primary">
         <Link to={"/"}>
           <div className="text-heading-5 font-bold flex items-center gap-2">
@@ -61,6 +62,16 @@ export default function Nav() {
         <ul className="hidden md:flex gap-4">
           {!user ? (
             <>
+              <li>
+                <Link
+                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
+                  to="/results"
+                  title="Results"
+                >
+                  <MagnifyingGlass size={32} />
+                  All listings
+                </Link>
+              </li>
               <li>
                 <button
                   onClick={() => setShowLogin(true)}
@@ -99,6 +110,16 @@ export default function Nav() {
               <li>
                 <Link
                   className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
+                  to="/results"
+                  title="Results"
+                >
+                  <MagnifyingGlass size={32} />
+                  All listings
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
                   to="/profile"
                   title="Profile"
                 >
@@ -130,6 +151,16 @@ export default function Nav() {
               <ul className="flex flex-col gap-4">
                 {!user ? (
                   <>
+                    <li>
+                      <Link
+                        className="flex items-center text-body-md hover:text-cta-icon-hover no-underline"
+                        to="/results"
+                        title="Results"
+                      >
+                        <MagnifyingGlass size={32} />
+                        All listings
+                      </Link>
+                    </li>
                     <li>
                       <button
                         onClick={() => {
@@ -167,6 +198,16 @@ export default function Nav() {
                         </Link>
                       </li>
                     )}
+                    <li>
+                      <Link
+                        className="flex items-center text-body-md hover:text-cta-icon-hover no-underline"
+                        to="/results"
+                        title="Results"
+                      >
+                        <MagnifyingGlass size={32} />
+                        All listings
+                      </Link>
+                    </li>
                     <li>
                       <Link
                         className="flex items-center gap-2 text-body-md"
