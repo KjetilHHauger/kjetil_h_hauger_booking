@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <section className="flex flex-col items-start justify-between w-full max-w-7xl mx-auto text-brand-primary px-8 sm:px-10 md:px-20 gap-10 mt-10">
+    <section className="flex flex-col items-start justify-between w-full max-w-7xl mx-auto text-brand-primary px-8 sm:px-10 md:px-20 gap-10 my-20">
       <section>
         <h1 className="text-2xl font-bold">About Holidaze</h1>
         <p>
