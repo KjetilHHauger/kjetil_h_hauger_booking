@@ -59,7 +59,7 @@ export default function Blog({ username }) {
   if (!posts.length) return <p>No posts yet.</p>;
 
   return (
-    <section className="relative mt-6 w-full max-w-[1920px] mx-auto">
+    <section className="relative mt-10 w-full max-w-[1920px] mx-auto">
       {canScrollLeft && (
         <button
           onClick={() => scrollByWidth(-1)}
