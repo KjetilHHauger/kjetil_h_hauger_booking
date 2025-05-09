@@ -4,6 +4,7 @@ import useUserStore from "../stores/userStore";
 import { Pencil } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Modal from "../components/Modal";
 
 export default function Profile() {
   const { user, setUser } = useUserStore();
@@ -17,6 +18,8 @@ export default function Profile() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
   const navigate = useNavigate();
+  const [bookingToCancel, setBookingToCancel] = useState(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   // Fetch user bookings
   useEffect(() => {
@@ -137,6 +140,28 @@ export default function Profile() {
     }
   };
 
+  const confirmCancelBooking = async () => {
+    const id = bookingToCancel;
+    setShowCancelModal(false);
+    try {
+      const res = await fetch(`${BASE_URL}/holidaze/bookings/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+        },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setBookings((bs) => bs.filter((b) => b.id !== id));
+      toast.success("Booking cancelled");
+    } catch (err) {
+      toast.error("Failed to cancel booking");
+      console.error(err);
+    } finally {
+      setBookingToCancel(null);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-full">
       {/* Profile info */}
@@ -235,19 +260,35 @@ export default function Profile() {
             <div className="flex flex-col gap-4">
               {bookings.length ? (
                 bookings.map((booking) => (
-                  <Link
+                  <div
                     key={booking.id}
-                    to={`/venue/${booking.venue.id}`}
-                    className="block p-4 border rounded hover:bg-gray-50"
+                    className="flex justify-between items-center border rounded p-4"
                   >
-                    <div className="flex justify-between">
-                      <span className="font-medium">{booking.venue.name}</span>
-                      <span className="text-sm text-gray-500">
-                        {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
-                        {new Date(booking.dateTo).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </Link>
+                    <Link
+                      to={`/venue/${booking.venue.id}`}
+                      className="flex-1 hover:underline"
+                    >
+                      <div className="flex justify-between">
+                        <span className="font-medium">
+                          {booking.venue.name}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
+                          {new Date(booking.dateTo).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </Link>
+
+                    <button
+                      onClick={() => {
+                        setBookingToCancel(booking.id);
+                        setShowCancelModal(true);
+                      }}
+                      className="ml-4 text-red-600 hover:underline"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 ))
               ) : (
                 <p className="text-gray-600">No upcoming vacations.</p>
@@ -255,7 +296,35 @@ export default function Profile() {
             </div>
           )}
 
-          {/* Rentals */}
+          {showCancelModal && (
+            <Modal onClose={() => setShowCancelModal(false)}>
+              <div className="p-6">
+                <h2 className="text-heading-5 mb-4">Cancel Booking?</h2>
+                <p className="mb-6">
+                  Are you sure you want to cancel this booking? This action
+                  cannot be undone.
+                </p>
+                <div className="flex justify-end gap-4">
+                  <button
+                    onClick={() => {
+                      setShowCancelModal(false);
+                      setBookingToCancel(null);
+                    }}
+                    className="px-4 py-2 border rounded hover:bg-gray-200"
+                  >
+                    No, keep it
+                  </button>
+                  <button
+                    onClick={confirmCancelBooking}
+                    className="px-4 py-2 bg-state-error hover:bg-state-error-hover text-white rounded"
+                  >
+                    Yes, cancel
+                  </button>
+                </div>
+              </div>
+            </Modal>
+          )}
+
           {activeTab === "rentals" && (
             <div className="space-y-4">
               {rentals.length ? (
