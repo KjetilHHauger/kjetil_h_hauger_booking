@@ -1,7 +1,7 @@
 export default function FilterAside({ filters, setFilters, options }) {
   return (
-    <section className="flex flex-col gap-4">
-      <div className="flex flex-wrap gap-2">
+    <section className="flex flex-col gap-4 max-w-44">
+      <div className="flex flex-col flex-wrap gap-2">
         {options.map(({ key, label }) => (
           <label key={key} className="flex items-center gap-2">
             <input
@@ -21,25 +21,17 @@ export default function FilterAside({ filters, setFilters, options }) {
 
       <div className="flex flex-col gap-4">
         <select
-          value={filters.sortBy}
-          onChange={(e) =>
-            setFilters((prev) => ({ ...prev, sortBy: e.target.value }))
-          }
+          value={`${filters.sortBy}-${filters.sortOrder}`}
+          onChange={(e) => {
+            const [sortBy, sortOrder] = e.target.value.split("-");
+            setFilters((prev) => ({ ...prev, sortBy, sortOrder }));
+          }}
           className="p-2 border rounded"
         >
-          <option value="price">Sort by price</option>
-          <option value="rating">Sort by rating</option>
-        </select>
-
-        <select
-          value={filters.sortOrder}
-          onChange={(e) =>
-            setFilters((prev) => ({ ...prev, sortOrder: e.target.value }))
-          }
-          className="p-2 border rounded"
-        >
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
+          <option value="price-asc">Price: low to high</option>
+          <option value="price-desc">Price: high to low</option>
+          <option value="rating-asc">Rating: low to high</option>
+          <option value="rating-desc">Rating: high to low</option>
         </select>
       </div>
     </section>
