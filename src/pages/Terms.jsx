@@ -1,6 +1,6 @@
 export default function Terms() {
   return (
-    <section className="flex flex-col items-start justify-between w-full max-w-7xl mx-auto text-brand-primary px-8 sm:px-10 md:px-20 gap-10 my-20">
+    <section className="flex flex-col items-start justify-between w-full max-w-7xl mx-auto text-brand-primary px-8 sm:px-10 md:px-20 gap-10 my-10">
       <section>
         <h1 className="text-3xl font-bold">Terms of Use</h1>
         <p>

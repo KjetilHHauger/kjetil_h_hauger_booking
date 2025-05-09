@@ -8,7 +8,7 @@ export default function Layout() {
   return (
     <div className="text-font-body flex flex-col min-h-screen">
       <Nav />
-      <main className="flex-grow">
+      <main className="flex-grow mb-10">
         <Outlet />
         <ToastContainer
           position="top-center"
