@@ -94,7 +94,7 @@ export default function Blog({ username }) {
                   <img
                     src={media.url}
                     alt={media.alt || title}
-                    className="h-[600px] w-full object-cover hover:brightness-90 duration-300"
+                    className="h-[400px] w-full object-cover hover:brightness-90 duration-300"
                   />
                 )}
                 <section className="absolute bottom-0 left-0 w-full bg-black/20 p-4 text-white">
