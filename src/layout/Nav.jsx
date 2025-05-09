@@ -28,7 +28,7 @@ export default function Nav() {
 
   return (
     <header className="py-2 flex items-center justify-between">
-      <nav className="flex items-center justify-between w-full text-brand-primary px-8 sm:px-10 md:px-20">
+      <nav className="flex items-center justify-between w-full text-brand-primary">
         <Link to={"/"}>
           <div className="text-heading-5 font-bold flex items-center gap-2">
             <svg

@@ -3,7 +3,7 @@ import { TumblrLogo } from "@phosphor-icons/react";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-between w-full text-brand-primary flex-col md:flex-row gap-4 px-8 sm:px-10 md:px-20">
+    <footer className="flex justify-between w-full text-brand-primary flex-col md:flex-row gap-4">
       <section className="flex-3 py-4 md:py-10 gap-2 flex flex-col">
         <h6 className="text-heading-6 font-bold">
           Stay curious, stay cozy, stay Holidaze

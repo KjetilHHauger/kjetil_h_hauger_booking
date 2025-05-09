@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
-import { useSwipeable } from "react-swipeable";
 
 export default function Blog({ username }) {
   const API = import.meta.env.VITE_API_URL;
@@ -33,13 +32,16 @@ export default function Blog({ username }) {
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
+
     const update = () => {
       setCanScrollLeft(el.scrollLeft > 0);
       setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
     };
+
     update();
     el.addEventListener("scroll", update);
     window.addEventListener("resize", update);
+
     return () => {
       el.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
@@ -51,13 +53,6 @@ export default function Blog({ username }) {
     if (!el) return;
     el.scrollBy({ left: dir * el.clientWidth, behavior: "smooth" });
   };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => scrollByWidth(1),
-    onSwipedRight: () => scrollByWidth(-1),
-    preventDefaultTouchmoveEvent: true,
-    delta: 10,
-  });
 
   if (loading) return <p>Loading posts…</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -84,32 +79,34 @@ export default function Blog({ username }) {
       )}
 
       <ul
-        {...swipeHandlers}
         ref={listRef}
-        className="flex gap-4 overflow-hidden touch-pan-x scrollbar-hide"
+        className="flex gap-4 overflow-x-auto no-scrollbar touch-pan-x md:overflow-hidden"
       >
-        {posts.map((p) => (
-          <li
-            key={p.id}
-            className="min-w-[400px] w-[400px] flex-shrink-0 flex flex-col rounded-2xl overflow-hidden relative"
-          >
-            <Link to={`/blog/${p.id}`} state={{ post: p }}>
-              {p.media?.url && (
-                <img
-                  src={p.media.url}
-                  alt={p.media.alt || p.title}
-                  className="h-[600px] w-full object-cover hover:brightness-90 duration-300"
-                />
-              )}
-              <section className="absolute bottom-0 left-0 w-full bg-black/20 p-4 text-white">
-                <h3 className="text-xl font-semibold">{p.title}</h3>
-                <span className="text-sm">
-                  published {new Date(p.created).toLocaleDateString()}
-                </span>
-              </section>
-            </Link>
-          </li>
-        ))}
+        {posts.map((p) => {
+          const { id, title, media, created } = p;
+          return (
+            <li
+              key={id}
+              className="min-w-[400px] w-[400px] flex-shrink-0 flex flex-col rounded-2xl overflow-hidden relative"
+            >
+              <Link to={`/blog/${id}`} state={{ post: p }} className="block">
+                {media?.url && (
+                  <img
+                    src={media.url}
+                    alt={media.alt || title}
+                    className="h-[600px] w-full object-cover hover:brightness-90 duration-300"
+                  />
+                )}
+                <section className="absolute bottom-0 left-0 w-full bg-black/20 p-4 text-white">
+                  <h3 className="text-xl font-semibold">{title}</h3>
+                  <span className="text-sm">
+                    published {new Date(created).toLocaleDateString()}
+                  </span>
+                </section>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
