@@ -4,8 +4,15 @@ import { toast } from "react-toastify";
 export default function BookingModal({ onClose, venue, startDate, endDate }) {
   const [guests, setGuests] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const nights = Math.ceil(
+    (endDate.getTime() - startDate.getTime()) / msPerDay
+  );
+  const totalPrice = nights * venue.price;
 
   const handleBooking = async () => {
+    setIsSubmitting(true);
     if (!startDate || !endDate) {
       toast.error("Please select a valid date range.");
       return;
@@ -53,7 +60,7 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 max-w-md w-full">
+    <div className="bg-white text-brand-primary rounded-lg p-6 max-w-lg w-full">
       <h2 className="text-heading-4 font-bold mb-4">Confirm Booking</h2>
 
       <p className="mb-2">
@@ -61,7 +68,14 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
       </p>
       <p className="mb-2">
         <strong>Dates:</strong> {startDate.toDateString()} -{" "}
-        {endDate.toDateString()}
+        {endDate.toDateString()} (
+        <strong>
+          {nights} night{nights > 1 ? "s" : ""}
+        </strong>
+        )
+      </p>
+      <p className="font-semibold">
+        Total: <span className="text-cta">${totalPrice.toFixed(2)}</span>
       </p>
 
       <label className="block mb-4">
