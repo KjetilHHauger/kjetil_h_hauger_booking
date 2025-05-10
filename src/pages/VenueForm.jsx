@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import useUserStore from "../stores/userStore";
-import VenueGallery from "../components/VenueGallery";
 import MetaIcons from "../components/MetaIcons";
 import {
   WifiHigh,
   LetterCircleP,
   PawPrint,
   ForkKnife,
+  Plus,
 } from "@phosphor-icons/react";
+import VenueGallery from "../components/VenueGallery";
 
 const metaConfig = [
   { icon: WifiHigh, key: "wifi", label: "Wi-Fi" },
@@ -29,7 +30,6 @@ export default function VenueForm() {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    imageUrl: "",
     price: "",
     maxGuests: "",
     address: "",
@@ -37,17 +37,18 @@ export default function VenueForm() {
     country: "",
     rating: "",
     meta: { wifi: false, parking: false, pets: false, breakfast: false },
+    mediaUrls: [""],
   });
+
   const [activeTab, setActiveTab] = useState("details");
   const [showPreview, setShowPreview] = useState(false);
 
-  // load existing data
   useEffect(() => {
     if (!isEdit) return;
     (async () => {
       try {
         const res = await fetch(
-          `${BASE_URL}/holidaze/venues/${id}?_owner=true`,
+          `${BASE_URL}/holidaze/venues/${id}?_owner=true&_bookings=true`,
           {
             headers: {
               Authorization: `Bearer ${user.accessToken}`,
@@ -57,18 +58,19 @@ export default function VenueForm() {
         );
         if (!res.ok) throw new Error();
         const { data } = await res.json();
-        setForm({
+        setForm((f) => ({
+          ...f,
           title: data.name,
           description: data.description,
-          imageUrl: data.media?.[0]?.url || "",
           price: data.price,
           maxGuests: data.maxGuests,
           address: data.location.address,
           city: data.location.city,
           country: data.location.country,
           rating: data.rating || "",
-          meta: data.meta || form.meta,
-        });
+          meta: data.meta || f.meta,
+          mediaUrls: (data.media?.map((m) => m.url) || [""]).slice(0, 8),
+        }));
       } catch {
         toast.error("Failed to load venue");
       }
@@ -89,7 +91,10 @@ export default function VenueForm() {
     const payload = {
       name: form.title,
       description: form.description,
-      media: [{ url: form.imageUrl, alt: form.title }],
+      media: form.mediaUrls
+        .filter((u) => u.trim() !== "")
+        .slice(0, 8)
+        .map((url) => ({ url, alt: form.title })),
       price: Number(form.price),
       maxGuests: parseInt(form.maxGuests, 10),
       location: {
@@ -122,7 +127,6 @@ export default function VenueForm() {
   };
 
   const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this venue?")) return;
     try {
       const res = await fetch(`${BASE_URL}/holidaze/venues/${id}`, {
         method: "DELETE",
@@ -136,12 +140,40 @@ export default function VenueForm() {
     }
   };
 
+  const addMediaField = () => {
+    setForm((f) => ({
+      ...f,
+      mediaUrls: f.mediaUrls.length < 8 ? [...f.mediaUrls, ""] : f.mediaUrls,
+    }));
+  };
+
+  const removeMediaField = (idx) => {
+    setForm((f) => {
+      const arr = [...f.mediaUrls];
+      arr.splice(idx, 1);
+      return { ...f, mediaUrls: arr };
+    });
+  };
+
+  const updateMediaUrl = (idx, value) => {
+    setForm((f) => {
+      const arr = [...f.mediaUrls];
+      arr[idx] = value;
+      return { ...f, mediaUrls: arr };
+    });
+  };
+
   const tabs = [
     { id: "details", label: "Details" },
     { id: "location", label: "Location" },
     { id: "amenities", label: "Amenities" },
     { id: "media", label: "Media" },
   ];
+
+  const previewMedia = form.mediaUrls
+    .filter((u) => u.trim() !== "")
+    .slice(0, 8)
+    .map((url) => ({ url, alt: form.title }));
 
   const placeholder =
     "Tell us about your venue! What makes it special? What can guests expect?";
@@ -153,7 +185,6 @@ export default function VenueForm() {
       </h1>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* FORM */}
         <form
           id="venue-form"
           onSubmit={handleSubmit}
@@ -171,7 +202,7 @@ export default function VenueForm() {
                 className={`flex-1 py-2 text-center ${
                   activeTab === id
                     ? "border-b-2 border-cta font-bold"
-                    : "text-gray-600"
+                    : "text-gray-600 cursor-pointer"
                 }`}
               >
                 {label}
@@ -179,7 +210,6 @@ export default function VenueForm() {
             ))}
           </div>
 
-          {/* Details Tab */}
           {activeTab === "details" && (
             <>
               <div>
@@ -235,7 +265,6 @@ export default function VenueForm() {
             </>
           )}
 
-          {/* Location Tab */}
           {activeTab === "location" && (
             <>
               <div>
@@ -275,22 +304,8 @@ export default function VenueForm() {
             </>
           )}
 
-          {/* Amenities Tab */}
           {activeTab === "amenities" && (
             <>
-              <div>
-                <label className="block mb-1">Rating (0–5)</label>
-                <input
-                  name="rating"
-                  type="number"
-                  min="0"
-                  max="5"
-                  step="0.1"
-                  value={form.rating}
-                  onChange={(e) => setForm({ ...form, rating: e.target.value })}
-                  className="border p-2 rounded w-full"
-                />
-              </div>
               <div>
                 <label className="block mb-1">Amenities</label>
                 <div className="flex gap-4">
@@ -315,37 +330,57 @@ export default function VenueForm() {
             </>
           )}
 
-          {/* Media Tab */}
           {activeTab === "media" && (
             <div>
-              <label className="block mb-1">Image URL *</label>
-              <input
-                name="imageUrl"
-                type="url"
-                value={form.imageUrl}
-                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                required
-                className="border p-2 rounded w-full"
-              />
+              <label className="block mb-1">Image URLs (max 8)</label>
+              <div className="space-y-2">
+                {form.mediaUrls.map((url, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <input
+                      type="url"
+                      value={url}
+                      placeholder={`Image URL`}
+                      onChange={(e) => updateMediaUrl(idx, e.target.value)}
+                      className="flex-1 border p-2 rounded"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeMediaField(idx)}
+                      className="text-state-error hover:text-state-error-hover cursor-pointer font-bold"
+                      title="Remove this image"
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+
+                {form.mediaUrls.length < 8 && (
+                  <button
+                    type="button"
+                    onClick={addMediaField}
+                    className="flex items-center gap-1 text-brand-primary hover:underline"
+                  >
+                    <Plus size={20} /> Add photo
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
-          {/* Mobile Preview Toggle */}
           {!showPreview && (
             <button
               type="button"
               onClick={() => setShowPreview(true)}
-              className="w-full md:hidden px-4 py-2 bg-cta text-white rounded"
+              className="w-full md:hidden px-4 py-2 bg-cta hover:bg-cta-hover text-white rounded cursor-pointer"
             >
               Preview
             </button>
           )}
 
-          {/* Submit & Delete Actions */}
           <div className="flex gap-4">
             <button
               type="submit"
-              className="flex-1 bg-cta text-white py-2 rounded"
+              className="flex-1 bg-cta hover:bg-cta-hover text-white py-2 rounded cursor-pointer"
             >
               {isEdit ? "Save Changes" : "Create Venue"}
             </button>
@@ -353,7 +388,8 @@ export default function VenueForm() {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="flex-1 bg-red-600 text-white py-2 rounded"
+                className="flex-1 bg-state-error hover:bg-state-error-hover text-white py-2 rounded cursor-pointer"
+                aria-label="Delete Venue"
               >
                 Delete
               </button>
@@ -371,13 +407,9 @@ export default function VenueForm() {
           <h2 className="text-heading-3 font-bold mb-4">
             {form.title || "Venue Title"}
           </h2>
-          <VenueGallery
-            media={
-              form.imageUrl
-                ? [{ url: form.imageUrl, alt: form.title }]
-                : [{ url: "https://placehold.co/600x400", alt: "Placeholder" }]
-            }
-          />
+
+          {previewMedia.length > 0 && <VenueGallery media={previewMedia} />}
+
           <div className="mt-4 space-y-2">
             <p>{form.description || placeholder}</p>
             <p>
@@ -398,7 +430,7 @@ export default function VenueForm() {
             <button
               type="button"
               onClick={() => setShowPreview(false)}
-              className="mt-4 w-full md:hidden px-4 py-2 bg-cta text-white rounded"
+              className="mt-4 w-full md:hidden px-4 py-2 bg-cta text-white rounded cursor-pointer"
             >
               Back to Form
             </button>
