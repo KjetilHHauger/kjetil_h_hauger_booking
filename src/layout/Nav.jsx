@@ -95,6 +95,16 @@ export default function Nav() {
             </>
           ) : (
             <>
+              <li>
+                <Link
+                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
+                  to="/results"
+                  title="Results"
+                >
+                  <MagnifyingGlass size={32} />
+                  All listings
+                </Link>
+              </li>
               {user?.venueManager && (
                 <li>
                   <Link
@@ -107,16 +117,6 @@ export default function Nav() {
                   </Link>
                 </li>
               )}
-              <li>
-                <Link
-                  className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
-                  to="/results"
-                  title="Results"
-                >
-                  <MagnifyingGlass size={32} />
-                  All listings
-                </Link>
-              </li>
               <li>
                 <Link
                   className="flex flex-col items-center text-body-md hover:text-cta-icon-hover no-underline"
@@ -186,6 +186,16 @@ export default function Nav() {
                   </>
                 ) : (
                   <>
+                    <li>
+                      <Link
+                        className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover no-underline"
+                        to="/results"
+                        title="Results"
+                      >
+                        <MagnifyingGlass size={32} />
+                        All listings
+                      </Link>
+                    </li>
                     {user?.venueManager && (
                       <li>
                         <Link
@@ -198,16 +208,6 @@ export default function Nav() {
                         </Link>
                       </li>
                     )}
-                    <li>
-                      <Link
-                        className="flex items-center text-body-md hover:text-cta-icon-hover no-underline"
-                        to="/results"
-                        title="Results"
-                      >
-                        <MagnifyingGlass size={32} />
-                        All listings
-                      </Link>
-                    </li>
                     <li>
                       <Link
                         className="flex items-center gap-2 text-body-md"
