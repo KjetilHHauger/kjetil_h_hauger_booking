@@ -31,7 +31,7 @@ export default function Nav() {
     <header className="py-2 flex items-center justify-between sticky top-0 z-50 bg-white">
       <nav className="flex items-center justify-between w-full text-brand-primary">
         <Link to={"/"}>
-          <div className="text-heading-5 font-bold flex items-center gap-2">
+          <div className="text-heading-5 font-bold flex items-center gap-2 hover:text-cta-icon-hover">
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"

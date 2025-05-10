@@ -16,10 +16,18 @@ export default function Footer() {
       </section>
       <section className="flex-1 flex flex-col py-4 md:py-10 gap-2">
         <h6 className="text-heading-6 font-bold underline">Information</h6>
-        <Link to="/about">About</Link>
-        <Link to="/privacy">Privacy Policy</Link>
-        <Link to="/terms">Terms of Service</Link>
-        <Link to="/faq">FAQ</Link>
+        <Link className="hover:text-cta-icon-hover" to="/about">
+          About
+        </Link>
+        <Link className="hover:text-cta-icon-hover" to="/privacy">
+          Privacy Policy
+        </Link>
+        <Link className="hover:text-cta-icon-hover" to="/terms">
+          Terms of Service
+        </Link>
+        <Link className="hover:text-cta-icon-hover" to="/faq">
+          FAQ
+        </Link>
       </section>
       <section className="flex-1 flex flex-col py-4 md:py-10 gap-2 ">
         <h6 className="text-heading-6 font-bold underline">Social</h6>

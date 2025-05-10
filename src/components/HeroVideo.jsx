@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import heroVideo from "../assets/video/heroLoopVideo.mp4";
+import heroVideo from "../assets/video/heroLoopVideo.webm";
 import heroImage from "../assets/video/heroLoopImage.webp";
 
 export default function HeroVideo({ children }) {

@@ -4,6 +4,7 @@ import useUserStore from "../stores/userStore";
 import { Pencil } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Modal from "../components/Modal";
 
 export default function Profile() {
   const { user, setUser } = useUserStore();
@@ -17,6 +18,8 @@ export default function Profile() {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
   const navigate = useNavigate();
+  const [bookingToCancel, setBookingToCancel] = useState(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   // Fetch user bookings
   useEffect(() => {
@@ -63,7 +66,7 @@ export default function Profile() {
           const res = await fetch(
             `${BASE_URL}/holidaze/profiles/${encodeURIComponent(
               user.name
-            )}/venues`,
+            )}/venues?_bookings=true`,
             { headers: authHeaders }
           );
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -137,11 +140,33 @@ export default function Profile() {
     }
   };
 
+  const confirmCancelBooking = async () => {
+    const id = bookingToCancel;
+    setShowCancelModal(false);
+    try {
+      const res = await fetch(`${BASE_URL}/holidaze/bookings/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          "X-Noroff-API-Key": API_KEY,
+        },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setBookings((bs) => bs.filter((b) => b.id !== id));
+      toast.success("Booking cancelled");
+    } catch (err) {
+      toast.error("Failed to cancel booking");
+      console.error(err);
+    } finally {
+      setBookingToCancel(null);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-full">
       {/* Profile info */}
       <div className="flex-shrink-0 w-full md:w-1/3 text-center md:text-left">
-        <div className="relative w-40 h-40 mx-auto md:mx-0 mb-4 border rounded-full overflow-hidden">
+        <div className="relative w-44 h-44 mx-auto md:mx-0 mb-4 border rounded-full overflow-hidden">
           <img
             src={user.avatar?.url}
             alt={user.name}
@@ -149,7 +174,7 @@ export default function Profile() {
             style={{ objectPosition: "50% 15%" }}
           />
           <button
-            className="absolute bottom-1 right-16 bg-white p-1 rounded-full"
+            className="absolute bottom-1 right-16 bg-white p-1 rounded-full cursor-pointer"
             onClick={() => setIsEditingAvatar((prev) => !prev)}
             aria-label="Edit avatar"
           >
@@ -158,7 +183,7 @@ export default function Profile() {
         </div>
 
         {isEditingAvatar && (
-          <div className="mb-4 text-left space-y-2">
+          <div className="mb-4 text-left space-y-2 w-44">
             <input
               type="url"
               placeholder="Avatar URL"
@@ -173,17 +198,17 @@ export default function Profile() {
               onChange={(e) => setNewAvatarAlt(e.target.value)}
               className="w-full border p-2 rounded"
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-between gap-2">
               <button
                 onClick={() => setIsEditingAvatar(false)}
-                className="px-4 py-2 border rounded"
+                className="px-4 py-2 border rounded cursor-pointer hover:bg-gray-200"
                 disabled={savingAvatar}
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveAvatar}
-                className="px-4 py-2 bg-cta text-white rounded"
+                className="px-4 py-2 bg-cta hover:bg-cta-icon-hover text-white rounded cursor-pointer"
                 disabled={savingAvatar}
               >
                 {savingAvatar ? "Saving..." : "Save"}
@@ -206,10 +231,10 @@ export default function Profile() {
         <div className="flex border-b mb-4">
           <button
             onClick={() => setActiveTab("vacations")}
-            className={`flex-1 py-2 text-center ${
+            className={`flex-1 py-2 text-center  ${
               activeTab === "vacations"
                 ? "border-b-2 border-cta font-bold"
-                : "text-gray-600"
+                : "text-gray-600 cursor-pointer"
             }`}
           >
             Upcoming Vacations
@@ -221,7 +246,7 @@ export default function Profile() {
               className={`flex-1 py-2 text-center ${
                 activeTab === "rentals"
                   ? "border-b-2 border-cta font-bold"
-                  : "text-gray-600"
+                  : "text-gray-600 cursor-pointer"
               }`}
             >
               Your Rentals
@@ -235,19 +260,35 @@ export default function Profile() {
             <div className="flex flex-col gap-4">
               {bookings.length ? (
                 bookings.map((booking) => (
-                  <Link
+                  <div
                     key={booking.id}
-                    to={`/venue/${booking.venue.id}`}
-                    className="block p-4 border rounded hover:bg-gray-50"
+                    className="flex justify-between items-center border rounded p-4"
                   >
-                    <div className="flex justify-between">
-                      <span className="font-medium">{booking.venue.name}</span>
-                      <span className="text-sm text-gray-500">
-                        {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
-                        {new Date(booking.dateTo).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </Link>
+                    <Link
+                      to={`/venue/${booking.venue.id}`}
+                      className="flex-1 hover:underline"
+                    >
+                      <div className="flex justify-between">
+                        <span className="font-medium">
+                          {booking.venue.name}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
+                          {new Date(booking.dateTo).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </Link>
+
+                    <button
+                      onClick={() => {
+                        setBookingToCancel(booking.id);
+                        setShowCancelModal(true);
+                      }}
+                      className="ml-4 text-state-error hover:text-state-error-hover hover:underline cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 ))
               ) : (
                 <p className="text-gray-600">No upcoming vacations.</p>
@@ -255,43 +296,82 @@ export default function Profile() {
             </div>
           )}
 
-          {/* Rentals */}
+          {showCancelModal && (
+            <Modal onClose={() => setShowCancelModal(false)}>
+              <div className="p-6">
+                <h2 className="text-heading-5 mb-4">Cancel Booking?</h2>
+                <p className="mb-6">
+                  Are you sure you want to cancel this booking? This action
+                  cannot be undone.
+                </p>
+                <div className="flex justify-end gap-4">
+                  <button
+                    onClick={() => {
+                      setShowCancelModal(false);
+                      setBookingToCancel(null);
+                    }}
+                    className="px-4 py-2 border rounded hover:bg-gray-200 cursor-pointer"
+                  >
+                    No, keep it
+                  </button>
+                  <button
+                    onClick={confirmCancelBooking}
+                    className="px-4 py-2 bg-state-error hover:bg-state-error-hover text-white rounded cursor-pointer"
+                  >
+                    Yes, cancel
+                  </button>
+                </div>
+              </div>
+            </Modal>
+          )}
+
           {activeTab === "rentals" && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {rentals.length ? (
                 rentals.map((venue) => (
                   <div
                     key={venue.id}
-                    className="flex justify-between items-center border rounded p-4"
+                    className="border rounded p-4 space-y-2 md:flex"
                   >
-                    <Link
-                      to={`/venue/${venue.id}`}
-                      className="font-medium hover:underline"
-                    >
-                      {venue.name}
-                    </Link>
+                    <div className="space-y-2 md:w-full">
+                      <h4 className="font-medium text-lg">{venue.name}</h4>
+                      {venue.bookings?.length ? (
+                        <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                          {venue.bookings.map((b) => (
+                            <li key={b.id}>
+                              Booked:{" "}
+                              <strong>
+                                {new Date(b.dateFrom).toLocaleDateString()} to{" "}
+                                {new Date(b.dateTo).toLocaleDateString()}
+                              </strong>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-sm text-gray-500">
+                          No current bookings
+                        </p>
+                      )}
+                    </div>
 
-                    <div className="flex gap-4">
-                      {/* Edit */}
+                    <div className="flex md:flex-col gap-4 justify-between md:justify-center w-32">
                       <button
                         onClick={() => navigate(`/venue/${venue.id}/edit`)}
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 hover:underline cursor-pointer"
                       >
-                        Edit
+                        Edit venue
                       </button>
-
-                      {/* Delete */}
                       <button
                         onClick={() => handleDelete(venue.id)}
-                        className="text-red-600 hover:underline"
+                        className="text-red-600 hover:underline cursor-pointer"
                       >
-                        Delete
+                        Delete venue
                       </button>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="text-gray-600">No rentals to manage.</p>
+                <p className="text-gray-600">No rentals yet</p>
               )}
             </div>
           )}
