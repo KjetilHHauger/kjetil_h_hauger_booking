@@ -123,10 +123,14 @@ export default function VenuePage() {
             ]}
           />
           {hasValidSelection && (
-            <p className="mt-2 text-sm text-green-700">
-              You selected {startDate.toDateString()} to{" "}
-              {endDate.toDateString()}
-            </p>
+            <div className="flex flex-col items-center">
+              <p className="mt-2 text-sm text-brand-primary">
+                You have selected
+              </p>
+              <p className="mt-2 text-sm text-green-700">
+                {startDate.toDateString()} to {endDate.toDateString()}
+              </p>
+            </div>
           )}
           <button
             className="cursor-pointer"
