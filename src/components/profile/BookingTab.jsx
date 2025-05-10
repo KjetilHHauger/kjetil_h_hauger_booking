@@ -16,7 +16,7 @@ export default function BookingTab({ bookings, onCancel }) {
             <div className="flex flex-col md:flex-row justify-between">
               <span className="font-medium break-all">{b.venue.name}</span>
               <span className="text-sm text-gray-500">
-                {new Date(b.dateFrom).toLocaleDateString()} –{" "}
+                {new Date(b.dateFrom).toLocaleDateString()} -{" "}
                 {new Date(b.dateTo).toLocaleDateString()}
               </span>
             </div>
