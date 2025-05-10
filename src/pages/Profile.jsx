@@ -66,7 +66,7 @@ export default function Profile() {
           const res = await fetch(
             `${BASE_URL}/holidaze/profiles/${encodeURIComponent(
               user.name
-            )}/venues`,
+            )}/venues?_bookings=true`,
             { headers: authHeaders }
           );
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -166,7 +166,7 @@ export default function Profile() {
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8 h-full">
       {/* Profile info */}
       <div className="flex-shrink-0 w-full md:w-1/3 text-center md:text-left">
-        <div className="relative w-40 h-40 mx-auto md:mx-0 mb-4 border rounded-full overflow-hidden">
+        <div className="relative w-44 h-44 mx-auto md:mx-0 mb-4 border rounded-full overflow-hidden">
           <img
             src={user.avatar?.url}
             alt={user.name}
@@ -183,7 +183,7 @@ export default function Profile() {
         </div>
 
         {isEditingAvatar && (
-          <div className="mb-4 text-left space-y-2">
+          <div className="mb-4 text-left space-y-2 w-44">
             <input
               type="url"
               placeholder="Avatar URL"
@@ -198,7 +198,7 @@ export default function Profile() {
               onChange={(e) => setNewAvatarAlt(e.target.value)}
               className="w-full border p-2 rounded"
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-between gap-2">
               <button
                 onClick={() => setIsEditingAvatar(false)}
                 className="px-4 py-2 border rounded cursor-pointer hover:bg-gray-200"
@@ -326,38 +326,52 @@ export default function Profile() {
           )}
 
           {activeTab === "rentals" && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {rentals.length ? (
                 rentals.map((venue) => (
                   <div
                     key={venue.id}
-                    className="flex justify-between items-center border rounded p-4"
+                    className="border rounded p-4 space-y-2 md:flex"
                   >
-                    <Link
-                      to={`/venue/${venue.id}`}
-                      className="font-medium hover:underline"
-                    >
-                      {venue.name}
-                    </Link>
+                    <div className="space-y-2 md:w-full">
+                      <h4 className="font-medium text-lg">{venue.name}</h4>
+                      {venue.bookings?.length ? (
+                        <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                          {venue.bookings.map((b) => (
+                            <li key={b.id}>
+                              Booked:{" "}
+                              <strong>
+                                {new Date(b.dateFrom).toLocaleDateString()} to{" "}
+                                {new Date(b.dateTo).toLocaleDateString()}
+                              </strong>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-sm text-gray-500">
+                          No current bookings
+                        </p>
+                      )}
+                    </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex md:flex-col gap-4 justify-between md:justify-center w-32">
                       <button
                         onClick={() => navigate(`/venue/${venue.id}/edit`)}
                         className="text-blue-600 hover:underline cursor-pointer"
                       >
-                        Edit
+                        Edit venue
                       </button>
                       <button
                         onClick={() => handleDelete(venue.id)}
                         className="text-red-600 hover:underline cursor-pointer"
                       >
-                        Delete
+                        Delete venue
                       </button>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="text-gray-600">No rentals to manage.</p>
+                <p className="text-gray-600">No rentals yet</p>
               )}
             </div>
           )}
