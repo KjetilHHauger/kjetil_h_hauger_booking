@@ -25,6 +25,9 @@ export default function AvatarEdit({ avatar, onSave }) {
 
   return (
     <div className="mb-4 space-y-2 w-44">
+      <div className=" max-w-52 w-44 h-44 border rounded-full overflow-hidden">
+        <img src={url} alt={alt} className="w-full h-full object-cover" />
+      </div>
       <input
         type="url"
         value={url}
@@ -38,7 +41,10 @@ export default function AvatarEdit({ avatar, onSave }) {
         className="w-full border p-2 rounded"
       />
       <div className="flex justify-between gap-2">
-        <button onClick={() => setIsEditing(false)} className="btn-outline">
+        <button
+          onClick={() => setIsEditing(false)}
+          className=" hover:bg-gray-200 text-brand-primary px-4 py-2 rounded cursor-pointer"
+        >
           Cancel
         </button>
         <button
@@ -46,7 +52,7 @@ export default function AvatarEdit({ avatar, onSave }) {
             onSave({ url, alt });
             setIsEditing(false);
           }}
-          className="btn-primary"
+          className="bg-brand-primary hover:bg-brand-primary-hover text-white px-4 py-2 rounded cursor-pointer"
         >
           Save
         </button>
