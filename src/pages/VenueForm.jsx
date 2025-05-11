@@ -3,21 +3,11 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import useUserStore from "../stores/userStore";
 import MetaIcons from "../components/MetaIcons";
-import {
-  WifiHigh,
-  LetterCircleP,
-  PawPrint,
-  ForkKnife,
-  Plus,
-} from "@phosphor-icons/react";
 import VenueGallery from "../components/VenueGallery";
-
-const metaConfig = [
-  { icon: WifiHigh, key: "wifi", label: "Wi-Fi" },
-  { icon: LetterCircleP, key: "parking", label: "Parking" },
-  { icon: PawPrint, key: "pets", label: "Pets" },
-  { icon: ForkKnife, key: "breakfast", label: "Breakfast" },
-];
+import DetailsTab from "../components/venueForm/DetailsTab";
+import AmenitiesTab from "../components/venueForm/AmenitiesTab";
+import LocationTab from "../components/venueForm/LocationTab";
+import MediaTab from "../components/venueForm/MediaTab";
 
 export default function VenueForm() {
   const { id } = useParams();
@@ -175,6 +165,9 @@ export default function VenueForm() {
     .slice(0, 8)
     .map((url) => ({ url, alt: form.title }));
 
+  const handleFieldChange = (field, value) =>
+    setForm((f) => ({ ...f, [field]: value }));
+
   const placeholder =
     "Tell us about your venue! What makes it special? What can guests expect?";
 
@@ -211,160 +204,32 @@ export default function VenueForm() {
           </div>
 
           {activeTab === "details" && (
-            <>
-              <div>
-                <label className="block mb-1">Title *</label>
-                <input
-                  name="title"
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Description *</label>
-                <textarea
-                  name="description"
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm({ ...form, description: e.target.value })
-                  }
-                  required
-                  className="border p-2 rounded w-full h-32"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Price (max 10000) *</label>
-                <input
-                  name="price"
-                  type="number"
-                  min="0"
-                  max="10000"
-                  value={form.price}
-                  onChange={(e) => setForm({ ...form, price: e.target.value })}
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Max guests (max 100) *</label>
-                <input
-                  name="maxGuests"
-                  type="number"
-                  min="1"
-                  max="100"
-                  value={form.maxGuests}
-                  onChange={(e) =>
-                    setForm({ ...form, maxGuests: e.target.value })
-                  }
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-            </>
+            <DetailsTab form={form} onChange={handleFieldChange} />
           )}
 
           {activeTab === "location" && (
-            <>
-              <div>
-                <label className="block mb-1">Address *</label>
-                <input
-                  name="address"
-                  value={form.address}
-                  onChange={(e) =>
-                    setForm({ ...form, address: e.target.value })
-                  }
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">City *</label>
-                <input
-                  name="city"
-                  value={form.city}
-                  onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Country *</label>
-                <input
-                  name="country"
-                  value={form.country}
-                  onChange={(e) =>
-                    setForm({ ...form, country: e.target.value })
-                  }
-                  required
-                  className="border p-2 rounded w-full"
-                />
-              </div>
-            </>
+            <LocationTab
+              form={form}
+              onChange={(field, value) =>
+                setForm((f) => ({ ...f, [field]: value }))
+              }
+            />
           )}
 
           {activeTab === "amenities" && (
-            <>
-              <div>
-                <label className="block mb-1">Amenities</label>
-                <div className="flex gap-4">
-                  {metaConfig.map(({ icon: Icon, key, label }) => (
-                    <label key={key} className="flex items-center gap-1">
-                      <input
-                        type="checkbox"
-                        checked={form.meta[key]}
-                        onChange={(e) =>
-                          setForm({
-                            ...form,
-                            meta: { ...form.meta, [key]: e.target.checked },
-                          })
-                        }
-                        className="form-checkbox"
-                      />
-                      <Icon size={24} weight="bold" title={label} />
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </>
+            <AmenitiesTab
+              meta={form.meta}
+              onChange={(newMeta) => setForm((f) => ({ ...f, meta: newMeta }))}
+            />
           )}
 
           {activeTab === "media" && (
-            <div>
-              <label className="block mb-1">Image URLs (max 8)</label>
-              <div className="space-y-2">
-                {form.mediaUrls.map((url, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
-                    <input
-                      type="url"
-                      value={url}
-                      placeholder={`Image URL`}
-                      onChange={(e) => updateMediaUrl(idx, e.target.value)}
-                      className="flex-1 border p-2 rounded"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeMediaField(idx)}
-                      className="text-state-error hover:text-state-error-hover cursor-pointer font-bold"
-                      title="Remove this image"
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-
-                {form.mediaUrls.length < 8 && (
-                  <button
-                    type="button"
-                    onClick={addMediaField}
-                    className="flex items-center gap-1 text-brand-primary hover:underline"
-                  >
-                    <Plus size={20} /> Add photo
-                  </button>
-                )}
-              </div>
-            </div>
+            <MediaTab
+              mediaUrls={form.mediaUrls}
+              onAddField={addMediaField}
+              onRemoveField={removeMediaField}
+              onUpdateField={updateMediaUrl}
+            />
           )}
 
           {!showPreview && (
