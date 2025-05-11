@@ -1,4 +1,4 @@
-import Blog from "../components/blog";
+import Blog from "../components/Blog";
 import HeroVideo from "../components/HeroVideo";
 import SearchForm from "../components/SearchForm";
 import { Link } from "react-router-dom";
