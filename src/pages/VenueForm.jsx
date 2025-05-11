@@ -34,7 +34,7 @@ export default function VenueForm() {
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
-    if (!isEdit) return;
+    if (!isEdit || !user?.accessToken) return;
     (async () => {
       try {
         const res = await fetch(
@@ -65,7 +65,7 @@ export default function VenueForm() {
         toast.error("Failed to load venue");
       }
     })();
-  }, [id]);
+  }, [id, user?.accessToken]);
 
   const buildHeaders = () => {
     const h = {
