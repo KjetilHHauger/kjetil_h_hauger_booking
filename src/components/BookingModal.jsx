@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function BookingModal({ onClose, venue, startDate, endDate }) {
   const [guests, setGuests] = useState(1);
@@ -10,6 +11,7 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
     (endDate.getTime() - startDate.getTime()) / msPerDay
   );
   const totalPrice = nights * venue.price;
+  const navigate = useNavigate();
 
   const handleBooking = async () => {
     setIsSubmitting(true);
@@ -52,8 +54,9 @@ export default function BookingModal({ onClose, venue, startDate, endDate }) {
 
       toast.success("Booking confirmed!");
       onClose();
+      navigate("/profile");
     } catch (err) {
-      toast.error(err.message);
+      toast.error("Could not make booking");
     } finally {
       setLoading(false);
     }
