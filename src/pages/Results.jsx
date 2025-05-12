@@ -17,8 +17,12 @@ export default function Results() {
 
   const location = searchParams.get("location")?.toLowerCase() || "";
   const guests = parseInt(searchParams.get("guests"), 10) || 1;
-  const checkIn = searchParams.get("checkIn");
-  const checkOut = searchParams.get("checkOut");
+  const defaultCheckIn = searchParams.get("checkIn")
+    ? new Date(searchParams.get("checkIn"))
+    : null;
+  const defaultCheckOut = searchParams.get("checkOut")
+    ? new Date(searchParams.get("checkOut"))
+    : null;
 
   const [filters, setFilters] = useState({
     wifi: false,
@@ -38,7 +42,7 @@ export default function Results() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [filters, location, guests, checkIn, checkOut]);
+  }, [filters, location, guests, defaultCheckIn, defaultCheckOut]);
 
   const fuse = new Fuse(venues, {
     keys: ["location.city", "location.country", "location.continent"],
@@ -50,8 +54,8 @@ export default function Results() {
     : venues;
 
   const dateRangeOverlaps = (booking) => {
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
+    const checkInDate = new Date(defaultCheckIn);
+    const checkOutDate = new Date(defaultCheckOut);
     const bookingStart = new Date(booking.dateFrom);
     const bookingEnd = new Date(booking.dateTo);
 
@@ -62,7 +66,9 @@ export default function Results() {
     .filter((venue) => {
       const fitsGuests = venue.maxGuests >= guests;
       const availableDates =
-        !checkIn || !checkOut ? true : !venue.bookings?.some(dateRangeOverlaps);
+        !defaultCheckIn || !defaultCheckOut
+          ? true
+          : !venue.bookings?.some(dateRangeOverlaps);
 
       const passesFilter = filterOptions.every(
         ({ key }) => !filters[key] || venue.meta?.[key]
@@ -129,8 +135,8 @@ export default function Results() {
           <SearchForm
             defaultLocation={location}
             defaultGuests={guests}
-            defaultCheckIn={checkIn}
-            defaultCheckOut={checkOut}
+            defaultCheckIn={defaultCheckIn}
+            defaultCheckOut={defaultCheckOut}
           />
         </div>
 
