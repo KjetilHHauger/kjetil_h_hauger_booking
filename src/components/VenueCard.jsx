@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import MetaIcons from "../components/MetaIcons";
 import brokenImage from "../assets/brokenImage.png";
 
@@ -13,6 +13,7 @@ export default function VenueCard({ venue }) {
   const originalImage = getValidImage(venue.media);
   const [imgSrc, setImgSrc] = useState(originalImage || fallback);
   const [isBroken, setIsBroken] = useState(!originalImage);
+  const [searchParams] = useSearchParams();
 
   const handleImageError = () => {
     setImgSrc(fallback);
@@ -21,8 +22,8 @@ export default function VenueCard({ venue }) {
 
   return (
     <Link
-      to={`/venue/${venue.id}`}
-      className="block hover:opacity-90 transition"
+      to={`/venue/${venue.id}?${searchParams.toString()}`}
+      className="block p-4 border rounded hover:bg-gray-50"
     >
       <div className="py-4 rounded-lg flex flex-col">
         <img
