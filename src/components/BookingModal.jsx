@@ -2,8 +2,14 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-export default function BookingModal({ onClose, venue, startDate, endDate }) {
-  const [guests, setGuests] = useState(1);
+export default function BookingModal({
+  onClose,
+  venue,
+  startDate,
+  endDate,
+  guests: initialGuests,
+}) {
+  const [guests, setGuests] = useState(initialGuests);
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const msPerDay = 1000 * 60 * 60 * 24;

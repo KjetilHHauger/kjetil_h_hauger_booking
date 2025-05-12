@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,17 +7,24 @@ import useUserStore from "../stores/userStore";
 import Modal from "../components/Modal";
 import BookingModal from "../components/BookingModal";
 import LoginModal from "../components/LoginModal";
-import { Link } from "react-router-dom";
+import { useParams, useSearchParams, Link } from "react-router-dom";
 
 export default function VenuePage() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const { user } = useUserStore();
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [startDate, setStartDate] = useState(
+    searchParams.get("checkIn") ? new Date(searchParams.get("checkIn")) : null
+  );
+  const [endDate, setEndDate] = useState(
+    searchParams.get("checkOut") ? new Date(searchParams.get("checkOut")) : null
+  );
+  const initialGuests = parseInt(searchParams.get("guests"), 10) || 1;
+  const [guests, setGuests] = useState(initialGuests);
 
   useEffect(() => {
     const fetchVenue = async () => {
@@ -85,7 +91,9 @@ export default function VenuePage() {
 
   return (
     <div className="max-w-7xl mt-10 mx-auto px-8 sm:px-10 md:px-20">
-      <Link to={"/results"}>Back to all listings</Link>
+      <Link to={`/results?${searchParams.toString()}`}>
+        Back to all listings
+      </Link>
 
       <h1 className="text-heading-3 font-bold mb-4 text-font-primary truncate">
         {venue.name}
@@ -110,8 +118,11 @@ export default function VenuePage() {
         <div className=" flex flex-col items-center gap-2">
           <DatePicker
             selected={startDate}
-            onChange={handleDateChange}
-            minDate={new Date()}
+            onChange={(dates) => {
+              const [s, e] = dates;
+              setStartDate(s === e ? null : s);
+              setEndDate(e === s ? null : e);
+            }}
             startDate={startDate}
             endDate={endDate}
             selectsRange
@@ -168,6 +179,7 @@ export default function VenuePage() {
               venue={venue}
               startDate={startDate}
               endDate={endDate}
+              guests={guests}
               onClose={() => setShowBookingModal(false)}
             />
           </Modal>
