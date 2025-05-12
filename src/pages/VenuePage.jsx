@@ -7,6 +7,7 @@ import VenueGallery from "../components/VenueGallery";
 import useUserStore from "../stores/userStore";
 import Modal from "../components/Modal";
 import BookingModal from "../components/BookingModal";
+import LoginModal from "../components/LoginModal";
 import { Link } from "react-router-dom";
 
 export default function VenuePage() {
@@ -17,6 +18,7 @@ export default function VenuePage() {
   const [endDate, setEndDate] = useState(null);
   const { user } = useUserStore();
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     const fetchVenue = async () => {
@@ -105,7 +107,6 @@ export default function VenuePage() {
           <h2>Facilities</h2>
           <MetaIcons meta={venue.meta} size={32} />
         </div>
-
         <div className=" flex flex-col items-center gap-2">
           <DatePicker
             selected={startDate}
@@ -147,14 +148,19 @@ export default function VenuePage() {
             <div className="mt-4">
               <button
                 className="bg-cta hover:bg-cta-hover text-white px-4 py-2 rounded cursor-pointer"
-                onClick={() => setShowBookingModal(true)}
+                onClick={() => {
+                  if (user) {
+                    setShowBookingModal(true);
+                  } else {
+                    setShowLoginModal(true);
+                  }
+                }}
               >
                 Book Now
               </button>
             </div>
           )}
         </div>
-
         {/* Booking Modal */}
         {showBookingModal && (
           <Modal onClose={() => setShowBookingModal(false)}>
@@ -164,6 +170,16 @@ export default function VenuePage() {
               endDate={endDate}
               onClose={() => setShowBookingModal(false)}
             />
+          </Modal>
+        )}
+        {showLoginModal && (
+          <Modal onClose={() => setShowLoginModal(false)}>
+            <div className="p-6 space-y-4">
+              <p className="text-state-error text-center">
+                You must be logged in to make a booking.
+              </p>
+              <LoginModal onClose={() => setShowLoginModal(false)} />
+            </div>
           </Modal>
         )}
       </section>
