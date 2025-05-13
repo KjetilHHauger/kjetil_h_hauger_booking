@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 export function useVenues() {
   const [venues, setVenues] = useState([]);
@@ -9,33 +9,33 @@ export function useVenues() {
   useEffect(() => {
     let isMounted = true;
 
-    const fetchAllVenues = async () => {
+    (async function fetchAll() {
       try {
         let page = 1;
-        let allVenues = [];
-        let isLastPage = false;
+        let all = [];
+        let last = false;
 
-        while (!isLastPage) {
+        while (!last) {
           const res = await fetch(
             `${BASE_URL}/holidaze/venues?page=${page}&limit=100&_bookings=true`
           );
           if (!res.ok) throw new Error(`Page ${page} failed: ${res.status}`);
           const { data, meta } = await res.json();
-
-          allVenues = [...allVenues, ...data];
-          isLastPage = meta.isLastPage;
+          all = all.concat(data);
+          last = meta.isLastPage;
           page++;
         }
-
-        if (isMounted) setVenues(allVenues);
+        if (isMounted) setVenues(all);
       } catch (err) {
-        if (isMounted) setError(err);
+        console.error("venue fetch failed:", err);
+        if (isMounted) {
+          setError(err);
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
-    };
+    })();
 
-    fetchAllVenues();
     return () => {
       isMounted = false;
     };
