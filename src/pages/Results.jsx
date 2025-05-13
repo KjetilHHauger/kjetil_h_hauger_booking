@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import Fuse from "fuse.js";
 import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
@@ -7,9 +7,10 @@ import Pagination from "../components/Pagination";
 import FilterAside from "../components/FilterAside";
 import SearchForm from "../components/SearchForm";
 import { CaretDown, CaretUp } from "@phosphor-icons/react";
+import VenuesContext from "../context/VenuesContext";
 
 export default function Results() {
-  const { venues, loading, error } = useVenues();
+  const { venues, loading, error } = useContext(VenuesContext);
   const [searchParams] = useSearchParams();
   const itemsPerPage = 24;
   const [currentPage, setCurrentPage] = useState(1);
