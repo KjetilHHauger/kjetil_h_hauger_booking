@@ -65,7 +65,7 @@ export default function VenueForm() {
         toast.error("Failed to load venue");
       }
     })();
-  }, [id, user?.accessToken]);
+  }, [id, user?.accessToken, API_KEY, BASE_URL, isEdit]);
 
   const buildHeaders = () => {
     const h = {

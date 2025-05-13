@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
 import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
@@ -17,12 +17,16 @@ export default function Results() {
 
   const location = searchParams.get("location")?.toLowerCase() || "";
   const guests = parseInt(searchParams.get("guests"), 10) || 1;
-  const defaultCheckIn = searchParams.get("checkIn")
-    ? new Date(searchParams.get("checkIn"))
-    : null;
-  const defaultCheckOut = searchParams.get("checkOut")
-    ? new Date(searchParams.get("checkOut"))
-    : null;
+  const defaultCheckIn = useMemo(() => {
+    return searchParams.get("checkIn")
+      ? new Date(searchParams.get("checkIn"))
+      : null;
+  }, [searchParams]);
+  const defaultCheckOut = useMemo(() => {
+    return searchParams.get("checkOut")
+      ? new Date(searchParams.get("checkOut"))
+      : null;
+  }, [searchParams]);
 
   const [filters, setFilters] = useState({
     wifi: false,
