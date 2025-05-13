@@ -15,9 +15,9 @@ export default function VenueGallery({ media }) {
   if (!media?.length) return null;
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 w-full">
       {/* Main image */}
-      <div className="relative mb-2">
+      <div className="relative mb-2 w-full">
         <img
           src={media[index].url}
           alt={media[index].alt || `Image ${index + 1}`}
