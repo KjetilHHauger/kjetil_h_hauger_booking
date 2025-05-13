@@ -24,7 +24,7 @@ export default function VenuePage() {
     searchParams.get("checkOut") ? new Date(searchParams.get("checkOut")) : null
   );
   const initialGuests = parseInt(searchParams.get("guests"), 10) || 1;
-  const [guests, setGuests] = useState(initialGuests);
+  const [guests] = useState(initialGuests);
 
   useEffect(() => {
     const fetchVenue = async () => {
@@ -71,18 +71,6 @@ export default function VenuePage() {
 
       return range;
     }) || [];
-
-  const handleDateChange = (dates) => {
-    const [start, end] = dates;
-
-    if (start && end && start.getTime() === end.getTime()) {
-      setStartDate(null);
-      setEndDate(null);
-    } else {
-      setStartDate(start);
-      setEndDate(end);
-    }
-  };
 
   const hasValidSelection = startDate && endDate;
 

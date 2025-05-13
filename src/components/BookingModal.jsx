@@ -11,7 +11,7 @@ export default function BookingModal({
 }) {
   const [guests, setGuests] = useState(initialGuests);
   const [loading, setLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [setIsSubmitting] = useState(false);
   const msPerDay = 1000 * 60 * 60 * 24;
   const nights = Math.ceil(
     (endDate.getTime() - startDate.getTime()) / msPerDay
@@ -61,7 +61,7 @@ export default function BookingModal({
       toast.success("Booking confirmed!");
       onClose();
       navigate("/profile");
-    } catch (err) {
+    } catch {
       toast.error("Could not make booking");
     } finally {
       setLoading(false);
