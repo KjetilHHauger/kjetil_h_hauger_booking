@@ -145,7 +145,6 @@ export default function Results() {
           />
         </div>
 
-        <h1 className="text-heading-3 mb-4">Search Results</h1>
         <p className="text-body-sm mb-6">
           Found {filteredVenues.length} result
           {filteredVenues.length !== 1 ? "s" : ""}
