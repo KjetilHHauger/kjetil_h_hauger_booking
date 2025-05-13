@@ -78,7 +78,7 @@ export default function VenuePage() {
   if (!venue) return <p>Venue not found</p>;
 
   return (
-    <div className="max-w-7xl mt-10 mx-auto px-8 sm:px-10 md:px-20">
+    <div className="max-w-7xl mt-10 mx-auto px-2 md:px-20">
       <Link to={`/results?${searchParams.toString()}`}>
         Back to all listings
       </Link>
