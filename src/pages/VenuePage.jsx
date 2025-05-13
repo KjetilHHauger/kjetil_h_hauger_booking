@@ -86,24 +86,25 @@ export default function VenuePage() {
       <h1 className="text-heading-3 font-bold mb-4 text-font-primary truncate">
         {venue.name}
       </h1>
+      <section className="flex flex-col md:flex-row gap-8 justify-between">
+        <section className="w-full">
+          <VenueGallery media={venue.media} />
+          <div>
+            <p className="mb-4 break-words line-clamp-6 max-w-xl">
+              {venue.description}
+            </p>
+            <p className="mb-2 font-medium">Price: {venue.price} / night</p>
+            <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
+            <p className="mb-2 font-medium">
+              Location: {venue.location?.address}, {venue.location?.city},{" "}
+              {venue.location?.country}
+            </p>
+            <h2>Facilities</h2>
+            <MetaIcons meta={venue.meta} size={32} />
+          </div>
+        </section>
 
-      <VenueGallery media={venue.media} />
-
-      <section className=" flex justify-between md:flex-row flex-col gap-8 mt-8">
-        <div>
-          <p className="mb-4 break-words line-clamp-6 max-w-xl">
-            {venue.description}
-          </p>
-          <p className="mb-2 font-medium">Price: {venue.price} / night</p>
-          <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
-          <p className="mb-2 font-medium">
-            Location: {venue.location?.address}, {venue.location?.city},{" "}
-            {venue.location?.country}
-          </p>
-          <h2>Facilities</h2>
-          <MetaIcons meta={venue.meta} size={32} />
-        </div>
-        <div className=" flex flex-col items-center gap-2">
+        <section className="flex flex-col gap-4 items-center">
           <DatePicker
             selected={startDate}
             onChange={(dates) => {
@@ -113,6 +114,7 @@ export default function VenuePage() {
             }}
             startDate={startDate}
             endDate={endDate}
+            minDate={new Date()}
             selectsRange
             inline
             excludeDates={bookedDates}
@@ -121,45 +123,51 @@ export default function VenuePage() {
                 "react-datepicker__day--highlighted-custom": bookedDates,
               },
             ]}
+            calendarClassName="h-72 w-[242px]"
           />
-          {hasValidSelection && (
-            <div className="flex flex-col items-center">
-              <p className="mt-2 text-sm text-brand-primary">
-                You have selected
-              </p>
-              <p className="mt-2 text-sm text-green-700">
-                {startDate.toDateString()} to {endDate.toDateString()}
-              </p>
-            </div>
-          )}
-          <button
-            className="cursor-pointer"
-            title="Clear dates"
-            onClick={() => {
-              setStartDate(null);
-              setEndDate(null);
-            }}
-          >
-            Clear dates
-          </button>
+          <div className=" flex flex-col items-center gap-2 ">
+            {hasValidSelection && (
+              <div className="flex flex-col items-center">
+                <p className="mt-2 text-sm text-brand-primary">
+                  You have selected
+                </p>
+                <p className="mt-2 text-sm text-green-700">
+                  {startDate.toDateString()} to {endDate.toDateString()}
+                </p>
+              </div>
+            )}
+            <button
+              className="cursor-pointer"
+              title="Clear dates"
+              onClick={() => {
+                setStartDate(null);
+                setEndDate(null);
+              }}
+            >
+              Clear dates
+            </button>
 
-          {hasValidSelection && (
-            <div className="mt-4">
-              <button
-                className="bg-cta hover:bg-cta-hover text-white px-4 py-2 rounded cursor-pointer"
-                onClick={() => {
-                  if (user) {
-                    setShowBookingModal(true);
-                  } else {
-                    setShowLoginModal(true);
-                  }
-                }}
-              >
-                Book Now
-              </button>
-            </div>
-          )}
-        </div>
+            {hasValidSelection && (
+              <div className="mt-4">
+                <button
+                  className="bg-cta hover:bg-cta-hover text-white px-4 py-2 rounded cursor-pointer"
+                  onClick={() => {
+                    if (user) {
+                      setShowBookingModal(true);
+                    } else {
+                      setShowLoginModal(true);
+                    }
+                  }}
+                >
+                  Book Now
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+      </section>
+
+      <section className=" flex justify-between md:flex-row flex-col gap-8 mt-8">
         {/* Booking Modal */}
         {showBookingModal && (
           <Modal onClose={() => setShowBookingModal(false)}>

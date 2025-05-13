@@ -23,7 +23,7 @@ export default function VenueCard({ venue }) {
   return (
     <Link
       to={`/venue/${venue.id}?${searchParams.toString()}`}
-      className="block p-4 border rounded hover:bg-gray-50"
+      className="block p-4 border border-brand-primary/10 rounded hover:bg-gray-50"
     >
       <div className="py-4 rounded-lg flex flex-col">
         <img

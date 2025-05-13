@@ -110,7 +110,7 @@ export default function Results() {
         <div className="md:hidden mt-6 px-2">
           <button
             onClick={() => setShowFilters((prev) => !prev)}
-            className="flex justify-between items-center gap-2 text-sm font-medium bg-brand-primary text-white px-4 py-2 rounded w-full cursor-pointer"
+            className="flex justify-between items-center gap-2 text-sm font-medium border border-brand-primary text-font-headline px-4 py-2 rounded w-full cursor-pointer"
             title="Toggle Filters"
           >
             {showFilters ? "Hide Filters" : "Show Filters"}
@@ -135,7 +135,7 @@ export default function Results() {
         </div>
       </aside>
 
-      <section className="flex-1">
+      <section className="flex-1 md:mt-20">
         <div className="mb-8">
           <SearchForm
             defaultLocation={location}
@@ -144,12 +144,6 @@ export default function Results() {
             defaultCheckOut={defaultCheckOut}
           />
         </div>
-
-        <h1 className="text-heading-3 mb-4">Search Results</h1>
-        <p className="text-body-sm mb-6">
-          Found {filteredVenues.length} result
-          {filteredVenues.length !== 1 ? "s" : ""}
-        </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {paginatedVenues.map((venue, index) => (
