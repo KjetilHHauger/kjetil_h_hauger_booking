@@ -80,7 +80,7 @@ export default function Blog({ username }) {
 
       <ul
         ref={listRef}
-        className="flex gap-4 overflow-x-auto no-scrollbar touch-pan-x md:overflow-hidden"
+        className="flex gap-4 overflow-x-auto no-scrollbar md:overflow-hidden"
       >
         {posts.map((p) => {
           const { id, title, media, created } = p;
