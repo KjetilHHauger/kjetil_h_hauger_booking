@@ -11,7 +11,7 @@ export default function BookingModal({
 }) {
   const [guests, setGuests] = useState(initialGuests);
   const [loading, setLoading] = useState(false);
-  const [setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const msPerDay = 1000 * 60 * 60 * 24;
   const nights = Math.ceil(
     (endDate.getTime() - startDate.getTime()) / msPerDay
@@ -65,6 +65,7 @@ export default function BookingModal({
       toast.error("Could not make booking");
     } finally {
       setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -111,7 +112,7 @@ export default function BookingModal({
         </button>
         <button
           onClick={handleBooking}
-          disabled={loading}
+          disabled={loading || isSubmitting}
           className="px-4 py-2 rounded bg-cta text-white hover:bg-cta-hover cursor-pointer"
         >
           {loading ? "Booking..." : "Confirm"}
