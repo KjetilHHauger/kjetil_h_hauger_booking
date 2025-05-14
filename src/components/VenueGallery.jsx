@@ -3,6 +3,10 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 export default function VenueGallery({ media }) {
   const [index, setIndex] = useState(0);
+  const items =
+    media.length > 0
+      ? media
+      : [{ url: "/assets/brokenImage.png", alt: "No image available" }];
 
   const nextImage = () => {
     setIndex((prev) => (prev + 1) % media.length);
@@ -12,16 +16,18 @@ export default function VenueGallery({ media }) {
     setIndex((prev) => (prev - 1 + media.length) % media.length);
   };
 
-  if (!media?.length) return null;
-
   return (
     <div className="mb-6 w-full">
       {/* Main image */}
       <div className="relative mb-2 w-full">
         <img
-          src={media[index].url}
-          alt={media[index].alt || `Image ${index + 1}`}
-          className="w-full h-72 object-cover rounded"
+          src={items[index].url}
+          alt={items[index].alt || `Image ${index + 1}`}
+          className="w-full h-72 object-contain rounded"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/assets/brokenImage.png";
+          }}
         />
         {media.length > 1 && (
           <>
