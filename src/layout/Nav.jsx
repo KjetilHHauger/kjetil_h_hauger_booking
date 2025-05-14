@@ -143,8 +143,14 @@ export default function Nav() {
 
         {/* Mobile menu links */}
         {menuOpen && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
-            <div className="bg-white w-64 p-4 flex-col">
+          <div
+            className="fixed inset-0 bg-black/50 z-50 flex justify-end"
+            onClick={() => setMenuOpen(false)}
+          >
+            <div
+              className="bg-white w-64 p-4 flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
               <button onClick={() => setMenuOpen(false)} className="mb-4">
                 <X size={24} />
               </button>
