@@ -45,7 +45,7 @@ export default function VenueGallery({ media }) {
       </div>
 
       {/* Thumbnail */}
-      <div className="flex gap-2 overflow-x-auto">
+      <div className="flex gap-2 overflow-x-auto justify-between md:justify-start">
         {media.map((img, i) => (
           <button
             key={i}
