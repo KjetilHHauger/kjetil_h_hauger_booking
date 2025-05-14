@@ -87,9 +87,11 @@ export default function BookingModal({
         Total: <span className="text-cta">${totalPrice.toFixed(2)}</span>
       </p>
 
-      <label className="block mb-4">
-        <span className="block mb-1 font-medium">Guests</span>
+      <label htmlFor="guests" className="block mb-4">
+        Guests
         <input
+          id="guests"
+          name="guests"
           type="number"
           min={1}
           max={venue.maxGuests}

@@ -8,6 +8,7 @@ import Modal from "../components/Modal";
 import BookingModal from "../components/BookingModal";
 import LoginModal from "../components/LoginModal";
 import { useParams, useSearchParams, Link } from "react-router-dom";
+import { ArrowLeft } from "@phosphor-icons/react";
 
 export default function VenuePage() {
   const { id } = useParams();
@@ -79,8 +80,11 @@ export default function VenuePage() {
 
   return (
     <div className="max-w-7xl mt-10 mx-auto px-2 md:px-20">
-      <Link to={`/results?${searchParams.toString()}`}>
-        Back to all listings
+      <Link
+        to={`/results?${searchParams.toString()}`}
+        className="hover:text-cta-icon-hover flex items-center gap-2 mb-4"
+      >
+        <ArrowLeft size={20} /> Back to all listings
       </Link>
 
       <h1 className="text-heading-3 font-bold mb-4 text-font-primary truncate">
@@ -128,29 +132,23 @@ export default function VenuePage() {
           <div className=" flex flex-col items-center gap-2 ">
             {hasValidSelection && (
               <div className="flex flex-col items-center">
-                <p className="mt-2 text-sm text-brand-primary">
+                <p className="mt-2 text-sm font-bold text-brand-primary">
                   You have selected
                 </p>
                 <p className="mt-2 text-sm text-green-700">
-                  {startDate.toDateString()} to {endDate.toDateString()}
+                  {startDate.toDateString()}
+                </p>
+                <p className="text-sm text-green-700">to</p>
+                <p className="text-sm text-green-700">
+                  {endDate.toDateString()}
                 </p>
               </div>
             )}
-            <button
-              className="cursor-pointer"
-              title="Clear dates"
-              onClick={() => {
-                setStartDate(null);
-                setEndDate(null);
-              }}
-            >
-              Clear dates
-            </button>
 
             {hasValidSelection && (
               <div className="mt-4">
                 <button
-                  className="bg-cta hover:bg-cta-hover text-white px-4 py-2 rounded cursor-pointer"
+                  className="bg-cta hover:bg-cta-hover text-white w-30 px-4 py-2 rounded cursor-pointer"
                   onClick={() => {
                     if (user) {
                       setShowBookingModal(true);
@@ -162,6 +160,19 @@ export default function VenuePage() {
                   Book Now
                 </button>
               </div>
+            )}
+
+            {hasValidSelection && (
+              <button
+                className="bg-state-info hover:bg-state-info-hover text-white w-30 px-4 py-2 rounded cursor-pointer"
+                title="Clear dates"
+                onClick={() => {
+                  setStartDate(null);
+                  setEndDate(null);
+                }}
+              >
+                Clear dates
+              </button>
             )}
           </div>
         </section>
