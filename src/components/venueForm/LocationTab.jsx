@@ -2,8 +2,11 @@ export default function LocationTab({ form, onChange }) {
   return (
     <>
       <div>
-        <label className="block mb-1">Address *</label>
+        <label htmlFor="address" className="block mb-1">
+          Address *
+        </label>
         <input
+          id="address"
           name="address"
           value={form.address}
           onChange={(e) => onChange("address", e.target.value)}
@@ -12,8 +15,11 @@ export default function LocationTab({ form, onChange }) {
         />
       </div>
       <div>
-        <label className="block mb-1">City *</label>
+        <label htmlFor="city" className="block mb-1">
+          City *
+        </label>
         <input
+          id="city"
           name="city"
           value={form.city}
           onChange={(e) => onChange("city", e.target.value)}
@@ -22,8 +28,11 @@ export default function LocationTab({ form, onChange }) {
         />
       </div>
       <div>
-        <label className="block mb-1">Country *</label>
+        <label htmlFor="country" className="block mb-1">
+          Country *
+        </label>
         <input
+          id="country"
           name="country"
           value={form.country}
           onChange={(e) => onChange("country", e.target.value)}

@@ -8,11 +8,12 @@ export default function MediaTab({
 }) {
   return (
     <div>
-      <label className="block mb-1">Image URLs (max 8)</label>
+      <h2 className="block mb-1">Image URLs (max 8)</h2>
       <div className="space-y-2">
         {mediaUrls.map((url, idx) => (
           <div key={idx} className="flex items-center gap-2">
             <input
+              aria-label="Image URL"
               type="url"
               value={url}
               placeholder="Image URL"

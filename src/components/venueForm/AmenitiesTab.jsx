@@ -15,11 +15,12 @@ const metaConfig = [
 export default function AmenitiesTab({ meta, onChange }) {
   return (
     <div>
-      <label className="block mb-1">Amenities</label>
+      <h2 className="block mb-1">Amenities</h2>
       <div className="flex gap-4">
         {metaConfig.map(({ icon: Icon, key, label }) => (
           <label key={key} className="flex items-center gap-1">
             <input
+              aria-label="Amenities check box"
               type="checkbox"
               checked={meta[key]}
               onChange={(e) => onChange({ ...meta, [key]: e.target.checked })}
