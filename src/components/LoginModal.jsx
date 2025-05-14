@@ -30,29 +30,35 @@ export default function LoginModal({ onClose }) {
       <h2 className="text-heading-5 font-bold text-font-headline text-center w-full">
         Login
       </h2>
-
-      <input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="border p-2 rounded w-full"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="border p-2 rounded w-full"
-      />
-      <button
-        type="submit"
-        className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full cursor-pointer"
-      >
-        Login
-      </button>
+      <div className="flex flex-col gap-4 w-full">
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoComplete="email"
+          className="border p-2 rounded w-full"
+        />
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="border p-2 rounded w-full"
+        />
+        <button
+          type="submit"
+          className="bg-cta hover:bg-cta-hover text-white py-2 px-4 rounded w-full cursor-pointer"
+        >
+          Login
+        </button>
+      </div>
       <span>
         Need to register?{" "}
         <Link onClick={onClose} to="/register" className="text-cta">

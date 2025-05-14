@@ -181,6 +181,7 @@ export default function VenueForm() {
         <form
           id="venue-form"
           onSubmit={handleSubmit}
+          autoComplete="off"
           className={`space-y-6 md:w-1/2 ${
             showPreview ? "hidden md:block" : ""
           }`}

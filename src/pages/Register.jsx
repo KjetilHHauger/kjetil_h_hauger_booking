@@ -67,6 +67,8 @@ export default function RegisterForm() {
             Name
           </label>
           <input
+            id="username"
+            autoComplete="username"
             name="username"
             type="text"
             placeholder="Username"
@@ -79,6 +81,8 @@ export default function RegisterForm() {
             E-mail
           </label>
           <input
+            id="email"
+            autoComplete="email"
             name="email"
             type="email"
             placeholder="E-mail"
@@ -91,6 +95,7 @@ export default function RegisterForm() {
             Password
           </label>
           <input
+            id="password"
             name="password"
             type="password"
             placeholder="Password"
@@ -103,6 +108,7 @@ export default function RegisterForm() {
             Confirm Password
           </label>
           <input
+            id="confirmPassword"
             name="confirmPassword"
             type="password"
             placeholder="Confirm password"
@@ -119,6 +125,7 @@ export default function RegisterForm() {
             Avatar url
           </label>
           <input
+            id="avatar"
             name="avatar"
             type="url"
             placeholder="Avatar url"
@@ -131,6 +138,7 @@ export default function RegisterForm() {
             Tell us about yourself
           </label>
           <textarea
+            id="bio"
             name="bio"
             placeholder="Tell us about yourself"
             value={formData.bio}

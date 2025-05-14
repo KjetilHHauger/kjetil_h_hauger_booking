@@ -5,6 +5,7 @@ export default function FilterAside({ filters, setFilters, options }) {
         {options.map(({ key, label }) => (
           <label key={key} className="flex items-center gap-2">
             <input
+              name={label}
               type="checkbox"
               checked={filters[key]}
               onChange={(e) =>
@@ -21,6 +22,7 @@ export default function FilterAside({ filters, setFilters, options }) {
 
       <div className="flex flex-col gap-4">
         <select
+          aria-label="Sort listings"
           value={`${filters.sortBy}-${filters.sortOrder}`}
           onChange={(e) => {
             const [sortBy, sortOrder] = e.target.value.split("-");

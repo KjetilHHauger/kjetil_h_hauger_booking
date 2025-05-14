@@ -49,6 +49,7 @@ export default function SearchForm({
         />
 
         <input
+          aria-label="Search location"
           type="text"
           placeholder="f.eks. Oslo"
           value={location}
@@ -63,6 +64,7 @@ export default function SearchForm({
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
         />
         <DatePicker
+          aria-label="Pick your leave date"
           selected={startDate}
           onChange={(date) => setStartDate(date)}
           selectsStart
@@ -81,6 +83,7 @@ export default function SearchForm({
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
         />
         <DatePicker
+          aria-label="Pick your return date"
           selected={endDate}
           onChange={(date) => setEndDate(date)}
           selectsEnd
@@ -99,6 +102,7 @@ export default function SearchForm({
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
         />
         <input
+          aria-label="How many guests"
           type="number"
           placeholder="How many guests"
           min="1"
