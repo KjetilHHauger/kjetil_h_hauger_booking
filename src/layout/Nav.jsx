@@ -143,14 +143,8 @@ export default function Nav() {
 
         {/* Mobile menu links */}
         {menuOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-50 flex justify-end"
-            onClick={() => setMenuOpen(false)}
-          >
-            <div
-              className="bg-white w-64 p-4 flex-col"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
+            <div className="bg-white w-64 p-4 flex-col">
               <button onClick={() => setMenuOpen(false)} className="mb-4">
                 <X size={24} />
               </button>
@@ -162,6 +156,7 @@ export default function Nav() {
                         className="flex items-center text-body-md hover:text-cta-icon-hover no-underline"
                         to="/results"
                         title="Results"
+                        onClick={() => setMenuOpen(false)}
                       >
                         <MagnifyingGlass size={32} />
                         All listings
@@ -197,6 +192,7 @@ export default function Nav() {
                         className="flex items-center gap-2 text-body-md hover:text-cta-icon-hover no-underline"
                         to="/results"
                         title="Results"
+                        onClick={() => setMenuOpen(false)}
                       >
                         <MagnifyingGlass size={32} />
                         All listings
@@ -208,6 +204,7 @@ export default function Nav() {
                           to="venue/create"
                           className="flex items-center gap-2 text-body-md"
                           title="Create"
+                          onClick={() => setMenuOpen(false)}
                         >
                           <PencilCircle size={32} />
                           Create
