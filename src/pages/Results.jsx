@@ -106,8 +106,8 @@ export default function Results() {
 
   return (
     <section className="w-full mx-auto flex flex-col md:flex-row">
-      <aside className="w-full md:w-72 mr-6">
-        <div className="md:hidden mt-6 px-2">
+      <aside className="w-full md:w-72 mr-6 my-8">
+        <div className="md:hidden px-2">
           <button
             onClick={() => setShowFilters((prev) => !prev)}
             className="flex justify-between items-center gap-2 text-sm font-medium border border-brand-primary text-font-headline px-4 py-2 rounded w-full cursor-pointer"
