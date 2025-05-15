@@ -148,7 +148,7 @@ export default function VenuePage() {
             {hasValidSelection && (
               <div className="mt-4">
                 <button
-                  className="bg-cta hover:bg-cta-hover text-white w-30 px-4 py-2 rounded cursor-pointer"
+                  className="bg-cta hover:bg-cta-icon-hover text-white w-30 px-4 py-2 rounded cursor-pointer"
                   onClick={() => {
                     if (user) {
                       setShowBookingModal(true);

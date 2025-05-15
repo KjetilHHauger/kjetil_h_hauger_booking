@@ -113,7 +113,7 @@ export default function BookingModal({
         <button
           onClick={handleBooking}
           disabled={loading || isSubmitting}
-          className="px-4 py-2 rounded bg-cta text-white hover:bg-cta-hover cursor-pointer"
+          className="px-4 py-2 rounded bg-cta text-white hover:bg-cta-icon-hover cursor-pointer"
         >
           {loading ? "Booking..." : "Confirm"}
         </button>
