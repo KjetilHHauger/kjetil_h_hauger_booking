@@ -52,7 +52,7 @@ export default function AvatarEdit({ avatar, onSave }) {
             onSave({ url, alt });
             setIsEditing(false);
           }}
-          className="bg-brand-primary hover:bg-brand-primary-hover text-white px-4 py-2 rounded cursor-pointer"
+          className="bg-brand-primary hover:bg-cta-icon-hover text-white px-4 py-2 rounded cursor-pointer"
         >
           Save
         </button>

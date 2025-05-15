@@ -193,10 +193,10 @@ export default function VenueForm() {
                 key={id}
                 type="button"
                 onClick={() => setActiveTab(id)}
-                className={`flex-1 py-2 text-center ${
+                className={`flex-1 py-2 text-center font-bold ${
                   activeTab === id
                     ? "border-b-2 border-cta font-bold"
-                    : "text-gray-600 cursor-pointer"
+                    : "text-gray-600 cursor-pointer hover:text-cta-icon-hover"
                 }`}
               >
                 {label}
@@ -237,7 +237,7 @@ export default function VenueForm() {
             <button
               type="button"
               onClick={() => setShowPreview(true)}
-              className="w-full md:hidden px-4 py-2 bg-cta hover:bg-cta-hover text-white rounded cursor-pointer"
+              className="w-full md:hidden px-4 py-2 bg-cta hover:bg-cta-icon-hover text-white rounded cursor-pointer"
             >
               Preview
             </button>
@@ -246,7 +246,7 @@ export default function VenueForm() {
           <div className="flex gap-4">
             <button
               type="submit"
-              className="flex-1 bg-cta hover:bg-cta-hover text-white py-2 rounded cursor-pointer"
+              className="flex-1 bg-cta hover:bg-cta-icon-hover text-white py-2 rounded cursor-pointer"
             >
               {isEdit ? "Save Changes" : "Create Venue"}
             </button>

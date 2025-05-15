@@ -150,10 +150,10 @@ export default function Profile() {
         <div className="flex border-b mb-4">
           <button
             onClick={() => setActiveTab("vacations")}
-            className={`flex-1 py-2 text-center ${
+            className={`flex-1 py-2 text-center font-bold ${
               activeTab === "vacations"
                 ? "border-b-2 border-cta font-bold"
-                : "text-gray-600 cursor-pointer"
+                : "text-gray-600 cursor-pointer hover:text-cta-icon-hover"
             }`}
           >
             Upcoming Vacations
@@ -161,10 +161,10 @@ export default function Profile() {
           {user.venueManager && (
             <button
               onClick={() => setActiveTab("rentals")}
-              className={`flex-1 py-2 text-center ${
+              className={`flex-1 py-2 text-center font-bold ${
                 activeTab === "rentals"
                   ? "border-b-2 border-cta font-bold"
-                  : "text-gray-600  cursor-pointer"
+                  : "text-gray-600 cursor-pointer hover:text-cta-icon-hover"
               }`}
             >
               Your Rentals
