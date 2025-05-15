@@ -133,7 +133,7 @@ export default function Profile() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-8">
-      <div className="md:w-1/3 text-center md:text-left">
+      <div className="md:w-1/3 text-center md:text-left text-brand-primary">
         <AvatarEdit
           avatar={user.avatar}
           onSave={handleSaveAvatar}
@@ -152,7 +152,7 @@ export default function Profile() {
             onClick={() => setActiveTab("vacations")}
             className={`flex-1 py-2 text-center font-bold ${
               activeTab === "vacations"
-                ? "border-b-2 border-cta font-bold"
+                ? "border-b-2 border-cta text-brand-primary font-bold"
                 : "text-gray-600 cursor-pointer hover:text-cta-icon-hover"
             }`}
           >
@@ -163,7 +163,7 @@ export default function Profile() {
               onClick={() => setActiveTab("rentals")}
               className={`flex-1 py-2 text-center font-bold ${
                 activeTab === "rentals"
-                  ? "border-b-2 border-cta font-bold"
+                  ? "border-b-2 border-cta text-brand-primary font-bold"
                   : "text-gray-600 cursor-pointer hover:text-cta-icon-hover"
               }`}
             >
