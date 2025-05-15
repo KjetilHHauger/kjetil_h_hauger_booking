@@ -8,13 +8,13 @@ export default function AvatarEdit({ avatar, onSave }) {
 
   if (!isEditing) {
     return (
-      <div className="relative mb-4 flex flex-col items-center md:items-start">
+      <div className="relative mb-10 flex flex-col items-center md:items-start">
         <div className=" max-w-52 w-44 h-44 border rounded-full overflow-hidden">
           <img src={url} alt={alt} className="w-full h-full object-cover" />
         </div>
         <button
           onClick={() => setIsEditing(true)}
-          className="absolute bottom-1 left-1/2 transform translate-x-[-50%] translate-y-[50%] md:left-1 mt-2 inline-flex items-center justify-center bg-white p-1 rounded-full shadow cursor-pointer"
+          className="absolute bottom-1 left-1/2 transform translate-x-[-50%] translate-y-[50%] md:left-1 mt-2 inline-flex items-center justify-center text-brand-primary bg-white hover:bg-cta-icon-hover hover:text-white p-1 rounded-full shadow cursor-pointer"
           aria-label="Edit avatar"
         >
           <Pencil size={24} />
