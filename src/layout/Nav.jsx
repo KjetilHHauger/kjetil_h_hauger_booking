@@ -59,7 +59,7 @@ export default function Nav() {
         </button>
 
         {/* Desktop menu links */}
-        <ul className="hidden md:flex gap-4">
+        <ul className="hidden md:flex gap-8">
           {!user ? (
             <>
               <li>
