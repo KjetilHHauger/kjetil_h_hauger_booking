@@ -19,11 +19,11 @@ export default function VenueGallery({ media }) {
   return (
     <div className="mb-6 w-full">
       {/* Main image */}
-      <div className="relative mb-2 w-full">
+      <div className="relative mb-2 max-w-4xl w-full">
         <img
           src={items[index].url}
           alt={items[index].alt || `Image ${index + 1}`}
-          className="w-full h-72 object-contain rounded"
+          className="w-full h-72 object-cover rounded"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = "/assets/brokenImage.png";

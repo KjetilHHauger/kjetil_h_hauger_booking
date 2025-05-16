@@ -27,6 +27,13 @@ export default function VenuePage() {
   const initialGuests = parseInt(searchParams.get("guests"), 10) || 1;
   const [guests] = useState(initialGuests);
 
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+  const MAX_CHARS = 300;
+  const desc = venue?.description || "";
+  const needsTruncate = desc.length > MAX_CHARS;
+  const displayDesc =
+    !needsTruncate || isDescExpanded ? desc : desc.slice(0, MAX_CHARS) + "...";
+
   useEffect(() => {
     const fetchVenue = async () => {
       try {
@@ -79,23 +86,30 @@ export default function VenuePage() {
   if (!venue) return <p>Venue not found</p>;
 
   return (
-    <div className="max-w-7xl mt-10 mx-auto px-2 md:px-20">
-      <Link
-        to={`/results?${searchParams.toString()}`}
-        className="hover:text-cta-icon-hover flex items-center gap-2 mb-4"
-      >
-        <ArrowLeft size={20} /> Back to all listings
-      </Link>
-
-      <h1 className="text-heading-3 font-bold mb-4 text-font-primary truncate">
-        {venue.name}
-      </h1>
-      <section className="flex flex-col md:flex-row gap-8 justify-between">
-        <section className="w-full">
+    <div className="max-w-4xl mt-10 mx-auto px-2 md:px-20 flex flex-col justify-center">
+      <section className="flex flex-col md:flex-row gap-8 justify-center">
+        <section className="max-w-full flex flex-col gap-4">
+          <Link
+            to={`/results?${searchParams.toString()}`}
+            className="hover:text-cta-icon-hover flex items-center gap-2 mb-4"
+          >
+            <ArrowLeft size={20} /> Back to all listings
+          </Link>
+          <h1 className="text-heading-3 font-bold mb-4 text-font-primary line-clamp-2">
+            {venue.name}
+          </h1>
           <VenueGallery media={venue.media} />
           <div>
-            <p className="mb-4 break-words line-clamp-6 max-w-xl">
-              {venue.description}
+            <p className="mb-4 break-words max-w-xl">
+              {displayDesc}
+              {needsTruncate && (
+                <button
+                  onClick={() => setIsDescExpanded(!isDescExpanded)}
+                  className="ml-2 text-blue-600 hover:underline"
+                >
+                  {isDescExpanded ? "Read less" : "Read more"}
+                </button>
+              )}
             </p>
             <p className="mb-2 font-medium">Price: {venue.price} / night</p>
             <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
@@ -108,7 +122,7 @@ export default function VenuePage() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-4 items-center">
+        <section className="flex flex-col gap-4 items-center md:mt-44">
           <DatePicker
             selected={startDate}
             onChange={(dates) => {
