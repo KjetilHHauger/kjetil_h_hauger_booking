@@ -2,13 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  MapPinLine,
-  CalendarDot,
-  CalendarDots,
-  UsersThree,
-  User,
-} from "@phosphor-icons/react";
+import { MapPinLine, CalendarDot, UsersThree } from "@phosphor-icons/react";
 
 export default function SearchForm({
   defaultLocation = "",
@@ -61,6 +55,7 @@ export default function SearchForm({
       <div className="relative flex flex-col md:flex-1">
         <CalendarDot
           size={20}
+          aria-label="Pick your leave date"
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
         />
         <DatePicker
@@ -80,6 +75,7 @@ export default function SearchForm({
       <div className="relative flex flex-col md:flex-1">
         <CalendarDot
           size={20}
+          aria-label="Pick your return date"
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
         />
         <DatePicker

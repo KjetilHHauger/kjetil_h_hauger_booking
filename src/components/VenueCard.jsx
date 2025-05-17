@@ -30,8 +30,10 @@ export default function VenueCard({ venue }) {
           src={imgSrc}
           alt={venue.media?.[0]?.alt || "Venue"}
           onError={handleImageError}
+          width={400}
+          height={225}
           loading="lazy"
-          className={`mt-2 rounded-md ${
+          className={`mt-2 rounded-md aspect-w-16 aspect-h-9 ${
             isBroken ? "object-contain" : "object-cover"
           } h-56 w-full`}
         />
