@@ -8,13 +8,13 @@ export default function AvatarEdit({ avatar, onSave }) {
 
   if (!isEditing) {
     return (
-      <div className="relative mb-10 flex flex-col items-center md:items-start">
-        <div className=" max-w-52 w-44 h-44 border rounded-full overflow-hidden">
+      <div className="relative mb-10 flex flex-col items-center ">
+        <div className=" max-w-52 w-44 h-44 border rounded-full overflow-hidden my-auto">
           <img src={url} alt={alt} className="w-full h-full object-cover" />
         </div>
         <button
           onClick={() => setIsEditing(true)}
-          className="absolute bottom-1 left-1/2 transform translate-x-[-50%] translate-y-[50%] md:left-1 mt-2 inline-flex items-center justify-center text-brand-primary bg-white hover:bg-cta-icon-hover hover:text-white p-1 rounded-full shadow cursor-pointer"
+          className="absolute bottom-1 left-1/2 transform translate-x-[-50%] translate-y-[50%] md:left-10 mt-2 inline-flex items-center justify-center text-brand-primary bg-white hover:bg-cta-icon-hover hover:text-white p-1 rounded-full shadow cursor-pointer"
           aria-label="Edit avatar"
         >
           <Pencil size={24} />
@@ -24,7 +24,7 @@ export default function AvatarEdit({ avatar, onSave }) {
   }
 
   return (
-    <div className="mb-4 space-y-2 w-44">
+    <div className="relative mb-10 flex flex-col items-center ">
       <div className=" max-w-52 w-44 h-44 border rounded-full overflow-hidden">
         <img src={url} alt={alt} className="w-full h-full object-cover" />
       </div>
@@ -32,7 +32,7 @@ export default function AvatarEdit({ avatar, onSave }) {
         type="url"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
-        className="w-full border p-2 rounded"
+        className="w-full border p-2 rounded mt-4"
       />
       <input
         type="text"
@@ -40,7 +40,7 @@ export default function AvatarEdit({ avatar, onSave }) {
         onChange={(e) => setAlt(e.target.value)}
         className="w-full border p-2 rounded"
       />
-      <div className="flex justify-between gap-2">
+      <div className="flex justify-between gap-2 mt-4">
         <button
           onClick={() => setIsEditing(false)}
           className=" hover:bg-gray-200 text-brand-primary px-4 py-2 rounded cursor-pointer"
@@ -52,7 +52,7 @@ export default function AvatarEdit({ avatar, onSave }) {
             onSave({ url, alt });
             setIsEditing(false);
           }}
-          className="bg-brand-primary hover:bg-cta-icon-hover text-white px-4 py-2 rounded cursor-pointer"
+          className="bg-brand-primary hover:bg-cta-icon-hover text-white px-4 py-2 rounded cursor-pointer "
         >
           Save
         </button>
