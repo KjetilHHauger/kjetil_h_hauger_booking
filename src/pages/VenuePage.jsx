@@ -122,7 +122,7 @@ export default function VenuePage() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-4 items-center md:mt-44">
+        <section className="flex flex-col gap-4 items-center md:mt-33">
           <DatePicker
             selected={startDate}
             onChange={(dates) => {
@@ -143,6 +143,7 @@ export default function VenuePage() {
             ]}
             calendarClassName="h-72 w-[242px]"
           />
+          <h2 className="font-bold">Select dates to book</h2>
           <div className=" flex flex-col items-center gap-2 ">
             {hasValidSelection && (
               <div className="flex flex-col items-center">

@@ -23,7 +23,7 @@ export default function VenueGallery({ media }) {
         <img
           src={items[index].url}
           alt={items[index].alt || `Image ${index + 1}`}
-          className="w-full h-72 object-cover rounded"
+          className="w-full h-96 object-cover rounded"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = "/assets/brokenImage.png";
