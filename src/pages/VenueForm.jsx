@@ -270,21 +270,21 @@ export default function VenueForm() {
           } md:block md:w-1/2 p-4 border rounded`}
           aria-label="Preview"
         >
-          <h2 className="text-heading-3 font-bold mb-4">
+          <h2 className="text-heading-3 font-bold mb-4 truncate">
             {form.title || "Venue Title"}
           </h2>
 
           {previewMedia.length > 0 && <VenueGallery media={previewMedia} />}
 
           <div className="mt-4 space-y-2">
-            <p>{form.description || placeholder}</p>
+            <p className="truncate">{form.description || placeholder}</p>
             <p>
               <strong>Price:</strong> {form.price || "0"} / night
             </p>
             <p>
               <strong>Max Guests:</strong> {form.maxGuests || "0"}
             </p>
-            <p>
+            <p className="truncate">
               <strong>Location:</strong> {form.address}, {form.city},{" "}
               {form.country}
             </p>

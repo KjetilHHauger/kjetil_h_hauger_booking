@@ -14,7 +14,9 @@ export default function BookingTab({ bookings, onCancel }) {
         >
           <Link to={`/venue/${b.venue.id}`} className="flex-1 hover:underline">
             <div className="flex flex-col md:flex-row justify-between">
-              <span className="font-medium break-all">{b.venue.name}</span>
+              <span className="font-medium break-all truncate max-w-[20ch]">
+                {b.venue.name}
+              </span>
               <span className="text-sm text-gray-500">
                 {new Date(b.dateFrom).toLocaleDateString()} -{" "}
                 {new Date(b.dateTo).toLocaleDateString()}

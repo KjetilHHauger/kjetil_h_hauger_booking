@@ -113,7 +113,7 @@ export default function VenuePage() {
             </p>
             <p className="mb-2 font-medium">Price: {venue.price} / night</p>
             <p className="mb-2 font-medium">Max guests: {venue.maxGuests}</p>
-            <p className="mb-2 font-medium">
+            <p className="mb-2 font-medium line-clamp-1">
               Location: {venue.location?.address}, {venue.location?.city},{" "}
               {venue.location?.country}
             </p>

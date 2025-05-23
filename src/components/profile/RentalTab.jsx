@@ -17,7 +17,9 @@ export default function RentalTab({ rentals = [], onEdit, onDelete }) {
             className="border rounded p-4 space-y-2 md:flex md:items-center md:justify-between"
           >
             <div className="md:flex-1 space-y-2">
-              <h4 className="font-medium text-lg">{venue.name}</h4>
+              <h4 className="font-medium text-lg truncate max-w-[20ch]">
+                {venue.name}
+              </h4>
 
               {venue.bookings?.length ? (
                 <ul className="list-disc list-inside text-sm text-gray-700">

@@ -139,9 +139,9 @@ export default function Profile() {
           onSave={handleSaveAvatar}
           isSaving={savingAvatar}
         />
-        <h2 className="mt-4 text-heading-4 font-bold">{user.name}</h2>
+        <h2 className="mt-4 text-heading-4 font-bold truncate">{user.name}</h2>
         <p className="text-body-md text-gray-600 break-all">{user.email}</p>
-        <p className="mt-2 text-body-sm text-gray-700 whitespace-pre-wrap">
+        <p className="mt-2 text-body-sm text-gray-700 whitespace-pre-wrap truncate md:max-w-[250px]">
           {user.bio || "No bio available."}
         </p>
       </div>
