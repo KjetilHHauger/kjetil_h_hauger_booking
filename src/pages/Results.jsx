@@ -1,7 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useMemo, useContext } from "react";
 import Fuse from "fuse.js";
-import { useVenues } from "../hooks/useVenues";
 import VenueCard from "../components/VenueCard";
 import Pagination from "../components/Pagination";
 import FilterAside from "../components/FilterAside";
