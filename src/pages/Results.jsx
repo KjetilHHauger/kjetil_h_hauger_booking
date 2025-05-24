@@ -49,7 +49,7 @@ export default function Results() {
   }, [filters, location, guests, defaultCheckIn, defaultCheckOut]);
 
   const fuse = new Fuse(venues, {
-    keys: ["location.city", "location.country", "location.continent"],
+    keys: ["name", "location.city", "location.country", "location.continent"],
     threshold: 0.3,
   });
 
